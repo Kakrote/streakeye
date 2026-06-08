@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StreakEye</title>
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 23, 42, 0.05), transparent 24%),
+                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+                font-family: 'Libre Baskerville', sans-serif;
+        }
+
+    </style>
+</head>
+
+<body class="min-h-screen text-slate-900 antialiased">
+    <!-- Header Section -->
+    <header class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center">
+                <a href="/">
+                    <img id="header-logo" src="assests/logo1.png" alt="header logo" class="w-[70px] md:w-[90px] object-contain">
+                </a>
+            </div>
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="/"
+                    class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1f201e] shadow-sm transition-colors hover:bg-white sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1" class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-2" class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-3" class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-6">
+                    <li><a href="/" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a></li>
+                    <li><a href="/about" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
+                    <li><a href="/contact" class="text-sm uppercase hover:opacity-90 lg:text-base">GDPR</a></li>
+                    <li><a href="/" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
+                    <li><a href="/" class="text-sm uppercase hover:opacity-90 lg:text-base">Academy</a></li>
+                    <li><a href="/" class="text-sm uppercase hover:opacity-90 lg:text-base">Contact</a></li>
+                    <li><a href="/" class="text-sm uppercase hover:opacity-90 lg:text-base">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden">
+            <div class="container mx-auto mt-3 rounded-3xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+                <ul id="mobile-nav" class="grid gap-2">
+                    <li><a href="/"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Features</span><span
+                                class="text-slate-400">01</span></a></li>
+                    <li><a href="/about"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Pricing</span><span
+                                class="text-slate-400">02</span></a></li>
+                    <li><a href="/contact"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>GDPR</span><span
+                                class="text-slate-400">03</span></a></li>
+                    <li><a href="/"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Blog</span><span
+                                class="text-slate-400">04</span></a></li>
+                    <li><a href="/"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Academy</span><span
+                                class="text-slate-400">05</span></a></li>
+                    <li><a href="/"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Log
+                                in</span><span class="text-slate-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-24">
+        <!-- Hero Section -->
+        <section id="hero-section"
+            class="relative min-h-screen overflow-hidden px-6 text-[#333] sm:px-10 lg:px-16 py-12 lg:py-0 flex items-center">
+            <div
+                class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.18),transparent_54%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(248,113,113,0.12),transparent_28%),linear-gradient(180deg,#fffdf7_0%,#f5fbff_100%)]">
+            </div>
+            <!-- Responsive Props -->
+            <div
+                class="about-prop pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[280px] -translate-x-1/2 -translate-y-1/2 rotate-[-12deg] opacity-[0.1] blur-[0.8px] sm:w-[500px] lg:left-20 lg:w-[800px] lg:translate-x-0 lg:opacity-[0.25]">
+                <img src="assests/dashboard/streakeye slideshow.png" alt="" class="rounded-[2rem] shadow-2xl lg:rounded-[3.5rem]">
+            </div>
+            <div
+                class="about-prop pointer-events-none absolute right-1/2 top-1/2 -z-10 w-[200px] translate-x-1/2 -translate-y-1/2 rotate-[17deg] opacity-[0.05] blur-[0.8px] sm:w-[400px] lg:right-20 lg:w-[550px] lg:translate-x-0 lg:opacity-[0.4]">
+                <img src="assests/dashboard/bg7.jpg" alt="" class="rounded-[2rem] shadow-2xl lg:rounded-[3rem]">
+            </div>
+            
+            <div class="mx-auto flex min-h-full container flex-col justify-center relative gap-12 lg:gap-16">
+                <div class="max-w-4xl space-y-6 mx-auto text-center pt-8 lg:pt-0">
+                    <h1 id="hero-title"
+                        class="text-4xl text-[#37379E] font-black leading-[0.9] tracking-tight sm:text-7xl lg:text-[6.5rem]">
+                        StreakEye</h1>
+                    <h2 id="hero-tagline" class="text-xl text-[#295D8A] font-medium leading-none sm:text-4xl lg:text-5xl">
+                        Transforming Field
+                        Operations</h2>
+                    <p id="hero-description" class="text-sm md:text-base lg:text-lg leading-relaxed tracking-wide max-w-2xl mx-auto text-[#295D8A] font-medium opacity-90">
+                        Streakeye is a groundbreaking system that integrates data capturing, field resource monitoring, and quality control, catering to industries like Market Research, Banking, and Client Servicing.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-4 items-center justify-center">
+                        <a href="#work-with-section"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-slate-950 px-8 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl active:scale-95">
+                            Explore features
+                        </a>
+                        <a href="#footer-section"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-8 text-sm font-bold text-slate-700 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white active:scale-95">
+                            Contact us
+                        </a>
+                    </div>
+                </div>
+                
+                <div
+                    class="grid gap-6 p-6 sm:grid-cols-3 lg:flex lg:justify-between bottom-0 mx-auto text-center border border-slate-200/50 bg-white/40 backdrop-blur-md rounded-3xl shadow-sm max-w-5xl w-full">
+                    <div class="flex flex-col items-center justify-center space-y-3 sm:border-r sm:border-slate-200 last:border-0 px-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-sky-50">
+                            <img src="assests/icons/icon1.png" alt="icon1" class="h-6 w-6 object-contain">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-900">Data Collection</p>
+                            <p class="text-xs text-slate-600 leading-relaxed">Execute surveys for all modes (CAPI, CATI) seamlessly.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center space-y-3 sm:border-r sm:border-slate-200 last:border-0 px-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-amber-50">
+                            <img src="assests/icons/icon2.png" alt="icon2" class="h-6 w-6 object-contain">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-900">Resource Management</p>
+                            <p class="text-xs text-slate-600 leading-relaxed">The best solution to manage your field resources quality.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center space-y-3 px-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-rose-50">
+                            <img src="assests/icons/icon3.png" alt="icon3" class="h-6 w-6 object-contain">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-900">Quality Control</p>
+                            <p class="text-xs text-slate-600 leading-relaxed">Proactive alerts to ensure data collection accuracy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard-preview" class="py-24 bg-slate-50/50 overflow-hidden">
+            <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-16 text-center">
+                <p
+                    class="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 shadow-sm">
+                    Enterprise Visibility
+                </p>
+                <h2 class="text-4xl font-black tracking-tight text-[#172554] sm:text-5xl lg:text-6xl mb-6">Real-time
+                    Analytics & Control</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg">Get a bird's-eye view of your entire
+                    operation with our intuitive and powerful dashboard system designed for maximum clarity.</p>
+            </div>
+
+            <div class="relative w-full max-w-6xl mx-auto group">
+                <!-- Toggle Button -->
+                <div class="absolute -top-12 right-6 sm:right-10 lg:right-4 z-30">
+                    <!-- <button id="slider-toggle"
+                        class="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur transition-all hover:bg-white hover:shadow-md active:scale-95">
+                        <span id="toggle-icon" class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span id="toggle-text">Auto-Play On</span>
+                    </button> -->
+                </div>
+
+                <!-- Navigation Buttons -->
+                <button id="prev-slide"
+                    class="absolute left-4 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-lg backdrop-blur transition-all hover:bg-white hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <button id="next-slide"
+                    class="absolute right-4 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-lg backdrop-blur transition-all hover:bg-white hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
+
+                <!-- Edge Fades -->
+                <div
+                    class="pointer-events-none absolute inset-y-0 left-0 z-20 w-8 bg-gradient-to-r from-[#f8fbff] to-transparent sm:w-16 lg:w-24">
+                </div>
+                <div
+                    class="pointer-events-none absolute inset-y-0 right-0 z-20 w-8 bg-gradient-to-l from-[#f8fbff] to-transparent sm:w-16 lg:w-24">
+                </div>
+
+                <div id="dashboard-track"
+                    class="relative flex overflow-x-auto no-scrollbar gap-4 sm:gap-6 px-4 sm:px-10 lg:px-4 pb-8 snap-x snap-mandatory"
+                    style="-ms-overflow-style: none; scrollbar-width: none;">
+                    <!-- Slides -->
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow1.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow2.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow3.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow4.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow5.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow7.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
+                        <div
+                            class="aspect-[16/9] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
+                            <img src="assests/dashboard/streakeye slideshow8.png" alt="Dashboard"
+                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work With Section -->
+        <section id="work-with-section"
+            class="relative isolate overflow-hidden px-6 py-16 sm:px-10 lg:px-16 min-h-screen flex items-center">
+            <div data-workwith-background
+                class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,193,7,0.22),transparent_34%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.18),transparent_34%),linear-gradient(180deg,#fffaf1_0%,#fff6e6_42%,#eef7ff_100%)]">
+            </div>
+            <div
+                class="pointer-events-none absolute -left-24 top-24 -z-10 h-72 w-72 rounded-full bg-[#f59e0b]/18 blur-3xl">
+            </div>
+            <div
+                class="pointer-events-none absolute -right-16 bottom-0 -z-10 h-80 w-80 rounded-full bg-[#2563eb]/16 blur-3xl">
+            </div>
+
+            <div class="relative z-10 mx-auto max-w-7xl w-full">
+                <!-- LOGOS -->
+                <div id="workwith-logos" class="mb-16">
+                    <div class="relative w-full overflow-hidden py-6 backdrop-blur-sm">
+                        <div
+                            class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#fffaf1] to-transparent sm:w-24">
+                        </div>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#fffaf1] to-transparent sm:w-24">
+                        </div>
+                        <div id="logos-track"
+                            class="flex w-max items-center gap-12 sm:gap-16 px-8 bg-white/60 p-4 rounded-full shadow-sm border border-white/50">
+                            <!-- Logos content remains the same but with responsive height -->
+                            <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <!-- Duplicated -->
+                            <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                            <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna" class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-4xl">
+                    <p id="workwith-eyebrow"
+                        class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#ffd166]/60 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#d97706] shadow-sm backdrop-blur sm:text-xs">
+                        Operations, sales, and research control</p>
+                    <h2 id="workwith-title"
+                        class="max-w-5xl text-3xl font-black tracking-tight text-[#172554] sm:text-5xl lg:text-6xl">One
+                        operating layer for teams that need visibility, speed, and control.</h2>
+                    <p id="workwith-description" class="mt-6 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base lg:text-lg">
+                        Use a single workspace to coordinate jobs, surveys, field teams, reports, and customer
+                        interactions while keeping the workflow cost-efficient and data driven.</p>
+                </div>
+                <!-- DESKTOP STACK -->
+                <div id="workwith-cards" class="relative mt-14 hidden h-[65vh] md:block">
+                    <!-- Cards content remains the same but with responsive padding and font sizes -->
+                    <article data-workwith-card data-accent="#f59e0b"
+                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
+                        style="z-index:1;">
+                        <div
+                            class="about-prop pointer-events-none absolute left-20 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[0.6px] lg:opacity-[0.3]">
+                            <img src="assests/dashboard/streakeye slideshow1.png" alt=""
+                                class="rounded-[3rem] shadow-2xl">
+                        </div>
+                        <div class="absolute inset-x-0 top-0 h-1.5"
+                            style="background: linear-gradient(90deg, #062b92, #f97316, #2563eb);"></div>
+                        <p data-workwith-reveal
+                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Operations</p>
+                        <h3 class="mt-4 text-4xl font-black text-slate-900">
+                            <span data-workwith-char>O</span><span data-workwith-char>p</span><span
+                                data-workwith-char>e</span><span data-workwith-char>r</span><span
+                                data-workwith-char>a</span><span data-workwith-char>t</span><span
+                                data-workwith-char>i</span><span data-workwith-char>o</span><span
+                                data-workwith-char>n</span><span data-workwith-char>s</span>
+                        </h3>
+                        <p data-workwith-reveal class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">Operations can be
+                            optimized by utilizing the available resource, improving productivity, and lowering the
+                            cost. One can easily track and schedule the job status, quotations, parts, inventory, AMCs,
+                            service reports, invoices, and feedback.</p>
+                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                                    style="background:#f59e0b"></span><span class="text-sm font-medium text-slate-700">Location tracking and task status</span></div>
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                                    style="background:#f59e0b"></span><span class="text-sm font-medium text-slate-700">Appoint or reject survey tasks</span>
+                            </div>
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full" style="background:#f59e0b"></span><span class="text-sm font-medium text-slate-700">Geo verification for task completion</span></div>
+                        </div>
+                    </article>
+                    <!-- ... Sales & Marketing and Market Research cards similarly updated ... -->
+                    <article data-workwith-card data-accent="#2563eb"
+                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
+                        style="z-index:2;">
+                        <div
+                            class="about-prop pointer-events-none absolute -right-20 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.4]">
+                            <img src="assests/dashboard/streakeye slideshow4.png" alt=""
+                                class="rounded-[3rem] shadow-2xl">
+                        </div>
+                        <div class="absolute inset-x-0 top-0 h-1.5"
+                            style="background: linear-gradient(90deg, #2563eb, #f97316, #2563eb);"></div>
+                        <p data-workwith-reveal
+                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Sales & Marketing
+                        </p>
+                        <h3 class="mt-4 text-4xl font-black text-slate-900">
+                            <span data-workwith-char>S</span><span data-workwith-char>a</span><span
+                                data-workwith-char>l</span><span data-workwith-char>e</span><span
+                                data-workwith-char>s</span><span data-workwith-char>&nbsp;</span><span
+                                data-workwith-char>&</span><span data-workwith-char>&nbsp;</span><span
+                                data-workwith-char>M</span><span data-workwith-char>a</span><span
+                                data-workwith-char>r</span><span data-workwith-char>k</span><span
+                                data-workwith-char>e</span><span data-workwith-char>t</span><span
+                                data-workwith-char>i</span><span data-workwith-char>n</span><span
+                                data-workwith-char>g</span>
+                        </h3>
+                        <p data-workwith-reveal class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">For organizations with
+                            remote labor force groups like sales, support, and others, FSMS is the most appropriate item
+                            to evaluate and expand worker productivity with real-time strategic decisions.</p>
+                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                                    style="background:#2563eb"></span><span class="text-sm font-medium text-slate-700">Monitor productivity</span></div>
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full" style="background:#2563eb"></span><span class="text-sm font-medium text-slate-700">Track meetings & real-time location</span></div>
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full" style="background:#2563eb"></span><span class="text-sm font-medium text-slate-700">Geo-confirmed verification of visits</span></div>
+                        </div>
+                    </article>
+                    <article data-workwith-card data-accent="#f97316"
+                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
+                        style="z-index:3;">
+                        <div
+                            class="about-prop pointer-events-none absolute left-0 translate-x-1/2 right-0 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[2px] lg:opacity-[0.4]">
+                            <img src="assests/dashboard/streakeye slideshow.png" alt=""
+                                class="rounded-[3rem] shadow-2xl">
+                        </div>
+                        <div class="absolute inset-x-0 top-0 h-1.5"
+                            style="background: linear-gradient(90deg, #062b92, #f97316, #2563eb);"></div>
+                        <p data-workwith-reveal
+                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Market Research</p>
+                        <h3 class="mt-4 text-4xl font-black text-slate-900">
+                            <span data-workwith-char>M</span><span data-workwith-char>a</span><span
+                                data-workwith-char>r</span><span data-workwith-char>k</span><span
+                                data-workwith-char>e</span><span data-workwith-char>t</span><span
+                                data-workwith-char>&nbsp;</span><span data-workwith-char>R</span><span
+                                data-workwith-char>e</span><span data-workwith-char>s</span><span
+                                data-workwith-char>e</span><span data-workwith-char>a</span><span
+                                data-workwith-char>r</span><span data-workwith-char>c</span><span
+                                data-workwith-char>h</span>
+                        </h3>
+                        <p data-workwith-reveal class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">Our live tracking, streaming, and reporting features help researchers make decisions for smart field planning and stronger client service.</p>
+                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                                    style="background:#f97316"></span><span class="text-sm font-medium text-slate-700">Location tracking & task status</span></div>
+                            <div data-workwith-reveal
+                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white"><span
+                                    class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                                    style="background:#f97316"></span><span class="text-sm font-medium text-slate-700">Dashboards & reports (XML, SPSS)</span></div>
+                        </div>
+                    </article>
+                </div>
+                <!-- MOBILE -->
+                <div id="workwith-mobile" class="mt-12 grid gap-6 md:hidden">
+                    <article data-workwith-mobile-card
+                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
+                        <div class="mb-5 h-1.5 rounded-full w-24"
+                            style="background: linear-gradient(90deg, #f59e0b, #f97316);"></div>
+                        <h3 class="text-2xl font-black text-slate-900">Operations</h3>
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">Operations can be optimized by utilizing the available
+                            resource, improving productivity, and lowering the cost. Easily track job status, quotations, inventory, and feedback in a cost-efficient manner.</p>
+                    </article>
+                    <article data-workwith-mobile-card
+                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
+                        <div class="mb-5 h-1.5 rounded-full w-24"
+                            style="background: linear-gradient(90deg, #2563eb, #f97316);"></div>
+                        <h3 class="text-2xl font-black text-slate-900">Sales & Marketing</h3>
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">For organizations with remote labor force groups, evaluate and expand worker productivity with continuous information for strategic decisions.</p>
+                    </article>
+                    <article data-workwith-mobile-card
+                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
+                        <div class="mb-5 h-1.5 rounded-full w-24"
+                            style="background: linear-gradient(90deg, #f97316, #2563eb);"></div>
+                        <h3 class="text-2xl font-black text-slate-900">Market Research</h3>
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">Live tracking, streaming, and reporting help researchers make decisions for smart field planning and stronger client service.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section"
+            class="relative isolate overflow-hidden px-6 py-20 text-[#17324d] sm:px-10 lg:px-16 flex items-center min-h-screen">
+            <!-- Background Orbs - Adjusted for mobile -->
+            <div
+                class="about-orb pointer-events-none absolute left-[5%] top-[15%] -z-10 h-24 w-24 rounded-full bg-[#f59e0b]/20 blur-2xl sm:h-28 sm:w-28">
+            </div>
+            <div
+                class="about-orb pointer-events-none absolute right-[5%] top-[10%] -z-10 h-28 w-28 rounded-full bg-[#38bdf8]/18 blur-3xl sm:h-36 sm:w-36">
+            </div>
+            
+            <div
+                class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.18),transparent_54%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(248,113,113,0.12),transparent_28%),linear-gradient(180deg,#fffdf7_0%,#f5fbff_100%)]">
+            </div>
+
+            <!-- Responsive Dashboard Props -->
+            <div
+                class="about-prop pointer-events-none absolute -right-16 top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[2px] sm:w-[500px] lg:right-[-5%] lg:opacity-[0.4]">
+                <img src="assests/dashboard/streakeye slideshow1.png" alt="" class="rounded-[2.5rem] shadow-2xl">
+            </div>
+            <div
+                class="about-prop pointer-events-none absolute -left-16 top-1/4 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[2px] sm:w-[500px] lg:left-10 lg:top-1/3 lg:opacity-[0.6]">
+                <img src="assests/dashboard/streakeye slideshow5.png" alt="" class="rounded-[2.5rem] shadow-2xl">
+            </div>
+
+            <div class="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center w-full">
+                <div class="max-w-3xl">
+                    <p
+                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/65 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.28em] text-[#7c5b00] shadow-sm backdrop-blur sm:text-xs">
+                        Built for calm, fast workflows
+                    </p>
+                    <h2 id="about-title"
+                        class="text-4xl font-black tracking-tight text-[#12324d] sm:text-6xl lg:text-7xl">
+                        About our app</h2>
+                    <p id="about-lead" class="mt-6 max-w-2xl text-sm leading-relaxed text-[#172554] font-medium sm:text-lg">
+                        A clean surface for field teams and operations leaders, designed to keep the important signal
+                        visible while motion stays in the background.
+                    </p>
+                    <div id="about-facts-top" class="mt-8 flex flex-wrap gap-2 sm:gap-3">
+                        <span
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Accessible on all devices</span>
+                        <span
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Limitless reviews & surveys</span>
+                        <span
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Offline survey app</span>
+                        <span
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Real-time feedback tracking</span>
+                    </div>
+                </div>
+                
+                <div id="about-kpis" class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <article data-about-card
+                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="mb-4 flex items-center justify-between"><span
+                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">01</span><span
+                                class="h-2 w-2 rounded-full bg-amber-400"></span>
+                        </div>
+                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="10" data-suffix="K+">0K+</p>
+                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Active Users</p>
+                    </article>
+                    <article data-about-card
+                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="mb-4 flex items-center justify-between"><span
+                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">02</span><span
+                                class="h-2 w-2 rounded-full bg-sky-400"></span>
+                        </div>
+                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="50" data-suffix="K+">0K+</p>
+                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Surveys Conducted</p>
+                    </article>
+                    <article data-about-card
+                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="mb-4 flex items-center justify-between"><span
+                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">03</span><span
+                                class="h-2 w-2 rounded-full bg-rose-400"></span>
+                        </div>
+                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="30" data-suffix="+">0+</p>
+                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Countries Served</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+            <div id="about-facts-bottom" class="relative mx-auto mt-12 grid max-w-7xl gap-4 md:grid-cols-3">
+                <article data-about-card
+                    class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
+                    <div class="mb-4 flex items-center gap-3"><span
+                            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">1</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-600">Remotely tracking feedback devices</p>
+                </article>
+                <article data-about-card
+                    class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
+                    <div class="mb-4 flex items-center gap-3"><span
+                            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">2</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-600">Operates without Wi-Fi</p>
+                </article>
+                <article data-about-card
+                    class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
+                    <div class="mb-4 flex items-center gap-3"><span
+                            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">3</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-600">Be acquainted with accurate status of report and
+                        statistics.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section"
+        class="border-t border-slate-200/80 relative px-6 py-16 text-[#17324d] sm:px-10 lg:px-16 overflow-hidden">
+        
+        <!-- Responsive Footer Props -->
+        <div
+            class="about-prop pointer-events-none absolute left-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:left-10 lg:opacity-[0.4]">
+            <img src="assests/dashboard/bg.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
+        </div>
+        <div
+            class="about-prop pointer-events-none absolute right-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:right-10 lg:opacity-[0.4]">
+            <img src="assests/dashboard/bg1.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
+        </div>
+
+        <div class="mx-auto max-w-7xl space-y-12">
+            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                <div
+                    class="max-w-2xl bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:text-xs">StreakEye</p>
+                    <h2 id="footer-subscribe-title"
+                        class="mt-4 text-3xl font-black tracking-tight text-[#12324d] sm:text-4xl">Subscribe to our
+                        newsletter</h2>
+                    <p id="footer-subscribe-description"
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-[#172554] font-medium sm:text-base">Get the latest
+                        updates and insights from StreakEye delivered straight to your inbox.</p>
+                    <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <label class="sr-only" for="footer-email">Email address</label>
+                        <input id="footer-email" type="email" placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-6 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-50" />
+                        <button type="submit" id="footer-subscribe-button"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#12324d] px-8 text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">Subscribe</button>
+                    </form>
+                </div>
+                <div
+                    class="grid gap-6 rounded-[2.5rem] border border-white/80 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:grid-cols-2">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Contact</p>
+                        <a id="footer-email-link" href="mailto:info@biinfotech.com"
+                            class="block text-sm font-bold text-slate-700 hover:text-sky-600 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Social</p>
+                        <div id="footer-social-links" class="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/twitter.png" alt="Twitter" class="h-4 w-4 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/facebook.png" alt="Facebook" class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/instagram.png" alt="Instagram" class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer-address-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <article
+                    class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Ontario, Canada</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300, Toronto, ON, M5V 2Y1<br/>+1 437 484 0120</p>
+                </article>
+                <article
+                    class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">New Delhi, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri, 110058<br/>+91 8766248464</p>
+                </article>
+                <article
+                    class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Hyderabad, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road, 500049<br/>+91 8766248464</p>
+                </article>
+            </div>
+            <div
+                class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-xs font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
+                <p id="footer-subscribe-note" class="text-[10px]">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+</body>
+
+</html>
