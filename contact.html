@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en" class="overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - StreakEye</title>
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 23, 42, 0.05), transparent 24%),
+                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+            font-family: 'Libre Baskerville', sans-serif;
+        }
+
+        .form-input {
+            font-family: 'Figtree', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-slate-900 antialiased overflow-x-hidden">
+    <!-- Header Section -->
+    <header
+        class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img id="header-logo" src="assests/logo1.png" alt="header logo"
+                        class="w-[70px] md:w-[90px] object-contain">
+                </a>
+            </div>
+            <div class="flex items-center gap-2 lg:hidden">
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-6">
+                    <li><a href="features.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a></li>
+                    <li><a href="pricing.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
+                    <li><a href="gdpr.html" class="text-sm uppercase hover:opacity-90 lg:text-base">GDPR</a></li>
+                    <li><a href="blog.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
+                    <li><a href="academy.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Academy</a></li>
+                    <li><a href="contact.html" class="text-sm uppercase hover:opacity-90 lg:text-base font-black">Contact</a></li>
+                    <li><a href="login.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden">
+            <div
+                class="container mx-auto mt-3 rounded-3xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+                <ul id="mobile-nav" class="grid gap-2">
+                    <li><a href="features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Features</span><span
+                                class="text-slate-400">01</span></a></li>
+                    <li><a href="pricing.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Pricing</span><span
+                                class="text-slate-400">02</span></a></li>
+                    <li><a href="gdpr.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>GDPR</span><span
+                                class="text-slate-400">03</span></a></li>
+                    <li><a href="blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Blog</span><span
+                                class="text-slate-400">04</span></a></li>
+                    <li><a href="academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Academy</span><span
+                                class="text-slate-400">05</span></a></li>
+                    <li><a href="contact.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Contact</span><span
+                                class="text-slate-400">06</span></a></li>
+                    <li><a href="login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Log
+                                in</span><span class="text-slate-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-24 lg:pt-32">
+        <!-- Contact Section -->
+        <section class="relative px-6 py-12 sm:px-10 lg:px-16 overflow-hidden">
+            <div class="container mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <div class="flex items-center justify-center gap-2 mb-4">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L14.45 8.5H21L15.775 12.5L18.225 19L13 15L7.775 19L10.225 12.5L5 8.5H11.55L14 2Z" fill="#38bdf8" />
+                            <circle cx="12" cy="12" r="10" stroke="#f59e0b" stroke-width="2" />
+                        </svg>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-sky-600 sm:text-xs">Get In Touch</p>
+                    </div>
+                    <h1 class="text-4xl font-black tracking-tight text-[#12324d] sm:text-6xl mb-4">Ready to Get Started?</h1>
+                    <p class="text-sm font-medium text-slate-500">Your email address will not be published. Required fields are marked *</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                    <!-- Illustration side -->
+                    <div class="hidden lg:block relative">
+                        <!-- Background decoration -->
+                        <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-br from-sky-100/50 to-amber-100/50 rounded-full blur-3xl opacity-50"></div>
+                        
+                        <!-- Main Illustration (SVG for clean look) -->
+                        <div class="relative w-full aspect-square flex items-center justify-center">
+                            <svg viewBox="0 0 500 500" class="w-full h-auto max-w-md drop-shadow-2xl">
+                                <!-- Table -->
+                                <rect x="100" y="350" width="300" height="10" rx="5" fill="#334155" />
+                                <rect x="150" y="360" width="10" height="100" fill="#334155" />
+                                <rect x="340" y="360" width="10" height="100" fill="#334155" />
+                                
+                                <!-- Person -->
+                                <circle cx="250" cy="180" r="30" fill="#fde047" /> <!-- Face -->
+                                <path d="M220 180 Q220 150 250 150 Q280 150 280 180" fill="#1e293b" /> <!-- Hair -->
+                                <rect x="235" y="210" width="30" height="80" rx="15" fill="#3b82f6" /> <!-- Body -->
+                                <rect x="220" y="290" width="20" height="70" rx="10" fill="#1e40af" /> <!-- Leg L -->
+                                <rect x="280" y="290" width="20" height="70" rx="10" fill="#1e40af" /> <!-- Leg R -->
+                                
+                                <!-- Laptop -->
+                                <path d="M280 300 L380 300 L360 350 L260 350 Z" fill="#475569" />
+                                <path d="M380 300 L380 230 L280 230 L280 300 Z" fill="#64748b" />
+                                <rect x="310" y="250" width="40" height="30" rx="4" fill="#94a3b8" opacity="0.5" />
+                                
+                                <!-- Chat bubbles -->
+                                <g transform="translate(350, 150) scale(0.8)">
+                                    <circle cx="50" cy="50" r="40" fill="#38bdf8" />
+                                    <circle cx="25" cy="50" r="4" fill="white" />
+                                    <circle cx="50" cy="50" r="4" fill="white" />
+                                    <circle cx="75" cy="50" r="4" fill="white" />
+                                    <path d="M20 80 L35 70 L50 80 Z" fill="#38bdf8" />
+                                </g>
+                                <g transform="translate(100, 100) scale(0.7)">
+                                    <rect x="0" y="0" width="100" height="70" rx="15" fill="#f59e0b" />
+                                    <path d="M20 20 L80 20 L50 45 Z" fill="white" opacity="0.8" />
+                                    <path d="M80 60 L95 85 L65 70 Z" fill="#f59e0b" />
+                                </g>
+                                
+                                <!-- Phone/Signal icons -->
+                                <g transform="translate(350, 50) rotate(15)">
+                                    <path d="M10 30 Q30 0 60 30" stroke="#3b82f6" stroke-width="4" fill="none" />
+                                    <path d="M20 40 Q30 20 50 40" stroke="#3b82f6" stroke-width="4" fill="none" opacity="0.6" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Form side -->
+                    <div class="bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-12 shadow-2xl backdrop-blur-xl">
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="sr-only">Your name</label>
+                                <input type="text" id="name" name="name" required placeholder="Your name"
+                                    class="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-6 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50 form-input" />
+                            </div>
+                            <div>
+                                <label for="email" class="sr-only">Your email address</label>
+                                <input type="email" id="email" name="email" required placeholder="Your email address"
+                                    class="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-6 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50 form-input" />
+                            </div>
+                            <div>
+                                <label for="phone" class="sr-only">Your phone number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Your phone number"
+                                    class="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-6 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50 form-input" />
+                            </div>
+                            <div>
+                                <label for="message" class="sr-only">Write your message...</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Write your message..."
+                                    class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 p-6 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50 form-input"></textarea>
+                            </div>
+
+                            <!-- Simulated Captcha -->
+                            <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50/50 p-5">
+                                <div class="flex items-center gap-4">
+                                    <button type="button" id="captcha-box-contact"
+                                        class="flex h-7 w-7 items-center justify-center rounded-lg border-2 border-slate-300 bg-white transition-all hover:border-sky-400">
+                                        <svg id="captcha-check-contact" class="hidden h-5 w-5 text-green-500"
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <span class="text-sm font-semibold text-slate-600 form-input">I'm not a robot</span>
+                                </div>
+                                <div class="flex flex-col items-center opacity-40">
+                                    <img src="assests/logo1.png" alt="captcha" class="h-8 object-contain grayscale">
+                                    <span class="text-[9px] font-bold uppercase tracking-tighter">reCAPTCHA</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submit-contact"
+                                class="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#6366f1] px-10 text-base font-bold text-white shadow-xl transition-all hover:bg-[#4f46e5] hover:-translate-y-0.5 active:scale-95">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="py-12 px-6 sm:px-10 lg:px-16">
+            <div class="container mx-auto">
+                <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2887.2411586516137!2d-79.39028549999999!3d43.6431507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34d77342081d%3A0x5e776e36eb870ccb!2s325%20Front%20St%20W%20%7C%20Suite%20300%2C%20Toronto%2C%20ON%20M5V%202Y1%2C%20Canada!5e0!3m2!1sen!2sin!4v1712653413256!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="500" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section" class="border-t border-slate-200/80 relative px-6 py-16 text-[#17324d] sm:px-10 lg:px-16 overflow-hidden">
+        <div class="mx-auto max-w-7xl space-y-12">
+            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                <div class="max-w-2xl bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:text-xs">StreakEye</p>
+                    <h2 class="mt-4 text-3xl font-black tracking-tight text-[#12324d] sm:text-4xl">Subscribe to our newsletter</h2>
+                    <form class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <input type="email" placeholder="Enter your email address" class="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-6 text-sm outline-none transition-all placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-50" />
+                        <button type="submit" class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#12324d] px-8 text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">Subscribe</button>
+                    </form>
+                </div>
+                <div class="grid gap-6 rounded-[2.5rem] border border-white/80 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:grid-cols-2 h-full">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Contact</p>
+                        <a href="mailto:info@biinfotech.com" class="block text-sm font-bold text-slate-700 hover:text-sky-600 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Social</p>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-5 w-5 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/twitter.png" alt="Twitter" class="h-4 w-4 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/facebook.png" alt="Facebook" class="h-5 w-5 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/instagram.png" alt="Instagram" class="h-5 w-5 opacity-70"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Ontario, Canada</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300, Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">New Delhi, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri, 110058<br />+91 8766248464</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Hyderabad, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road, 500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-xs font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p>© 2024 StreakEye. All rights reserved.</p>
+                <p class="text-[10px]">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-[#172554] text-white shadow-2xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-110 active:scale-95">
+        <svg class="mx-auto h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            lenis.scrollTo(0);
+        });
+
+        // Contact-specific logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const captchaBox = document.getElementById("captcha-box-contact");
+            const captchaCheck = document.getElementById("captcha-check-contact");
+            const contactForm = document.getElementById("contact-form");
+            const submitBtn = document.getElementById("submit-contact");
+
+            let isVerified = false;
+
+            if (captchaBox) {
+                captchaBox.addEventListener("click", () => {
+                    isVerified = !isVerified;
+                    if (isVerified) {
+                        captchaCheck.classList.remove("hidden");
+                        captchaBox.classList.add("border-green-500", "bg-green-50");
+                    } else {
+                        captchaCheck.classList.add("hidden");
+                        captchaBox.classList.remove("border-green-500", "bg-green-50");
+                    }
+                });
+            }
+
+            if (contactForm) {
+                contactForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    if (!isVerified) {
+                        alert("Please verify that you are not a robot.");
+                        return;
+                    }
+
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = "Sending...";
+
+                    setTimeout(() => {
+                        submitBtn.innerHTML = "Message Sent!";
+                        submitBtn.classList.remove("bg-[#6366f1]");
+                        submitBtn.classList.add("bg-green-600");
+
+                        setTimeout(() => {
+                            contactForm.reset();
+                            isVerified = false;
+                            captchaCheck.classList.add("hidden");
+                            captchaBox.classList.remove("border-green-500", "bg-green-50");
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.classList.remove("bg-green-600");
+                            submitBtn.classList.add("bg-[#6366f1]");
+                        }, 2000);
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
