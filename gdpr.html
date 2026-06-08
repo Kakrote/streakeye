@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en" class="overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GDPR | StreakEye</title>
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 23, 42, 0.05), transparent 24%),
+                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+            font-family: 'Libre Baskerville', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-slate-900 antialiased overflow-x-hidden">
+    <!-- Header Section -->
+    <header
+        class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img id="header-logo" src="assests/logo1.png" alt="header logo"
+                        class="w-[70px] md:w-[90px] object-contain">
+                </a>
+            </div>
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="contact.html"
+                    class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1f201e] shadow-sm transition-colors hover:bg-white sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-6">
+                    <li><a href="features.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a></li>
+                    <li><a href="pricing.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
+                    <li><a href="gdpr.html" class="text-sm uppercase text-sky-600 lg:text-base">GDPR</a></li>
+                    <li><a href="blog.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
+                    <li><a href="academy.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Academy</a></li>
+                    <li><a href="contact.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Contact</a></li>
+                    <li><a href="login.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden">
+            <div
+                class="container mx-auto mt-3 rounded-3xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+                <ul id="mobile-nav" class="grid gap-2">
+                    <li><a href="features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Features</span><span
+                                class="text-slate-400">01</span></a></li>
+                    <li><a href="pricing.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Pricing</span><span
+                                class="text-slate-400">02</span></a></li>
+                    <li><a href="gdpr.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase bg-sky-50 text-sky-600"><span>GDPR</span><span
+                                class="text-sky-400">03</span></a></li>
+                    <li><a href="blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Blog</span><span
+                                class="text-slate-400">04</span></a></li>
+                    <li><a href="academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Academy</span><span
+                                class="text-slate-400">05</span></a></li>
+                    <li><a href="login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Log
+                                in</span><span class="text-slate-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-32 pb-24">
+        <div class="container mx-auto px-4 lg:px-16">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div class="flex flex-col items-center mb-16 text-center space-y-6">
+                    <div class="flex items-center gap-2 mb-4 bg-sky-50 px-6 py-2 rounded-full border border-sky-100 shadow-sm">
+                        <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-bold uppercase tracking-[0.2em] text-sky-700">GDPR</span>
+                    </div>
+                    <h1 class="text-3xl lg:text-5xl font-black text-[#172554] leading-tight">Our app comes with all the elements that are required to get a neat and ingenious design.</h1>
+                </div>
+
+                <!-- Intro Text -->
+                <div class="glass-card rounded-[2.5rem] p-8 lg:p-12 shadow-xl border border-slate-200/50 mb-16">
+                    <div class="space-y-6 text-slate-600 font-medium leading-relaxed">
+                        <p>GDPR (General Data Protection Regulation) sets strict rules for businesses that collect, store and process personal data of EU citizens. This new regulation is intended to affect organizations around the world that are involved in the collection and processing of personal data of EU citizens.</p>
+                        <p>Thanks to the GDPR, citizens (customers) from the European Union can now exercise more control over their data and decide to what extent businesses can store and manage it.</p>
+                        <h3 class="text-xl font-bold text-slate-800 pt-4">Take your confidence and security a step further</h3>
+                        <p>At BI Infotech or Streakeye.com, data security has been our top priority since our inception. With the General Data Protection Regulation (GDPR), we've got you even more covered.</p>
+                        <p>As part of GDPR compliance, we ensure that any data we collect, whether offline or online, for any purpose such as market research, customer feedback, etc., is compliant with GDPR and data protection laws privacy.</p>
+                        <h3 class="text-xl font-bold text-slate-800 pt-4">The BI Infotech or Streakeye.com approach</h3>
+                        <p>We are committed to your privacy and security. Our platform helps you collect and manage data in a simple way. We assure you that your data is safe with us. You control and own your data.</p>
+                    </div>
+                </div>
+
+                <!-- Sections -->
+                <div class="grid gap-8">
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">Transparency</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">We are transparent throughout the process. If you have any concerns about your personal data, you can request an audit. You may contact our Privacy Officer at info@biinfotech.com for any information regarding your account.</p>
+                    </section>
+
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">Personal privacy</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">We respect the personal privacy of our customers' data. Although we process customer data, it is the customer who has the right to modify, delete, retain or store or migrate the data.</p>
+                    </section>
+
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">Security</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">All BI Infotech products (Streakeye.com) platform is powered by Enterprise security features that make us a reliable and secure platform for many clients around the world. We have strengthened our IT infrastructure, data security platform & IT infrastructure to provide enhanced security for our customers, end to end.</p>
+                    </section>
+
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">The right to erasure</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">Compliance with the GDPR which states that individuals have the right to request the controller (company that has control over your data) to permanently delete their personal data. We have a system in place and make sure to respond to requests within a short period of time. Recipients are notified when we delete their data.</p>
+                    </section>
+
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">Data reduction</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">The GDPR includes the right to accept requests for data amendments. Through this, the incorrect data of the person can be corrected or corrected and also their own data can be complete if incase it is not complete.</p>
+                    </section>
+
+                    <section class="glass-card rounded-[2rem] p-8 lg:p-10 shadow-lg border border-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900">Data storage</h2>
+                        </div>
+                        <p class="text-slate-600 font-medium leading-relaxed lg:pl-16">Bi Infotech Products like Streakeye.com has a strict role in how customers/individuals handle their data. Data is safe as long as you have an active account with us. You can control how long you want to keep the data. Suppose you choose to remove a survey response from your account, make sure the data is also removed from our database.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section" class="border-t border-slate-200/80 relative px-6 py-16 text-[#17324d] sm:px-10 lg:px-16 overflow-hidden">
+        <div class="mx-auto max-w-7xl space-y-12">
+            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                <div class="max-w-2xl bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:text-xs">StreakEye</p>
+                    <h2 class="mt-4 text-3xl font-black tracking-tight text-[#12324d] sm:text-4xl">Subscribe to our newsletter</h2>
+                    <form class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <input type="email" placeholder="Enter your email address" class="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-6 text-sm outline-none transition-all placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-50" />
+                        <button type="submit" class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#12324d] px-8 text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">Subscribe</button>
+                    </form>
+                </div>
+                <div class="grid gap-6 rounded-[2.5rem] border border-white/80 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:grid-cols-2 h-full">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Contact</p>
+                        <a href="mailto:info@biinfotech.com" class="block text-sm font-bold text-slate-700 hover:text-sky-600 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Social</p>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-5 w-5 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/twitter.png" alt="Twitter" class="h-4 w-4 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/facebook.png" alt="Facebook" class="h-5 w-5 opacity-70"></a>
+                            <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50"><img src="assests/icons/instagram.png" alt="Instagram" class="h-5 w-5 opacity-70"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Ontario, Canada</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300, Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">New Delhi, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri, 110058<br />+91 8766248464</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Hyderabad, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road, 500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-xs font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p>© 2024 StreakEye. All rights reserved.</p>
+                <p class="text-[10px]">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-[#172554] text-white shadow-2xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-110 active:scale-95">
+        <svg class="mx-auto h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            lenis.scrollTo(0);
+        });
+    </script>
+</body>
+
+</html>
