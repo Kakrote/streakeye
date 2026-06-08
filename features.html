@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features | StreakEye</title>
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 23, 42, 0.05), transparent 24%),
+                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+            font-family: 'Libre Baskerville', sans-serif;
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.25rem;
+            top: 2rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #6366f1;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: -0.9375rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, #e2e8f0 10%, #e2e8f0 90%, transparent);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-slate-900 antialiased">
+    <!-- Header Section -->
+    <header
+        class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center">
+                <a href="/">
+                    <img id="header-logo" src="assests/logo1.png" alt="header logo"
+                        class="w-[70px] md:w-[90px] object-contain">
+                </a>
+            </div>
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="/"
+                    class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1f201e] shadow-sm transition-colors hover:bg-white sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-6">
+                    <li><a href="/features.html" class="text-sm uppercase text-sky-600 lg:text-base">Features</a></li>
+                    <li><a href="/about.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
+                    <li><a href="/contact.html" class="text-sm uppercase hover:opacity-90 lg:text-base">GDPR</a></li>
+                    <li><a href="/blog.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
+                    <li><a href="/academy.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Academy</a></li>
+                    <li><a href="/contact.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Contact</a></li>
+                    <li><a href="/login.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden">
+            <div
+                class="container mx-auto mt-3 rounded-3xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+                <ul id="mobile-nav" class="grid gap-2">
+                    <li><a href="/features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase bg-sky-50 text-sky-600"><span>Features</span><span
+                                class="text-sky-400">01</span></a></li>
+                    <li><a href="/about.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Pricing</span><span
+                                class="text-slate-400">02</span></a></li>
+                    <li><a href="/contact.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>GDPR</span><span
+                                class="text-slate-400">03</span></a></li>
+                    <li><a href="/blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Blog</span><span
+                                class="text-slate-400">04</span></a></li>
+                    <li><a href="/academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Academy</span><span
+                                class="text-slate-400">05</span></a></li>
+                    <li><a href="/login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Log
+                                in</span><span class="text-slate-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-32 pb-24">
+        <!-- Hero Section -->
+        <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-20">
+            <div class="max-w-4xl mx-auto text-center space-y-6">
+                <div class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 shadow-sm animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456-2.455L18 2.25l.259 1.036a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.456 2.455zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    SOME CRITICAL FEATURES
+                </div>
+                <h1 class="text-3xl font-black tracking-tight text-[#172554] sm:text-5xl lg:text-6xl leading-[1.1]">
+                    StreakEye offers advanced solutions beyond basic field management, tailored for research and field projects.
+                </h1>
+                <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg">
+                    Ensuring impactful results and top-notch data quality through innovation and precision.
+                </p>
+                <div class="pt-4">
+                    <button id="request-demo-btn"
+                        class="inline-flex min-h-12 items-center justify-center rounded-full bg-slate-950 px-8 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl active:scale-95">
+                        Request a Demo & Launch Your Pilot Project Today!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features List Section -->
+        <div class="container mx-auto px-6 sm:px-10 lg:px-16">
+            <div class="max-w-6xl mx-auto relative">
+                <!-- Vertical Timeline (Hidden on mobile) -->
+                <div class="hidden lg:block timeline-line" style="left: 50%;"></div>
+                
+                <!-- Timeline Icons (Floating) -->
+                <div class="hidden lg:block absolute left-1/2 -translate-x-1/2 space-y-[600px] pointer-events-none" style="top: 15%;">
+                    <div class="w-10 h-10 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-sky-500 z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-amber-500 z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                        </svg>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-emerald-500 z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="space-y-24 lg:space-y-32">
+                    <!-- Feature 1: Geo Attendance -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Geo Attendance</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                The system is designed in such a manner that you can track and evaluate the accurate time your employee spends on the job. The selfie feature allows you in this process with date, time, and location regarding information of the employee's attendance to avoid manipulation.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/images/fsms-attendance5.jpg" alt="Geo Attendance" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Live Tracker System -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Live Tracker System</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Keep tabs on your team and field force. Know the specifics like workforce attendance, productive hours, total distance traveled, and location etcetera anytime anywhere. Allocate geofences at the entry/exit points at get alerted whenever your executives pass through there.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-amber-100 to-orange-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/images/fsms-projectData3.jpg" alt="Live Tracker" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Data Visualizing -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Data Visualizing</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Visualizing data through dashboards is a very modern approach to analyzing and organizing your marketing data. Dashboards simplify the analysis process by gathering all data and displaying it in one location. We have also learned a great deal from these tools and applied those learnings in the development our own products.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/dashboard/streakeye slideshow2.png" alt="Data Visualizing" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4: Chat System -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Chat System</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                A chat system offers several benefits, including real-time interaction with participants, quicker data collection, increased respondent engagement, and the ability to gather qualitative insights efficiently. Additionally, it provides support from administrators for location-specific guidance and instructions.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-violet-100 to-purple-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/dashboard/bg3.jpg" alt="Chat System" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 5: Live Streaming -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Live Streaming</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Live streaming in market research provides real-time data collection, instant feedback, and a global reach, enabling businesses to capture authentic insights efficiently. This approach enhances research accuracy and enables quick decision-making based on actionable data.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-pink-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/images/fsms-projectDetails2.jpg" alt="Live Streaming" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 6: Notice Board -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.357.205a.75.75 0 01-1.1-.748l.056-.783c.032-.447.051-.894.056-1.342m.446-8.91c.253-.962.584-1.892.985-2.783.247-.55.06-1.21-.463-1.511l-.357-.205a.75.75 0 00-1.1.748l.056.783c.032.447.051.894.056 1.342m3.181 3.181a1.25 1.25 0 011.768 0l4.47 4.47A1.25 1.25 0 1117.73 19.47l-4.47-4.47a1.25 1.25 0 010-1.768z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Notice Board</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                It offers several advantages. It helps in communicating important updates and instructions to field workers efficiently, ensuring everyone is well-informed. Additionally, it facilitates real-time collaboration and coordination, enhancing productivity and data quality in offline data collection processes.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-indigo-100 to-blue-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/dashboard/bg4.jpg" alt="Notice Board" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 7: Alerts and Notifications -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Alerts and Notifications</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                By alerting teams to critical events or deviations in real-time, they enable quick response and decision-making, leading to enhanced project efficiency and quality. These alerts also help in preventing potential issues, ensuring smoother operations and better outcomes for the project overall.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-orange-100 to-yellow-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/images/fsms-alert6.jpg" alt="Alerts" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 8: Forms / Surveys / Tasks -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                        <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
+                            <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-[#172554]">Forms / Surveys / Tasks</h2>
+                            <p class="text-slate-600 leading-relaxed font-medium">
+                                Our open survey/form allows for unlimited responses from any location, without any restrictions and Tasks involve pre-assigned survey/form for specific locations and are limited to a set number of respondents.
+                            </p>
+                        </div>
+                        <div class="w-full lg:w-1/2">
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden group">
+                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
+                                    <img src="assests/images/fsms-projectDetails2 (1).jpg" alt="Forms" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section"
+        class="border-t border-slate-200/80 relative px-6 py-16 text-[#17324d] sm:px-10 lg:px-16 overflow-hidden">
+
+        <!-- Responsive Footer Props -->
+        <div
+            class="about-prop pointer-events-none absolute left-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:left-10 lg:opacity-[0.4]">
+            <img src="assests/dashboard/bg.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
+        </div>
+        <div
+            class="about-prop pointer-events-none absolute right-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:right-10 lg:opacity-[0.4]">
+            <img src="assests/dashboard/bg1.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
+        </div>
+
+        <div class="mx-auto max-w-7xl space-y-12">
+            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+                <div
+                    class="max-w-2xl bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:text-xs">StreakEye</p>
+                    <h2 id="footer-subscribe-title"
+                        class="mt-4 text-3xl font-black tracking-tight text-[#12324d] sm:text-4xl">Subscribe to our
+                        newsletter</h2>
+                    <p id="footer-subscribe-description"
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-[#172554] font-medium sm:text-base">Get the
+                        latest
+                        updates and insights from StreakEye delivered straight to your inbox.</p>
+                    <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <label class="sr-only" for="footer-email">Email address</label>
+                        <input id="footer-email" type="email" placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-6 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-50" />
+                        <button type="submit" id="footer-subscribe-button"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#12324d] px-8 text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">Subscribe</button>
+                    </form>
+                </div>
+                <div
+                    class="grid gap-6 rounded-[2.5rem] border border-white/80 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:grid-cols-2">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Contact</p>
+                        <a id="footer-email-link" href="mailto:info@biinfotech.com"
+                            class="block text-sm font-bold text-slate-700 hover:text-sky-600 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Social</p>
+                        <div id="footer-social-links" class="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn"
+                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/twitter.png" alt="Twitter"
+                                    class="h-4 w-4 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/facebook.png" alt="Facebook"
+                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                            <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
+                                <img src="assests/icons/instagram.png" alt="Instagram"
+                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer-address-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Ontario, Canada</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300,
+                        Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">New Delhi, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri,
+                        110058<br />+91 8766248464</p>
+                </article>
+                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Hyderabad, India</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road,
+                        500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            <div
+                class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-xs font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
+                <p id="footer-subscribe-note" class="text-[10px]">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Request a Demo Modal -->
+    <div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="modal-backdrop" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0"></div>
+        <div id="modal-content"
+            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white/50 backdrop-blur-md">
+            <!-- Close Button -->
+            <button id="close-modal"
+                class="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-600 active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-black text-[#12324d]">Request a Demo</h3>
+                <p class="mt-2 text-sm font-medium text-slate-500">Launch Your Pilot Project Today!</p>
+            </div>
+
+            <form id="demo-form" class="space-y-4">
+                <div>
+                    <label for="name" class="sr-only">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Full Name"
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                </div>
+                <div>
+                    <label for="email" class="sr-only">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Email Address"
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                </div>
+                <div>
+                    <label for="phone" class="sr-only">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                </div>
+                <div>
+                    <label for="message" class="sr-only">Message</label>
+                    <textarea id="message" name="message" rows="3" required placeholder="How can we help you?"
+                        class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 p-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50"></textarea>
+                </div>
+
+                <!-- Simulated Captcha -->
+                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="captcha-box"
+                            class="flex h-6 w-6 items-center justify-center rounded border-2 border-slate-300 bg-white transition-all hover:border-sky-400">
+                            <svg id="captcha-check" class="hidden h-4 w-4 text-green-500"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <span class="text-sm font-medium text-slate-600">I'm not a robot</span>
+                    </div>
+                    <div class="flex flex-col items-center opacity-40">
+                        <img src="assests/logo1.png" alt="captcha" class="h-6 object-contain grayscale">
+                        <span class="text-[8px] font-bold uppercase tracking-tighter">reCAPTCHA</span>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="mt-2 h-12 w-full rounded-full bg-[#12324d] text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">
+                    Launch Your Pilot
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script>
+        // Custom Scroll Animations for Features
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+                const features = gsap.utils.toArray(".feature-item");
+                
+                features.forEach((feature, i) => {
+                    const isEven = i % 2 !== 0;
+                    
+                    gsap.fromTo(feature, 
+                        { 
+                            opacity: 0, 
+                            x: isEven ? 50 : -50,
+                            y: 30
+                        },
+                        {
+                            opacity: 1,
+                            x: 0,
+                            y: 0,
+                            duration: 1.2,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: feature,
+                                start: "top 85%",
+                                end: "top 50%",
+                                toggleActions: "play none none reverse"
+                            }
+                        }
+                    );
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
