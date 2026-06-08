@@ -378,6 +378,114 @@ function initNav() {
     }
 }
 
+// Request a Demo Modal Logic
+function initDemoModal() {
+    const modal = document.getElementById("demo-modal");
+    const openBtn = document.getElementById("request-demo-btn");
+    const closeBtn = document.getElementById("close-modal");
+    const backdrop = document.getElementById("modal-backdrop");
+    const content = document.getElementById("modal-content");
+    const form = document.getElementById("demo-form");
+    const captchaBox = document.getElementById("captcha-box");
+    const captchaCheck = document.getElementById("captcha-check");
+
+    if (!modal || !openBtn || !closeBtn || !content) return;
+
+    let isCaptchaVerified = false;
+
+    const openModal = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        
+        // Disable scroll
+        document.body.style.overflow = "hidden";
+        if (window.lenis) window.lenis.stop();
+
+        const tl = gsap.timeline();
+        tl.to(backdrop, { opacity: 1, duration: 0.4, ease: "power2.out" });
+        tl.to(content, { 
+            opacity: 1, 
+            scale: 1, 
+            duration: 0.5, 
+            ease: "back.out(1.7)" 
+        }, "-=0.2");
+    };
+
+    const closeModal = () => {
+        const tl = gsap.timeline({
+            onComplete: () => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+                // Re-enable scroll
+                document.body.style.overflow = "";
+                if (window.lenis) window.lenis.start();
+            }
+        });
+
+        tl.to(content, { opacity: 0, scale: 0.95, duration: 0.3, ease: "power2.in" });
+        tl.to(backdrop, { opacity: 0, duration: 0.3, ease: "power2.in" }, "-=0.1");
+    };
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", closeModal);
+
+    // Captcha Logic
+    if (captchaBox) {
+        captchaBox.addEventListener("click", () => {
+            isCaptchaVerified = !isCaptchaVerified;
+            if (isCaptchaVerified) {
+                captchaCheck.classList.remove("hidden");
+                captchaBox.classList.add("border-green-500", "bg-green-50");
+            } else {
+                captchaCheck.classList.add("hidden");
+                captchaBox.classList.remove("border-green-500", "bg-green-50");
+            }
+        });
+    }
+
+    // Form Logic
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            if (!isCaptchaVerified) {
+                alert("Please verify that you are not a robot.");
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending...";
+            submitBtn.classList.add("opacity-70");
+
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = "Success!";
+                submitBtn.classList.remove("bg-[#12324d]");
+                submitBtn.classList.add("bg-green-600");
+
+                setTimeout(() => {
+                    closeModal();
+                    // Reset form after closing
+                    setTimeout(() => {
+                        form.reset();
+                        isCaptchaVerified = false;
+                        captchaCheck.classList.add("hidden");
+                        captchaBox.classList.remove("border-green-500", "bg-green-50");
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                        submitBtn.classList.remove("bg-green-600", "opacity-70");
+                        submitBtn.classList.add("bg-[#12324d]");
+                    }, 500);
+                }, 1500);
+            }, 1500);
+        });
+    }
+}
+
 // Initialization
 function init() {
     initLenis();
@@ -387,6 +495,7 @@ function init() {
     initWorkWithAnimation();
     initAboutAnimations();
     initCounterAnimation();
+    initDemoModal();
 }
 
 if (document.readyState === "loading") {
