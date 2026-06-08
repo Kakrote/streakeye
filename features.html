@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden">
 
 <head>
     <meta charset="UTF-8" />
@@ -66,17 +66,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         }
 
-        .timeline-dot {
-            position: absolute;
-            left: -1.25rem;
-            top: 2rem;
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 9999px;
-            background-color: #6366f1;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
-        }
-
         .timeline-line {
             position: absolute;
             left: -0.9375rem;
@@ -88,7 +77,7 @@
     </style>
 </head>
 
-<body class="min-h-screen text-slate-900 antialiased">
+<body class="min-h-screen text-slate-900 antialiased overflow-x-hidden">
     <!-- Header Section -->
     <header
         class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
@@ -155,7 +144,7 @@
         </div>
     </header>
 
-    <main class="relative pt-32 pb-24">
+    <main class="relative pt-32 pb-24 overflow-hidden">
         <!-- Hero Section -->
         <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-20">
             <div class="max-w-4xl mx-auto text-center space-y-6">
@@ -181,7 +170,7 @@
         </div>
 
         <!-- Features List Section -->
-        <div class="container mx-auto px-6 sm:px-10 lg:px-16">
+        <div class="container mx-auto px-6 sm:px-10 lg:px-16 overflow-hidden">
             <div class="max-w-6xl mx-auto relative">
                 <!-- Vertical Timeline (Hidden on mobile) -->
                 <div class="hidden lg:block timeline-line" style="left: 50%;"></div>
@@ -206,8 +195,8 @@
                 </div>
 
                 <div class="space-y-24 lg:space-y-32">
-                    <!-- Feature 1: Geo Attendance -->
-                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 1 -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -221,16 +210,14 @@
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/images/fsms-attendance5.jpg" alt="Geo Attendance" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden">
+                                <img src="assests/images/fsms-attendance5.jpg" alt="Geo Attendance" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 2: Live Tracker System -->
-                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 2 -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -243,16 +230,14 @@
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-amber-100 to-orange-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/images/fsms-projectData3.jpg" alt="Live Tracker" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-amber-100 to-orange-100 shadow-xl overflow-hidden">
+                                <img src="assests/images/fsms-projectData3.jpg" alt="Live Tracker" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 3: Data Visualizing -->
-                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 3 -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -262,20 +247,18 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Data Visualizing</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                Visualizing data through dashboards is a very modern approach to analyzing and organizing your marketing data. Dashboards simplify the analysis process by gathering all data and displaying it in one location. We have also learned a great deal from these tools and applied those learnings in the development our own products.
+                                Visualizing data through dashboards is a very modern approach to analyzing and organizing your marketing data. Dashboards simplify the analysis process by gathering all data and displaying it in one location.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/dashboard/streakeye slideshow2.png" alt="Data Visualizing" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl overflow-hidden">
+                                <img src="assests/dashboard/streakeye slideshow2.png" alt="Data Visualizing" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 4: Chat System -->
-                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 4 -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -284,20 +267,18 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Chat System</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                A chat system offers several benefits, including real-time interaction with participants, quicker data collection, increased respondent engagement, and the ability to gather qualitative insights efficiently. Additionally, it provides support from administrators for location-specific guidance and instructions.
+                                A chat system offers several benefits, including real-time interaction with participants, quicker data collection, increased respondent engagement, and qualitative insights.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-violet-100 to-purple-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/dashboard/bg3.jpg" alt="Chat System" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-violet-100 to-purple-100 shadow-xl overflow-hidden">
+                                <img src="assests/dashboard/bg3.jpg" alt="Chat System" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 5: Live Streaming -->
-                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 5 -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -306,20 +287,18 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Live Streaming</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                Live streaming in market research provides real-time data collection, instant feedback, and a global reach, enabling businesses to capture authentic insights efficiently. This approach enhances research accuracy and enables quick decision-making based on actionable data.
+                                Live streaming in market research provides real-time data collection, instant feedback, and a global reach, enabling businesses to capture authentic insights efficiently.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-pink-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/images/fsms-projectDetails2.jpg" alt="Live Streaming" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-pink-100 shadow-xl overflow-hidden">
+                                <img src="assests/images/fsms-projectDetails2.jpg" alt="Live Streaming" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 6: Notice Board -->
-                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 6 -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -328,20 +307,18 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Notice Board</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                It offers several advantages. It helps in communicating important updates and instructions to field workers efficiently, ensuring everyone is well-informed. Additionally, it facilitates real-time collaboration and coordination, enhancing productivity and data quality in offline data collection processes.
+                                Communicate important updates and instructions to field workers efficiently, ensuring everyone is well-informed and facilitating real-time collaboration.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-indigo-100 to-blue-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/dashboard/bg4.jpg" alt="Notice Board" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-indigo-100 to-blue-100 shadow-xl overflow-hidden">
+                                <img src="assests/dashboard/bg4.jpg" alt="Notice Board" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 7: Alerts and Notifications -->
-                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 7 -->
+                    <div class="feature-item flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -350,20 +327,18 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Alerts and Notifications</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                By alerting teams to critical events or deviations in real-time, they enable quick response and decision-making, leading to enhanced project efficiency and quality. These alerts also help in preventing potential issues, ensuring smoother operations and better outcomes for the project overall.
+                                Alerting teams to critical events or deviations in real-time, enabling quick response and decision-making for enhanced project efficiency.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-orange-100 to-yellow-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/images/fsms-alert6.jpg" alt="Alerts" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-orange-100 to-yellow-100 shadow-xl overflow-hidden">
+                                <img src="assests/images/fsms-alert6.jpg" alt="Alerts" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature 8: Forms / Surveys / Tasks -->
-                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24 opacity-0">
+                    <!-- Feature 8 -->
+                    <div class="feature-item flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
                         <div class="w-full lg:w-1/2 space-y-6 lg:pl-12">
                             <div class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -372,14 +347,12 @@
                             </div>
                             <h2 class="text-3xl font-black text-[#172554]">Forms / Surveys / Tasks</h2>
                             <p class="text-slate-600 leading-relaxed font-medium">
-                                Our open survey/form allows for unlimited responses from any location, without any restrictions and Tasks involve pre-assigned survey/form for specific locations and are limited to a set number of respondents.
+                                Open survey/form for unlimited responses and pre-assigned tasks for specific locations with respondent limits.
                             </p>
                         </div>
                         <div class="w-full lg:w-1/2">
-                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden group">
-                                <div class="w-full h-full flex items-center justify-center bg-white/20 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                                    <img src="assests/images/fsms-projectDetails2 (1).jpg" alt="Forms" class="w-[85%] h-[85%] object-cover rounded-2xl shadow-lg border border-white/40">
-                                </div>
+                            <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden">
+                                <img src="assests/images/fsms-projectDetails2 (1).jpg" alt="Forms" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -481,71 +454,23 @@
         </div>
     </footer>
 
-    <!-- Request a Demo Modal -->
+    <!-- Request a Demo Modal (Simplified structure for JS compatibility) -->
     <div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div id="modal-backdrop" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0"></div>
-        <div id="modal-content"
-            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white/50 backdrop-blur-md">
-            <!-- Close Button -->
-            <button id="close-modal"
-                class="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-600 active:scale-95">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <div class="mb-8">
-                <h3 class="text-2xl font-black text-[#12324d]">Request a Demo</h3>
-                <p class="mt-2 text-sm font-medium text-slate-500">Launch Your Pilot Project Today!</p>
-            </div>
-
+        <div id="modal-content" class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white/50">
+            <button id="close-modal" class="absolute right-6 top-6 h-10 w-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400">✕</button>
+            <h3 class="text-2xl font-black text-[#12324d] mb-8">Request a Demo</h3>
             <form id="demo-form" class="space-y-4">
-                <div>
-                    <label for="name" class="sr-only">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Full Name"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                <input type="text" placeholder="Full Name" class="h-12 w-full rounded-2xl border bg-slate-50 px-5 text-sm outline-none" required />
+                <input type="email" placeholder="Email Address" class="h-12 w-full rounded-2xl border bg-slate-50 px-5 text-sm outline-none" required />
+                <input type="tel" placeholder="Phone Number" class="h-12 w-full rounded-2xl border bg-slate-50 px-5 text-sm outline-none" required />
+                <textarea placeholder="How can we help you?" class="w-full rounded-2xl border bg-slate-50 p-5 text-sm outline-none" rows="3" required></textarea>
+                <div class="flex items-center justify-between rounded-xl border bg-slate-50 p-4">
+                    <button type="button" id="captcha-box" class="h-6 w-6 border-2 bg-white rounded"></button>
+                    <span class="text-sm font-medium text-slate-600">I'm not a robot</span>
+                    <span class="text-[10px] opacity-30">reCAPTCHA</span>
                 </div>
-                <div>
-                    <label for="email" class="sr-only">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="Email Address"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
-                </div>
-                <div>
-                    <label for="phone" class="sr-only">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
-                </div>
-                <div>
-                    <label for="message" class="sr-only">Message</label>
-                    <textarea id="message" name="message" rows="3" required placeholder="How can we help you?"
-                        class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 p-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50"></textarea>
-                </div>
-
-                <!-- Simulated Captcha -->
-                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 p-4">
-                    <div class="flex items-center gap-3">
-                        <button type="button" id="captcha-box"
-                            class="flex h-6 w-6 items-center justify-center rounded border-2 border-slate-300 bg-white transition-all hover:border-sky-400">
-                            <svg id="captcha-check" class="hidden h-4 w-4 text-green-500"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <span class="text-sm font-medium text-slate-600">I'm not a robot</span>
-                    </div>
-                    <div class="flex flex-col items-center opacity-40">
-                        <img src="assests/logo1.png" alt="captcha" class="h-6 object-contain grayscale">
-                        <span class="text-[8px] font-bold uppercase tracking-tighter">reCAPTCHA</span>
-                    </div>
-                </div>
-
-                <button type="submit"
-                    class="mt-2 h-12 w-full rounded-full bg-[#12324d] text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">
-                    Launch Your Pilot
-                </button>
+                <button type="submit" class="h-12 w-full rounded-full bg-[#12324d] text-sm font-bold text-white">Launch Your Pilot</button>
             </form>
         </div>
     </div>
@@ -553,38 +478,30 @@
     <!-- Scripts -->
     <script src="js/app.js" defer></script>
     <script>
-        // Custom Scroll Animations for Features
         document.addEventListener("DOMContentLoaded", () => {
             if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-                const features = gsap.utils.toArray(".feature-item");
-                
-                features.forEach((feature, i) => {
-                    const isEven = i % 2 !== 0;
-                    
-                    gsap.fromTo(feature, 
-                        { 
-                            opacity: 0, 
-                            x: isEven ? 50 : -50,
-                            y: 30
-                        },
-                        {
+                const mm = gsap.matchMedia();
+
+                mm.add("(min-width: 1024px)", () => {
+                    const features = gsap.utils.toArray(".feature-item");
+                    gsap.set(features, { opacity: 0, y: 50 });
+
+                    features.forEach((feature) => {
+                        gsap.to(feature, {
                             opacity: 1,
-                            x: 0,
                             y: 0,
-                            duration: 1.2,
-                            ease: "power3.out",
+                            duration: 1,
+                            ease: "power2.out",
                             scrollTrigger: {
                                 trigger: feature,
                                 start: "top 85%",
-                                end: "top 50%",
                                 toggleActions: "play none none reverse"
                             }
-                        }
-                    );
+                        });
+                    });
                 });
             }
         });
     </script>
 </body>
-
 </html>

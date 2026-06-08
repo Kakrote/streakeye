@@ -127,12 +127,14 @@ function initDashboardAnimation() {
         });
     };
 
-    // Auto-advance
-    const interval = setInterval(() => {
-        if (!isInteracting && autoPlayEnabled) {
-            goToSlide(currentIndex + 1);
-        }
-    }, 5000);
+    // Auto-advance - ONLY ON DESKTOP
+    if (window.innerWidth >= 1024) {
+        const interval = setInterval(() => {
+            if (!isInteracting && autoPlayEnabled) {
+                goToSlide(currentIndex + 1);
+            }
+        }, 5000);
+    }
 
     // Toggle logic
     if (toggleBtn) {
@@ -191,7 +193,7 @@ function initWorkWithAnimation() {
     const container = document.getElementById("workwith-cards");
     const logosTrack = document.getElementById("logos-track");
 
-    if (logosTrack) {
+    if (logosTrack && window.innerWidth >= 1024) {
         gsap.to(logosTrack, {
             xPercent: -50,
             repeat: -1,
@@ -201,6 +203,11 @@ function initWorkWithAnimation() {
     }
 
     if (!cards.length) return;
+
+    if (window.innerWidth < 1024) {
+        gsap.set(cards, { autoAlpha: 1, yPercent: 0, scale: 1 });
+        return;
+    }
 
     gsap.set(cards, { autoAlpha: 0, yPercent: 110, scale: 0.96 });
     gsap.set(cards[0], { autoAlpha: 1, yPercent: 0, scale: 1 });
@@ -488,14 +495,38 @@ function initDemoModal() {
 
 // Initialization
 function init() {
-    initLenis();
     initNav();
-    initHeroAnimation();
-    initDashboardAnimation();
-    initWorkWithAnimation();
-    initAboutAnimations();
-    initCounterAnimation();
     initDemoModal();
+    initCounterAnimation();
+
+    if (typeof gsap !== "undefined") {
+        const mm = gsap.matchMedia();
+
+        mm.add("(min-width: 1024px)", () => {
+            initLenis();
+            initHeroAnimation();
+            initDashboardAnimation();
+            initWorkWithAnimation();
+            initAboutAnimations();
+        });
+
+        mm.add("(max-width: 1023px)", () => {
+            // Ensure elements are visible on mobile
+            gsap.set(["#hero-title", "#hero-tagline", "#hero-description", "[data-about-card]", "[data-workwith-card]"], { 
+                opacity: 1, 
+                y: 0, 
+                autoAlpha: 1, 
+                scale: 1,
+                visibility: "visible"
+            });
+            
+            // For Work With Section mobile layout
+            const workWithMobile = document.getElementById("workwith-mobile");
+            if (workWithMobile) {
+                gsap.set("[data-workwith-mobile-card]", { opacity: 1, y: 0 });
+            }
+        });
+    }
 }
 
 if (document.readyState === "loading") {
