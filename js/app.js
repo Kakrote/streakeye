@@ -493,9 +493,27 @@ function initDemoModal() {
     }
 }
 
+// Header Scroll Behavior
+function initHeaderScroll() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    const handleScroll = () => {
+        if (window.scrollY > 20) {
+            header.classList.add("header-scrolled");
+        } else {
+            header.classList.remove("header-scrolled");
+        }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+}
+
 // Initialization
 function init() {
     initNav();
+    initHeaderScroll();
     initDemoModal();
     initCounterAnimation();
 

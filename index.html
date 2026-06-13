@@ -56,13 +56,89 @@
                 linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
             font-family: 'Libre Baskerville', sans-serif;
         }
+
+        /* Image Sharpening */
+        img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* Header Transitions & Scrolling */
+        header {
+          
+            /* background-color:#76787e !important; */
+            transition: all 0.3s ease !important;
+        }
+        header a:not(.text-sky-600) {
+            color: #181818 !important;
+            transition: color 0.3s ease;
+        }
+        header a:not(.text-sky-600):hover {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        header #mobile-contact-btn {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+            transition: all 0.3s ease;
+        }
+        header #mobile-contact-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        header #menu-toggle {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.3s ease;
+        }
+        header #menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        header #menu-toggle span span {
+            background-color: #ffffff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        header.header-scrolled {
+            /* background-color: transparent !important; */
+            backdrop-filter: blur(1px) !important;
+            -webkit-backdrop-filter: blur(1px) !important;
+            /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important; */
+            /* border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; */
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        header.header-scrolled a:not(.text-sky-600) {
+            color: #0e0d0d !important;
+        }
+        header.header-scrolled a:not(.text-sky-600):hover {
+            color: #ffffff !important;
+        }
+        header.header-scrolled #mobile-contact-btn {
+            color: #1f201e !important;
+            /* border-color: rgba(0, 0, 0, 0.1) !important; */
+            /* background-color: rgba(255, 255, 255, 0.7) !important; */
+        }
+        header.header-scrolled #mobile-contact-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+        header.header-scrolled #menu-toggle {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+        header.header-scrolled #menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+        header.header-scrolled #menu-toggle span span {
+            background-color: #1f201e !important;
+        }
     </style>
 </head>
 
 <body class="min-h-screen text-slate-900 antialiased overflow-x-hidden">
     <!-- Header Section -->
     <header
-        class="fixed left-0 top-0 z-50 w-full bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
+        class="fixed left-0 top-0 z-50 w-full text-[#000] bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
         <div class="container mx-auto flex items-center justify-between gap-3">
             <div class="flex items-center">
                 <a href="index.html">
@@ -89,7 +165,8 @@
             </div>
             <nav class="hidden font-bold lg:block">
                 <ul id="desktop-nav" class="flex gap-6">
-                    <li><a href="features.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a></li>
+                    <li><a href="features.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a>
+                    </li>
                     <li><a href="pricing.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
                     <li><a href="gdpr.html" class="text-sm uppercase hover:opacity-90 lg:text-base">GDPR</a></li>
                     <li><a href="blog.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
@@ -133,31 +210,22 @@
         <!-- Hero Section -->
         <section id="hero-section"
             class="relative min-h-screen overflow-hidden px-6 text-[#333] sm:px-10 lg:px-16 py-12 lg:py-0 flex items-center">
-            <div
-                class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.18),transparent_54%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(248,113,113,0.12),transparent_28%),linear-gradient(180deg,#fffdf7_0%,#f5fbff_100%)]">
-            </div>
-            <!-- Responsive Props -->
-            <div
-                class="about-prop pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[280px] -translate-x-1/2 -translate-y-1/2 rotate-[-12deg] opacity-[0.1] blur-[0.8px] sm:w-[500px] lg:left-20 lg:w-[800px] lg:translate-x-0 lg:opacity-[0.25]">
-                <img src="assests/dashboard/streakeye slideshow.png" alt=""
-                    class="rounded-[2rem] shadow-2xl lg:rounded-[3.5rem]">
-            </div>
-            <div
-                class="about-prop pointer-events-none absolute right-1/2 top-1/2 -z-10 w-[200px] translate-x-1/2 -translate-y-1/2 rotate-[17deg] opacity-[0.05] blur-[0.8px] sm:w-[400px] lg:right-20 lg:w-[550px] lg:translate-x-0 lg:opacity-[0.4]">
-                <img src="assests/dashboard/bg7.jpg" alt="" class="rounded-[2rem] shadow-2xl lg:rounded-[3rem]">
+            <!-- Background Image with Black Overlay -->
+            <div class="absolute inset-0 -z-20">
+                <img src="assests/images/hero.jpg" alt="Hero Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-br from-[#000] via-[#4B4F07] to-[#4B4F07] opacity-80"></div>
             </div>
 
             <div class="mx-auto flex min-h-full container flex-col justify-center relative gap-12 lg:gap-16">
                 <div class="max-w-7xl space-y-6 mx-auto text-center pt-8 lg:pt-0">
                     <h1 id="hero-title"
-                        class="text-4xl text-[#37379E] font-black leading-[0.9] tracking-tight sm:text-7xl lg:text-[6.5rem]">
+                        class="text-4xl text-white font-black leading-[0.9] tracking-tight sm:text-7xl lg:text-[6.5rem]">
                         StreakEye</h1>
                     <h2 id="hero-tagline"
-                        class="text-xl text-[#295D8A] font-medium leading-none sm:text-4xl lg:text-5xl">
-                        Transforming Field
-                        Operations</h2>
+                        class="text-xl text-sky-400 font-medium leading-none sm:text-4xl lg:text-5xl">
+                        Transforming Field Operations</h2>
                     <p id="hero-description"
-                        class="text-sm md:text-base lg:text-lg leading-relaxed tracking-wide max-w-7xl mx-auto text-[#295D8A] font-medium opacity-90">
+                        class="text-sm md:text-base lg:text-lg leading-relaxed tracking-wide max-w-7xl mx-auto text-slate-100 font-medium opacity-90">
                         Streakeye is a groundbreaking system that integrates data capturing, field resource monitoring,
                         and quality control, catering to industries like Market Research, Banking, and Client Servicing.
                         Its innovative approach enhances efficiency and accuracy in diverse field operations, delivering
@@ -165,18 +233,18 @@
                     </p>
                     <div class="flex flex-wrap gap-3 pt-4 items-center justify-center">
                         <button id="request-demo-btn"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-slate-950 px-8 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl active:scale-95">
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-bold text-slate-950 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-xl active:scale-95">
                             Request a Demo & Launch Your Pilot Project Today!
                         </button>
                         <a href="contact.html"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white/80 px-8 text-sm font-bold text-slate-700 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white active:scale-95">
+                            class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 active:scale-95">
                             Contact us
                         </a>
                     </div>
                 </div>
 
                 <div
-                    class="grid gap-6 p-6 sm:grid-cols-3 lg:flex lg:justify-between bottom-0 mx-auto text-center border border-slate-200/50 bg-white/40 backdrop-blur-md rounded-3xl shadow-sm max-w-5xl w-full">
+                    class="grid gap-6 p-6 sm:grid-cols-3 lg:flex lg:justify-between bottom-0 mx-auto text-center border border-white/20 bg-white/95 backdrop-blur-md rounded-3xl shadow-lg max-w-5xl w-full">
                     <div
                         class="flex flex-col items-center justify-center space-y-3 sm:border-r sm:border-slate-200 last:border-0 px-4">
                         <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-sky-50">
@@ -420,15 +488,17 @@
                     <article data-workwith-card data-accent="#f59e0b"
                         class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
                         style="z-index:1;">
-                        <div
-                            class="about-prop pointer-events-none absolute left-20 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[0.6px] lg:opacity-[0.3]">
-                            <img src="assests/dashboard/streakeye slideshow1.png" alt=""
+                       
+                        
+                           <div
+                            class="about-prop pointer-events-none absolute -right-20 top-1/2 -z-10  -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6]">
+                            <img src="assests/images/hero2.jpg" alt=""
                                 class="rounded-[3rem] shadow-2xl">
                         </div>
                         <div class="absolute inset-x-0 top-0 h-1.5"
                             style="background: linear-gradient(90deg, #062b92, #f97316, #2563eb);"></div>
                         <p data-workwith-reveal
-                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Operations</p>
+                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-100">Operations</p>
                         <h3 class="mt-4 text-4xl font-black text-slate-900">
                             <span data-workwith-char>O</span><span data-workwith-char>p</span><span
                                 data-workwith-char>e</span><span data-workwith-char>r</span><span
@@ -437,7 +507,7 @@
                                 data-workwith-char>n</span><span data-workwith-char>s</span>
                         </h3>
                         <p data-workwith-reveal
-                            class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">Operations can
+                            class="mt-6 text-base leading-relaxed text-slate-800 font-medium max-w-2xl">Operations can
                             be
                             optimized by utilizing the available resource, improving productivity, and lowering the
                             cost. One can easily track and schedule the job status, quotations, parts, inventory, AMCs,
@@ -484,7 +554,8 @@
                                 class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
                                 <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
                                     style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Adjudge decision-making via real time tools and data.</span>
+                                    class="text-sm font-medium text-slate-700">Adjudge decision-making via real time
+                                    tools and data.</span>
                             </div>
                         </div>
                     </article>
@@ -493,8 +564,8 @@
                         class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
                         style="z-index:2;">
                         <div
-                            class="about-prop pointer-events-none absolute -right-20 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.4]">
-                            <img src="assests/dashboard/streakeye slideshow4.png" alt=""
+                            class="about-prop pointer-events-none absolute left-0 top-1/2 -z-10  -translate-y-1/2 rotate-[12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6]">
+                            <img src="assests/images/hero.jpg" alt=""
                                 class="rounded-[3rem] shadow-2xl">
                         </div>
                         <div class="absolute inset-x-0 top-0 h-1.5"
@@ -544,9 +615,10 @@
                     <article data-workwith-card data-accent="#f97316"
                         class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
                         style="z-index:3;">
+                        <!-- <div class="bg-[#000]/30 absolute left-0 top-0 w-full h-full "></div> -->
                         <div
-                            class="about-prop pointer-events-none absolute left-0 translate-x-1/2 right-0 top-1/2 -z-10 w-[600px] -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[2px] lg:opacity-[0.4]">
-                            <img src="assests/dashboard/streakeye slideshow.png" alt=""
+                            class="about-prop pointer-events-none absolute left-0 translate-x-1/2 right-10 top-1/2 -z-10  -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6] ">
+                            <img src="assests/images/hero2.jpg" alt=""
                                 class="rounded-[3rem] shadow-2xl">
                         </div>
                         <div class="absolute inset-x-0 top-0 h-1.5"
@@ -564,7 +636,7 @@
                                 data-workwith-char>h</span>
                         </h3>
                         <p data-workwith-reveal
-                            class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">Our live
+                            class="mt-6 text-base leading-relaxed text-slate-500 font-medium max-w-2xl">Our live
                             tracking, streaming, and reporting features help researchers make decisions for smart field
                             planning and stronger client service.</p>
                         <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -670,12 +742,15 @@
                             class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Real-time
                             feedback tracking</span>
                         <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Remotely tracking feedback devices
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Remotely
+                            tracking feedback devices
                             feedback tracking</span>
                         <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Operates without Wi-Fi</span>
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Operates
+                            without Wi-Fi</span>
                         <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Be acquainted with accurate status of report and statistics.</span>
+                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Be
+                            acquainted with accurate status of report and statistics.</span>
                     </div>
                 </div>
 
@@ -906,7 +981,8 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-[#172554] text-white shadow-2xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-110 active:scale-95">
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-[#172554] text-white shadow-2xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-110 active:scale-95">
         <svg class="mx-auto h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>

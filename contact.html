@@ -56,9 +56,48 @@
                 linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
             font-family: 'Libre Baskerville', sans-serif;
         }
-
         .form-input {
             font-family: 'Figtree', sans-serif;
+        }
+
+        /* Image Sharpening */
+        img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* Header Transitions & Scrolling */
+        header {
+            transition: all 0.3s ease !important;
+        }
+
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        header.header-scrolled a:not(.text-sky-600),
+        header.header-scrolled #mobile-contact-btn {
+            color: #1f201e !important;
+        }
+
+        header.header-scrolled #mobile-contact-btn {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        header.header-scrolled #menu-toggle {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        header.header-scrolled #menu-toggle span span {
+            background-color: #1f201e !important;
         }
     </style>
 </head>

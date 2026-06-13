@@ -65,7 +65,6 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         }
-
         .timeline-line {
             position: absolute;
             left: -0.9375rem;
@@ -73,6 +72,46 @@
             bottom: 0;
             width: 1px;
             background: linear-gradient(180deg, transparent, #e2e8f0 10%, #e2e8f0 90%, transparent);
+        }
+
+        /* Image Sharpening */
+        img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* Header Transitions & Scrolling */
+        header {
+            transition: all 0.3s ease !important;
+        }
+
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        header.header-scrolled a:not(.text-sky-600),
+        header.header-scrolled #mobile-contact-btn {
+            color: #1f201e !important;
+        }
+
+        header.header-scrolled #mobile-contact-btn {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        header.header-scrolled #menu-toggle {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        header.header-scrolled #menu-toggle span span {
+            background-color: #1f201e !important;
         }
     </style>
 </head>
@@ -214,7 +253,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-sky-100 to-indigo-100 shadow-xl overflow-hidden">
-                                <img src="assests/images/fsms-attendance5.jpg" alt="Geo Attendance" class="w-full h-full object-cover">
+                                <img src="assests/images/geo.jpg" alt="Geo Attendance" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -234,7 +273,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-amber-100 to-orange-100 shadow-xl overflow-hidden">
-                                <img src="assests/images/fsms-projectData3.jpg" alt="Live Tracker" class="w-full h-full object-cover">
+                                <img src="assests/images/live.jpg" alt="Live Tracker" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -255,7 +294,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl overflow-hidden">
-                                <img src="assests/dashboard/streakeye slideshow2.png" alt="Data Visualizing" class="w-full h-full object-cover">
+                                <img src="assests/images/hero1.jpg" alt="Data Visualizing" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -275,7 +314,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-violet-100 to-purple-100 shadow-xl overflow-hidden">
-                                <img src="assests/dashboard/bg3.jpg" alt="Chat System" class="w-full h-full object-cover">
+                                <img src="assests/images/chat.jpg" alt="Chat System" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -295,7 +334,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-pink-100 shadow-xl overflow-hidden">
-                                <img src="assests/images/fsms-projectDetails2.jpg" alt="Live Streaming" class="w-full h-full object-cover">
+                                <img src="assests/images/live.jpg" alt="Live Streaming" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
@@ -335,7 +374,7 @@
                         </div>
                         <div class="w-full lg:w-1/2">
                             <div class="aspect-[4/3] w-full rounded-[2.5rem] bg-gradient-to-br from-orange-100 to-yellow-100 shadow-xl overflow-hidden">
-                                <img src="assests/images/fsms-alert6.jpg" alt="Alerts" class="w-full h-full object-cover">
+                                <img src="assests/images/alert.jpg" alt="Alerts" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
