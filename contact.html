@@ -62,8 +62,8 @@
 
         /* Image Sharpening */
         img {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            /* image-rendering: -webkit-optimize-contrast; */
+            /* image-rendering: crisp-edges; */
         }
 
         /* Header Transitions & Scrolling */
@@ -72,11 +72,11 @@
         }
 
         header.header-scrolled {
-            background-color: rgba(255, 255, 255, 0.8) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+            /* background-color: rgba(255, 255, 255, 0.8) !important; */
+            /* backdrop-filter: blur(12px) !important; */
+            /* -webkit-backdrop-filter: blur(12px) !important; */
+            /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important; */
+            /* border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; */
             padding-top: 0.75rem !important;
             padding-bottom: 0.75rem !important;
         }
@@ -190,46 +190,9 @@
                         <!-- Background decoration -->
                         <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-br from-sky-100/50 to-amber-100/50 rounded-full blur-3xl opacity-50"></div>
                         
-                        <!-- Main Illustration (SVG for clean look) -->
+                        <!-- Contact Illustration Image -->
                         <div class="relative w-full aspect-square flex items-center justify-center">
-                            <svg viewBox="0 0 500 500" class="w-full h-auto max-w-md drop-shadow-2xl">
-                                <!-- Table -->
-                                <rect x="100" y="350" width="300" height="10" rx="5" fill="#334155" />
-                                <rect x="150" y="360" width="10" height="100" fill="#334155" />
-                                <rect x="340" y="360" width="10" height="100" fill="#334155" />
-                                
-                                <!-- Person -->
-                                <circle cx="250" cy="180" r="30" fill="#fde047" /> <!-- Face -->
-                                <path d="M220 180 Q220 150 250 150 Q280 150 280 180" fill="#1e293b" /> <!-- Hair -->
-                                <rect x="235" y="210" width="30" height="80" rx="15" fill="#3b82f6" /> <!-- Body -->
-                                <rect x="220" y="290" width="20" height="70" rx="10" fill="#1e40af" /> <!-- Leg L -->
-                                <rect x="280" y="290" width="20" height="70" rx="10" fill="#1e40af" /> <!-- Leg R -->
-                                
-                                <!-- Laptop -->
-                                <path d="M280 300 L380 300 L360 350 L260 350 Z" fill="#475569" />
-                                <path d="M380 300 L380 230 L280 230 L280 300 Z" fill="#64748b" />
-                                <rect x="310" y="250" width="40" height="30" rx="4" fill="#94a3b8" opacity="0.5" />
-                                
-                                <!-- Chat bubbles -->
-                                <g transform="translate(350, 150) scale(0.8)">
-                                    <circle cx="50" cy="50" r="40" fill="#38bdf8" />
-                                    <circle cx="25" cy="50" r="4" fill="white" />
-                                    <circle cx="50" cy="50" r="4" fill="white" />
-                                    <circle cx="75" cy="50" r="4" fill="white" />
-                                    <path d="M20 80 L35 70 L50 80 Z" fill="#38bdf8" />
-                                </g>
-                                <g transform="translate(100, 100) scale(0.7)">
-                                    <rect x="0" y="0" width="100" height="70" rx="15" fill="#f59e0b" />
-                                    <path d="M20 20 L80 20 L50 45 Z" fill="white" opacity="0.8" />
-                                    <path d="M80 60 L95 85 L65 70 Z" fill="#f59e0b" />
-                                </g>
-                                
-                                <!-- Phone/Signal icons -->
-                                <g transform="translate(350, 50) rotate(15)">
-                                    <path d="M10 30 Q30 0 60 30" stroke="#3b82f6" stroke-width="4" fill="none" />
-                                    <path d="M20 40 Q30 20 50 40" stroke="#3b82f6" stroke-width="4" fill="none" opacity="0.6" />
-                                </g>
-                            </svg>
+                            <img src="assests/icons/contact.png" alt="Contact StreakEye" class="w-full h-auto max-w-md drop-shadow-2xl object-contain transition-transform duration-500 hover:scale-105" />
                         </div>
                     </div>
 
