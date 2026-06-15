@@ -133,7 +133,7 @@ function initDashboardAnimation() {
             if (!isInteracting && autoPlayEnabled) {
                 goToSlide(currentIndex + 1);
             }
-        }, 5000);
+        }, 2000);
     }
 
     // Toggle logic
