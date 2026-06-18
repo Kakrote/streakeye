@@ -4,19 +4,41 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StreakEye</title>
+    <title>StreakEye | Transforming Field Operations</title>
     <!-- CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Pacifico&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#ffffff',
+                            offWhite: '#f8fafc',
+                            blue: '#2563eb',
+                            sky: '#0ea5e9',
+                            dark: '#0f172a',
+                            slateLight: '#475569',
+                            border: '#e2e8f0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         html.lenis,
@@ -50,156 +72,225 @@
         }
 
         body {
-            background:
-                radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 28%),
-                radial-gradient(circle at top right, rgba(15, 23, 42, 0.05), transparent 24%),
-                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
-            font-family: 'Libre Baskerville', sans-serif;
+            background-color: #ffffff;
+            color: #475569;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Image Sharpening */
-        img {
-            /* image-rendering: -webkit-optimize-contrast; */
-            /* image-rendering: crisp-edges; */
+        /* Subtle grid background mesh */
+        .bg-grid-mesh {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(37, 99, 235, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
         }
 
-        /* Header Transitions & Scrolling */
+        /* Glowing background highlights in light blue/sky shades */
+        .glow-orb {
+            filter: blur(130px);
+            opacity: 0.15;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Spotlight follower behind mouse (soft blue) */
+        .spotlight-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, rgba(14, 165, 233, 0.03) 60%, transparent 100%);
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Clean modern cards */
+        .glass-bento {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.04);
+            transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .glass-bento:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 20px 45px -10px rgba(37, 99, 235, 0.08);
+        }
+
+        .glass-bento::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(37, 99, 235, 0.06) 0%, rgba(14, 165, 233, 0.03) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Text mask reveal wrapper */
+        .text-mask {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .text-mask-span {
+            display: inline-block;
+            transform: translateY(100%);
+            will-change: transform;
+        }
+
+        /* Header scrolled transition */
         header {
-          
-            /* background-color:#76787e !important; */
-            transition: all 0.3s ease !important;
-        }
-        header a:not(.text-sky-600) {
-            color: #181818 !important;
-            transition: color 0.3s ease;
-        }
-        header a:not(.text-sky-600):hover {
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        header #mobile-contact-btn {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            color: #ffffff !important;
-            transition: all 0.3s ease;
-        }
-        header #mobile-contact-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2) !important;
-        }
-        header #menu-toggle {
-            border-color: rgba(255, 255, 255, 0.3) !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            transition: all 0.3s ease;
-        }
-        header #menu-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.2) !important;
-        }
-        header #menu-toggle span span {
-            background-color: #ffffff !important;
-            transition: background-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        header.header-scrolled {
-            /* background-color: transparent !important; */
-            backdrop-filter: blur(1px) !important;
-            -webkit-backdrop-filter: blur(1px) !important;
-            /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important; */
-            /* border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; */
-            padding-top: 0.75rem !important;
-            padding-bottom: 0.75rem !important;
+        header.header-scrolled > div {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border-color: rgba(37, 99, 235, 0.1) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.06);
         }
 
-        header.header-scrolled a:not(.text-sky-600) {
-            color: #0e0d0d !important;
+        /* Carousel Edge Fades */
+        .edge-fade-left {
+            background: linear-gradient(to right, #ffffff 0%, transparent 100%);
         }
-        header.header-scrolled a:not(.text-sky-600):hover {
-            color: #ffffff !important;
+        .edge-fade-right {
+            background: linear-gradient(to left, #ffffff 0%, transparent 100%);
         }
-        header.header-scrolled #mobile-contact-btn {
-            color: #1f201e !important;
-            /* border-color: rgba(0, 0, 0, 0.1) !important; */
-            /* background-color: rgba(255, 255, 255, 0.7) !important; */
+
+        /* Custom Marquee */
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
-        header.header-scrolled #mobile-contact-btn:hover {
-            background-color: rgba(255, 255, 255, 0.9) !important;
+        .animate-marquee {
+            animation: marquee 35s linear infinite;
         }
-        header.header-scrolled #menu-toggle {
-            border-color: rgba(0, 0, 0, 0.1) !important;
-            background-color: rgba(255, 255, 255, 0.7) !important;
+        .animate-marquee:hover {
+            animation-play-state: paused;
         }
-        header.header-scrolled #menu-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.9) !important;
+
+        /* 3D Browser Showcase Viewport Mockup */
+        .browser-mockup {
+            perspective: 2000px;
         }
-        header.header-scrolled #menu-toggle span span {
-            background-color: #1f201e !important;
+        .browser-mockup-inner {
+            transform: rotateY(-12deg) rotateX(8deg) rotateZ(1deg);
+            box-shadow: -20px 30px 60px -10px rgba(15, 23, 42, 0.12),
+                        0px 5px 20px -5px rgba(15, 23, 42, 0.05);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .browser-mockup:hover .browser-mockup-inner {
+            transform: rotateY(-5deg) rotateX(4deg) rotateZ(0deg);
+        }
+
+        /* Sticky scroll style elements */
+        .phone-frame {
+            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12),
+                        inset 0 0 0 8px #1e293b;
+        }
+        .active-split-nav {
+            border-left: 3px solid #2563eb;
+            background-color: rgba(37, 99, 235, 0.03);
+        }
+
+        .border-glow-blue:hover { border-color: rgba(37, 99, 235, 0.4); }
+        .border-glow-sky:hover { border-color: rgba(14, 165, 233, 0.4); }
     </style>
 </head>
 
-<body class="min-h-screen text-slate-900 antialiased overflow-x-hidden">
+<body class="min-h-screen text-slate-600 antialiased overflow-x-hidden bg-grid-mesh">
+
+    <!-- Interactive Cursor Follower -->
+    <div class="spotlight-follower" id="spotlight"></div>
+
+    <!-- Glowing Background Highlights (Pastel Blue tones) -->
+    <div class="absolute top-[5%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-blue-100/50 glow-orb -z-50"></div>
+    <div class="absolute top-[25%] right-[5%] w-[45vw] h-[45vw] rounded-full bg-sky-100/40 glow-orb -z-50"></div>
+    <div class="absolute top-[50%] left-[10%] w-[50vw] h-[50vw] rounded-full bg-blue-50/60 glow-orb -z-50"></div>
+    <div class="absolute top-[80%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-sky-50/50 glow-orb -z-50"></div>
+
     <!-- Header Section -->
-    <header
-        class="fixed left-0 top-0 z-50 w-full text-[#000] bg-transparent px-4 py-4 text-[#1f201e] backdrop-blur-[1px] lg:px-16 transition-all duration-300">
-        <div class="container mx-auto flex items-center justify-between gap-3">
+    <header class="fixed left-0 top-0 z-50 w-full px-4 py-6 lg:px-16">
+        <div class="container mx-auto max-w-7xl flex items-center justify-between rounded-full border border-slate-200 bg-white/60 px-6 py-3 shadow-sm backdrop-blur-md">
             <div class="flex items-center">
                 <a href="index.html">
                     <img id="header-logo" src="assests/logo1.png" alt="header logo"
-                        class="w-[70px] md:w-[90px] object-cover">
+                        class="w-[75px] md:w-[95px] object-contain">
                 </a>
             </div>
+            
             <div class="flex items-center gap-2 lg:hidden">
                 <a id="mobile-contact-btn" href="contact.html"
-                    class="rounded-full border border-black/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1f201e] shadow-sm transition-colors hover:bg-white sm:text-xs">
+                    class="rounded-full border border-blue-500/20 bg-blue-50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-600 shadow-sm transition-all hover:bg-blue-100 sm:text-xs">
                     Contact
                 </a>
                 <button id="menu-toggle"
-                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/70 shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-250 bg-white shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
                     <span class="relative block h-4 w-5">
                         <span id="menu-bar-1"
-                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-slate-800 transition-all duration-300"></span>
                         <span id="menu-bar-2"
-                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-slate-800 transition-all duration-300"></span>
                         <span id="menu-bar-3"
-                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-[#1f201e] transition-all duration-300"></span>
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-slate-800 transition-all duration-300"></span>
                     </span>
                 </button>
             </div>
+            
             <nav class="hidden font-bold lg:block">
-                <ul id="desktop-nav" class="flex gap-6">
-                    <li><a href="features.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Features</a>
-                    </li>
-                    <li><a href="pricing.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Pricing</a></li>
-                    <li><a href="gdpr.html" class="text-sm uppercase hover:opacity-90 lg:text-base">GDPR</a></li>
-                    <li><a href="blog.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Blog</a></li>
-                    <li><a href="academy.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Academy</a></li>
-                    <li><a href="contact.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Contact</a></li>
-                    <li><a href="login.html" class="text-sm uppercase hover:opacity-90 lg:text-base">Log in</a></li>
+                <ul id="desktop-nav" class="flex gap-8 text-xs uppercase tracking-[0.15em] text-slate-600">
+                    <li><a href="features.html" class="transition-colors hover:text-blue-600">Features</a></li>
+                    <li><a href="pricing.html" class="transition-colors hover:text-blue-600">Pricing</a></li>
+                    <li><a href="gdpr.html" class="transition-colors hover:text-blue-600">GDPR</a></li>
+                    <li><a href="blog.html" class="transition-colors hover:text-blue-600">Blog</a></li>
+                    <li><a href="academy.html" class="transition-colors hover:text-blue-600">Academy</a></li>
+                    <li><a href="contact.html" class="transition-colors hover:text-blue-600">Contact</a></li>
+                    <li><a href="login.html" class="transition-colors hover:text-blue-600">Log in</a></li>
                 </ul>
             </nav>
         </div>
-        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden">
-            <div
-                class="container mx-auto mt-3 rounded-3xl border border-black/10 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-                <ul id="mobile-nav" class="grid gap-2">
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden px-2">
+            <div class="container mx-auto mt-3 rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
+                <ul id="mobile-nav" class="grid gap-2 text-slate-700">
                     <li><a href="features.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Features</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Features</span><span
                                 class="text-slate-400">01</span></a></li>
                     <li><a href="pricing.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Pricing</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Pricing</span><span
                                 class="text-slate-400">02</span></a></li>
                     <li><a href="gdpr.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>GDPR</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>GDPR</span><span
                                 class="text-slate-400">03</span></a></li>
                     <li><a href="blog.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Blog</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Blog</span><span
                                 class="text-slate-400">04</span></a></li>
                     <li><a href="academy.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Academy</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Academy</span><span
                                 class="text-slate-400">05</span></a></li>
                     <li><a href="contact.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Contact</span><span
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Contact</span><span
                                 class="text-slate-400">06</span></a></li>
                     <li><a href="login.html"
-                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50"><span>Log
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-slate-50 hover:text-blue-600"><span>Log
                                 in</span><span class="text-slate-400">07</span></a></li>
                 </ul>
             </div>
@@ -208,745 +299,952 @@
 
     <main class="relative pt-24">
         <!-- Hero Section -->
-        <section id="hero-section"
-            class="relative min-h-screen overflow-hidden px-6 text-[#333] sm:px-10 lg:px-16 py-12 lg:py-0 flex items-center">
-            <!-- Background Image with Black Overlay -->
-            <div class="absolute inset-0 -z-20">
-                <img src="assests/images/hero4.png" alt="Hero Background" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-br from-[#000] via-[#4B4F07] to-[#4B4F07] opacity-60"></div>
-            </div>
-
-            <div class="mx-auto flex min-h-full container flex-col justify-center relative gap-12 lg:gap-16">
-                <div class="max-w-7xl space-y-6 mx-auto text-center pt-8 lg:pt-0">
-                    <h1 id="hero-title"
-                        class="text-4xl text-white font-black leading-[0.9] tracking-tight sm:text-7xl lg:text-[6.5rem]">
-                        StreakEye</h1>
-                    <h2 id="hero-tagline"
-                        class="text-xl text-sky-400 font-medium leading-none sm:text-4xl lg:text-5xl">
-                        Transforming Field Operations</h2>
+        <section id="hero-section" class="relative min-h-screen overflow-hidden px-6 sm:px-10 lg:px-16 py-12 lg:py-20 flex items-center">
+            
+            <div class="mx-auto max-w-7xl container grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center relative z-10">
+                
+                <!-- Left: Bold Typography and CTA -->
+                <div class="space-y-8 text-left max-w-2xl">
+                    <h1 class="text-6xl text-slate-900 font-black leading-[0.9] tracking-tight sm:text-7xl lg:text-8xl">
+                        <span class="text-mask"><span id="hero-title" class="text-mask-span">StreakEye</span></span>
+                    </h1>
+                    
+                    <h2 class="text-2xl font-bold tracking-tight sm:text-4xl lg:text-5xl leading-tight text-slate-800">
+                        <span class="text-mask"><span id="hero-tagline" class="text-mask-span bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 bg-clip-text text-transparent">Transforming Field Operations</span></span>
+                    </h2>
+                    
                     <p id="hero-description"
-                        class="text-sm md:text-base lg:text-lg leading-relaxed tracking-wide max-w-7xl mx-auto text-slate-100 font-medium opacity-90">
+                        class="text-sm md:text-base lg:text-lg leading-relaxed text-slate-500 font-medium">
                         Streakeye is a groundbreaking system that integrates data capturing, field resource monitoring,
                         and quality control, catering to industries like Market Research, Banking, and Client Servicing.
                         Its innovative approach enhances efficiency and accuracy in diverse field operations, delivering
                         exceptional results.
                     </p>
-                    <div class="flex flex-wrap gap-3 pt-4 items-center justify-center">
+                    
+                    <div class="flex flex-wrap gap-4 pt-4 items-center">
                         <button id="request-demo-btn"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-bold text-slate-950 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-xl active:scale-95">
+                            class="magnetic-btn inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 px-8 py-4 text-xs md:text-sm font-extrabold text-white shadow-[0_10px_35px_rgba(37,99,235,0.25)] transition-all hover:shadow-[0_15px_45px_rgba(37,99,235,0.4)] active:scale-95">
                             Request a Demo & Launch Your Pilot Project Today!
                         </button>
                         <a href="contact.html"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 active:scale-95">
+                            class="magnetic-btn inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 px-8 py-4 text-xs md:text-sm font-extrabold text-slate-700 shadow-sm transition-all active:scale-95">
                             Contact us
                         </a>
                     </div>
                 </div>
 
-                <div
-                    class="grid gap-6 p-6 sm:grid-cols-3 lg:flex lg:justify-between bottom-0 mx-auto text-center border border-white/20 bg-white/95 backdrop-blur-md rounded-3xl shadow-lg max-w-5xl w-full">
-                    <div
-                        class="flex flex-col items-center justify-center space-y-3 sm:border-r sm:border-slate-200 last:border-0 px-4">
-                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-sky-50">
-                            <img src="assests/icons/icon1.png" alt="icon1" class="h-6 w-6 object-contain">
+                <!-- Right: Premium 3D Perspective Browser Mockup Frame -->
+                <div class="browser-mockup w-full max-w-xl mx-auto lg:mx-0">
+                    <div class="browser-mockup-inner w-full aspect-[4/3] rounded-3xl border border-slate-200 bg-white p-2 shadow-2xl relative overflow-hidden bg-slate-50">
+                        
+                        <!-- Top browser bar -->
+                        <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-100 bg-white">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+                            <div class="h-4 w-40 bg-slate-100 rounded mx-auto flex items-center justify-center text-[7px] text-slate-400">streakeye.app/live-monitoring</div>
                         </div>
-                        <div class="space-y-1">
-                            <p class="font-bold text-slate-900">Data Collection</p>
-                            <p class="text-xs text-slate-600 leading-relaxed">Execute surveys for all modes (CAPI, CATI)
-                                seamlessly.</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex flex-col items-center justify-center space-y-3 sm:border-r sm:border-slate-200 last:border-0 px-4">
-                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-amber-50">
-                            <img src="assests/icons/icon2.png" alt="icon2" class="h-6 w-6 object-contain">
-                        </div>
-                        <div class="space-y-1">
-                            <p class="font-bold text-slate-900">Resource Management</p>
-                            <p class="text-xs text-slate-600 leading-relaxed">The best solution to manage your field
-                                resources quality.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center space-y-3 px-4">
-                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-rose-50">
-                            <img src="assests/icons/icon3.png" alt="icon3" class="h-6 w-6 object-contain">
-                        </div>
-                        <div class="space-y-1">
-                            <p class="font-bold text-slate-900">Quality Control</p>
-                            <p class="text-xs text-slate-600 leading-relaxed">Proactive alerts to ensure data collection
-                                accuracy.</p>
+
+                        <!-- Mock content space -->
+                        <div class="w-full h-[calc(100%-33px)] relative overflow-hidden flex items-center justify-center bg-white">
+                            <!-- Background Map lines -->
+                            <svg class="absolute inset-0 w-full h-full opacity-60" viewBox="0 0 500 360" fill="none">
+                                <path d="M50 280 Q 180 100 240 220 T 450 80" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
+                                <path id="route-path" d="M50 280 Q 180 100 240 220 T 450 80" stroke="#2563eb" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000"/>
+                                
+                                <circle cx="50" cy="280" r="6" fill="#1e3a8a" />
+                                <circle cx="240" cy="220" r="6" fill="#2563eb" />
+                                <circle cx="450" cy="80" r="6" fill="#0ea5e9" />
+                                
+                                <g id="gps-marker">
+                                    <circle r="16" fill="rgba(37, 99, 235, 0.15)" />
+                                    <circle r="7" fill="#2563eb" />
+                                    <circle r="3" fill="#fff" />
+                                </g>
+                            </svg>
+
+                            <!-- Mini floating status widget -->
+                            <div class="absolute bottom-6 left-6 bg-white/90 border border-slate-200/80 rounded-2xl p-4 shadow-xl backdrop-blur-md flex items-center gap-3">
+                                <span class="flex h-3 w-3 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                                </span>
+                                <div class="text-left">
+                                    <p class="text-[8px] uppercase font-bold text-slate-400 tracking-widest">Active Node</p>
+                                    <p class="text-xs font-bold text-slate-800">GPS LOCK - DATA STREAM OK</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="dashboard-preview" class="py-24 bg-slate-50/50 overflow-hidden">
-            <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-16 text-center">
-                <p
-                    class="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.02em] text-sky-700 shadow-sm">
-                    Enterprise Visibility
-                </p>
-                <h2 class="text-4xl font-black tracking-tight text-[#172554] sm:text-5xl mb-6">Real-time
-                    Analytics & Control</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg">Get a bird's-eye view of your entire
-                    operation with our intuitive and powerful dashboard system designed for maximum clarity.</p>
+        <!-- Brand Logo Ticker -->
+        <section id="marquee-section" class="py-12 bg-slate-50/50 border-y border-slate-100 overflow-hidden relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent"></div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent"></div>
+            
+            <div id="logos-track" class="flex w-max items-center gap-20 px-8 animate-marquee">
+                <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
+                
+                <!-- Duplicate items for endless loop -->
+                <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+                <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna" class="h-7 md:h-9 w-auto object-contain grayscale opacity-50" /></div>
+            </div>
+        </section>
+
+        <!-- Asymmetric Bento Grid Features Section -->
+        <section id="features-grid" class="py-28 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative z-20">
+            <div class="text-center mb-20 max-w-3xl mx-auto">
+                <span class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 shadow-sm mb-4">
+                    Core Solutions
+                </span>
+                <h2 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl leading-tight">
+                    Field Intelligence Redefined
+                </h2>
             </div>
 
-            <div class="relative w-full max-w-7xl mx-auto group">
-                <!-- Toggle Button -->
-                <div class="absolute -top-12 right-6 sm:right-10 lg:right-4 z-30">
-                    <!-- <button id="slider-toggle"
-                        class="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur transition-all hover:bg-white hover:shadow-md active:scale-95">
-                        <span id="toggle-icon" class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span id="toggle-text">Auto-Play On</span>
-                    </button> -->
+            <!-- Bento Layout -->
+            <div class="grid gap-8 md:grid-cols-3">
+                <!-- Bento Card 1: Data Collection (Tall Card) -->
+                <div class="glass-bento border-glow-blue rounded-3xl p-8 flex flex-col justify-between hover:scale-[1.02] aspect-[3/4]">
+                    <div class="space-y-6">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 shadow-sm">
+                            <img src="assests/icons/icon1.png" alt="icon1" class="h-6 w-6 object-contain">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-2xl tracking-tight">Data Collection</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed font-medium mt-3">Execute surveys for all modes (CAPI, CATI) seamlessly.</p>
+                        </div>
+                    </div>
+                    <!-- Card Visual Decoration -->
+                    <div class="relative w-full h-32 rounded-2xl border border-slate-100 bg-slate-50/50 p-2 overflow-hidden">
+                        <div class="w-full h-full flex flex-col justify-between text-[10px]">
+                            <div class="flex justify-between border-b border-slate-100 pb-1 font-bold text-slate-700">
+                                <span>Survey Mode</span>
+                                <span class="text-blue-500">CAPI Active</span>
+                            </div>
+                            <div class="space-y-1.5 py-2">
+                                <div class="w-full h-2 bg-slate-200 rounded overflow-hidden"><div class="h-full bg-blue-500 w-[78%]"></div></div>
+                                <div class="w-full h-2 bg-slate-200 rounded overflow-hidden"><div class="h-full bg-blue-500 w-[55%]"></div></div>
+                            </div>
+                            <div class="flex justify-between text-[8px] text-slate-400 uppercase font-bold">
+                                <span>Sync complete</span>
+                                <span>Updated 1m ago</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Bento Card 2: Resource Management (Tall Card) -->
+                <div class="glass-bento border-glow-sky rounded-3xl p-8 flex flex-col justify-between hover:scale-[1.02] aspect-[3/4]">
+                    <div class="space-y-6">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-sky-50 border border-sky-100 text-sky-600 shadow-sm">
+                            <img src="assests/icons/icon2.png" alt="icon2" class="h-6 w-6 object-contain">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-2xl tracking-tight">Resource Management</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed font-medium mt-3">The best solution to manage your field resources quality.</p>
+                        </div>
+                    </div>
+                    <!-- Card Visual Decoration -->
+                    <div class="relative w-full h-32 rounded-2xl border border-slate-100 bg-slate-50/50 p-3 overflow-hidden">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-600">8K+</div>
+                            <div class="text-left text-[10px]">
+                                <p class="font-bold text-slate-800">Resource Pool</p>
+                                <p class="text-slate-400">Verifiably Active</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <span class="w-4 h-4 rounded-full bg-blue-500"></span>
+                            <span class="w-4 h-4 rounded-full bg-sky-400"></span>
+                            <span class="w-4 h-4 rounded-full bg-slate-300"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento Card 3: Quality Control (Tall Card) -->
+                <div class="glass-bento border-glow-blue rounded-3xl p-8 flex flex-col justify-between hover:scale-[1.02] aspect-[3/4]">
+                    <div class="space-y-6">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 shadow-sm">
+                            <img src="assests/icons/icon3.png" alt="icon3" class="h-6 w-6 object-contain">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-2xl tracking-tight">Quality Control</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed font-medium mt-3">Proactive alerts to ensure data collection accuracy.</p>
+                        </div>
+                    </div>
+                    <!-- Card Visual Decoration -->
+                    <div class="relative w-full h-32 rounded-2xl border border-slate-100 bg-slate-50/50 p-2 overflow-hidden flex flex-col justify-center">
+                        <div class="border border-red-100 bg-red-50/60 rounded-xl p-2.5 flex items-center gap-2 mb-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                            <span class="text-[9px] text-red-700 font-bold">ALERT - Geo Verification Failed</span>
+                        </div>
+                        <div class="border border-green-100 bg-green-50/60 rounded-xl p-2.5 flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                            <span class="text-[9px] text-green-700 font-bold">OK - Data Integrity Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Product Carousel Showcase -->
+        <section id="dashboard-preview" class="py-24 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
+            <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-16 text-center">
+                <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-blue-600 shadow-sm">
+                    Enterprise Visibility
+                </span>
+                <h2 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+                    Real-time Analytics & Control
+                </h2>
+                <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base font-medium leading-relaxed">
+                    Get a bird's-eye view of your entire operation with our intuitive and powerful dashboard system designed for maximum clarity.
+                </p>
+            </div>
+
+            <!-- Slideshow Slider Container -->
+            <div class="relative w-full max-w-6xl mx-auto group px-4 sm:px-6">
                 <!-- Navigation Buttons -->
                 <button id="prev-slide"
-                    class="absolute left-4 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-lg backdrop-blur transition-all hover:bg-white hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="w-6 h-6">
+                    class="absolute -left-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-blue-600 shadow-xl transition-all hover:bg-slate-50 hover:scale-105 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-blue-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                 </button>
+                
                 <button id="next-slide"
-                    class="absolute right-4 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-lg backdrop-blur transition-all hover:bg-white hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="w-6 h-6">
+                    class="absolute -right-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-blue-600 shadow-xl transition-all hover:bg-slate-50 hover:scale-105 active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-blue-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                 </button>
 
-                <!-- Edge Fades -->
-                <div
-                    class="pointer-events-none absolute inset-y-0 left-0 z-20 w-8 bg-gradient-to-r from-[#f8fbff] to-transparent sm:w-16 lg:w-24">
-                </div>
-                <div
-                    class="pointer-events-none absolute inset-y-0 right-0 z-20 w-8 bg-gradient-to-l from-[#f8fbff] to-transparent sm:w-16 lg:w-24">
-                </div>
-
+                <!-- Slides Track -->
                 <div id="dashboard-track"
-                    class="relative flex overflow-x-auto no-scrollbar gap-4 sm:gap-6 px-4 sm:px-10 lg:px-4 pb-8 snap-x snap-mandatory"
-                    style="-ms-overflow-style: none; scrollbar-width: none;">
-                    <!-- Slides -->
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    class="relative flex overflow-x-auto no-scrollbar gap-6 px-4 pb-8 snap-x snap-mandatory"
+                    style="-ms-overflow-style: none; scrollbar-width: none; scroll-snap-type: x mandatory;">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow1.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow1.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[1050px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow2.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow2.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow3.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow3.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow4.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow4.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow5.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow5.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="dashboard-slide w-[85vw] md:w-[70vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div
-                            class="aspect-[15/7] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-xl border border-white/50 bg-white p-1.5 sm:p-2 transition-transform duration-500 hover:scale-[1.01]">
-                            <img src="assests/dashboard/streakeye slideshow7.png" alt="Dashboard"
-                                class="rounded-xl sm:rounded-[1.5rem] w-full h-full object-cover">
+                    
+                    <div class="dashboard-slide w-[80vw] md:w-[60vw] lg:w-[800px] flex-shrink-0 snap-center">
+                        <div class="aspect-[16/8] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-white p-2">
+                            <img src="assests/dashboard/streakeye slideshow7.png" alt="Dashboard Slide" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Work With Section -->
-        <section id="work-with-section"
-            class="relative isolate overflow-hidden px-6 py-16 sm:px-10 lg:px-16 min-h-screen flex items-center">
-            <div data-workwith-background
-                class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,193,7,0.22),transparent_34%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.18),transparent_34%),linear-gradient(180deg,#fffaf1_0%,#fff6e6_42%,#eef7ff_100%)]">
-            </div>
-            <div
-                class="pointer-events-none absolute -left-24 top-24 -z-10 h-72 w-72 rounded-full bg-[#f59e0b]/18 blur-3xl">
-            </div>
-            <div
-                class="pointer-events-none absolute -right-16 bottom-0 -z-10 h-80 w-80 rounded-full bg-[#2563eb]/16 blur-3xl">
-            </div>
-
-            <div class="relative z-10 mx-auto max-w-7xl w-full">
-                <!-- LOGOS -->
-                <div id="workwith-logos" class="mb-16">
-                    <div class="relative w-full overflow-hidden py-6 backdrop-blur-sm">
-                        <div
-                            class="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#fffaf1] to-transparent sm:w-24">
-                        </div>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#fffaf1] to-transparent sm:w-24">
-                        </div>
-                        <div id="logos-track"
-                            class="flex w-max items-center gap-12 sm:gap-16 px-8 bg-white/60 p-4 rounded-full shadow-sm border border-white/50">
-                            <!-- Logos content remains the same but with responsive height -->
-                            <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <!-- Duplicated -->
-                            <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/audience.png" alt="Audience"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/eigma.png" alt="Eigma"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/espl.png" alt="ESPL"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/impact.jpg" alt="Impact"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/imrb.png" alt="IMRB"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/ipsos.png" alt="Ipsos"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/kantar.png" alt="Kantar"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/metrixlab.png" alt="Metrixlab"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/nielsen.png" alt="Nielsen"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/raay.png" alt="Raay"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                            <div class="flex-shrink-0"><img src="logos/toluna.png" alt="Toluna"
-                                    class="h-6 sm:h-8 md:h-12 w-auto object-contain" /></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="max-w-4xl">
-                    <p id="workwith-eyebrow"
-                        class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#ffd166]/60 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#d97706] shadow-sm backdrop-blur sm:text-xs">
-                        Operations, sales, and research control</p>
+        <!-- Premium Split-Screen Scrolling Feature Showcase -->
+        <section id="work-with-section" class="relative max-w-7xl mx-auto px-6 py-28 sm:px-10 lg:px-16 bg-gradient-to-b from-white via-blue-50/10 to-white">
+            <div class="relative z-10 w-full">
+                
+                <!-- Eyebrow, Header -->
+                <div class="max-w-4xl mb-24">
+                    <span id="workwith-eyebrow"
+                        class="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-blue-600 shadow-sm sm:text-xs">
+                        Operations, sales, and research control
+                    </span>
                     <h2 id="workwith-title"
-                        class="max-w-5xl text-3xl font-black tracking-tight text-[#172554] sm:text-5xl lg:text-6xl">One
-                        operating layer for teams that need visibility, speed, and control.</h2>
+                        class="max-w-5xl text-3xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-[1.1]">
+                        One operating layer for teams that need visibility, speed, and control.
+                    </h2>
                     <p id="workwith-description"
-                        class="mt-6 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base lg:text-lg">
+                        class="mt-6 max-w-3xl text-sm leading-relaxed text-slate-500 sm:text-base lg:text-lg font-medium">
                         Use a single workspace to coordinate jobs, surveys, field teams, reports, and customer
-                        interactions while keeping the workflow cost-efficient and data driven.</p>
-                </div>
-                <!-- DESKTOP STACK -->
-                <div id="workwith-cards" class="relative mt-14 hidden h-[75vh] md:block">
-                    <!-- Cards content remains the same but with responsive padding and font sizes -->
-                    <article data-workwith-card data-accent="#f59e0b"
-                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
-                        style="z-index:1;">
-                       
-                        
-                           <div
-                            class="about-prop pointer-events-none absolute -right-20 top-1/2 -z-10  -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6]">
-                            <img src="assests/images/hero2.jpg" alt=""
-                                class="rounded-[3rem] shadow-2xl">
-                        </div>
-                        <div class="absolute inset-x-0 top-0 h-1.5"
-                            style="background: linear-gradient(90deg, #062b92, #f97316, #2563eb);"></div>
-                        <p data-workwith-reveal
-                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-100">Operations</p>
-                        <h3 class="mt-4 text-4xl font-black text-slate-900">
-                            <span data-workwith-char>O</span><span data-workwith-char>p</span><span
-                                data-workwith-char>e</span><span data-workwith-char>r</span><span
-                                data-workwith-char>a</span><span data-workwith-char>t</span><span
-                                data-workwith-char>i</span><span data-workwith-char>o</span><span
-                                data-workwith-char>n</span><span data-workwith-char>s</span>
-                        </h3>
-                        <p data-workwith-reveal
-                            class="mt-6 text-base leading-relaxed text-slate-800 font-medium max-w-2xl">Operations can be optimized by utilizing the available resource, improving productivity, and lowering the cost. One can easily track and schedule the job status, Quotations, Parts, Inventory, AMCs, Service Reports, Invoices, and Feedback in a cost-efficient manner in coordination with a proven enterprise-scale CRM.</p>
-                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Location tracking and task status</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Appoint or reject survey tasks</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Geo verification for task
-                                    completion</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Report aggregation</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Data visualization</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Data on demand</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f59e0b"></span><span
-                                    class="text-sm font-medium text-slate-700">Adjudge decision-making via real time
-                                    tools and data.</span>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- ... Sales & Marketing and Market Research cards similarly updated ... -->
-                    <article data-workwith-card data-accent="#2563eb"
-                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
-                        style="z-index:2;">
-                        <div
-                            class="about-prop pointer-events-none absolute left-0 top-1/2 -z-10  -translate-y-1/2 rotate-[12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6]">
-                            <img src="assests/images/hero.jpg" alt=""
-                                class="rounded-[3rem] shadow-2xl">
-                        </div>
-                        <div class="absolute inset-x-0 top-0 h-1.5"
-                            style="background: linear-gradient(90deg, #2563eb, #f97316, #2563eb);"></div>
-                        <p data-workwith-reveal
-                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Sales & Marketing
-                        </p>
-                        <h3 class="mt-4 text-4xl font-black text-slate-900">
-                            <span data-workwith-char>S</span><span data-workwith-char>a</span><span
-                                data-workwith-char>l</span><span data-workwith-char>e</span><span
-                                data-workwith-char>s</span><span data-workwith-char>&nbsp;</span><span
-                                data-workwith-char>&</span><span data-workwith-char>&nbsp;</span><span
-                                data-workwith-char>M</span><span data-workwith-char>a</span><span
-                                data-workwith-char>r</span><span data-workwith-char>k</span><span
-                                data-workwith-char>e</span><span data-workwith-char>t</span><span
-                                data-workwith-char>i</span><span data-workwith-char>n</span><span
-                                data-workwith-char>g</span>
-                        </h3>
-                        <p data-workwith-reveal
-                            class="mt-6 text-base leading-relaxed text-slate-700 font-medium max-w-2xl">For organizations with remote labor force groups like sales, support, and others, FSMS is the most appropriate item to evaluate and expand workers and generally speaking association's efficiency with the continuous information for strategic and key decisions.</p>
-                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#2563eb"></span><span
-                                    class="text-sm font-medium text-slate-700">Monitor productivity</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#2563eb"></span><span
-                                    class="text-sm font-medium text-slate-700">Track meetings & real-time
-                                    location</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#2563eb"></span><span
-                                    class="text-sm font-medium text-slate-700">Geo-confirmed verification of
-                                    visits</span>
-                            </div>
-                        </div>
-                    </article>
-                    <article data-workwith-card data-accent="#f97316"
-                        class="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/80 p-10 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur"
-                        style="z-index:3;">
-                        <!-- <div class="bg-[#000]/30 absolute left-0 top-0 w-full h-full "></div> -->
-                        <div
-                            class="about-prop pointer-events-none absolute left-0 translate-x-1/2 right-10 top-1/2 -z-10  -translate-y-1/2 rotate-[-12deg] opacity-[0.08] blur-[1px] lg:opacity-[0.6] ">
-                            <img src="assests/images/hero2.jpg" alt=""
-                                class="rounded-[3rem] shadow-2xl">
-                        </div>
-                        <div class="absolute inset-x-0 top-0 h-1.5"
-                            style="background: linear-gradient(90deg, #062b92, #f97316, #2563eb);"></div>
-                        <p data-workwith-reveal
-                            class="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Market Research</p>
-                        <h3 class="mt-4 text-4xl font-black text-slate-900">
-                            <span data-workwith-char>M</span><span data-workwith-char>a</span><span
-                                data-workwith-char>r</span><span data-workwith-char>k</span><span
-                                data-workwith-char>e</span><span data-workwith-char>t</span><span
-                                data-workwith-char>&nbsp;</span><span data-workwith-char>R</span><span
-                                data-workwith-char>e</span><span data-workwith-char>s</span><span
-                                data-workwith-char>e</span><span data-workwith-char>a</span><span
-                                data-workwith-char>r</span><span data-workwith-char>c</span><span
-                                data-workwith-char>h</span>
-                        </h3>
-                        <p data-workwith-reveal
-                            class="mt-6 text-base leading-relaxed text-slate-500 font-medium max-w-2xl">Our live tracking, live streaming, notice board, total productive hours and reports, location-based attendance, and alert management features have been altered from their outmoded methods in handling the interviewer workforce. Data captured and spawned out from these features have assisted our Researchers in taking key decisions regarding smart field planning and efficiently serving their end customers.</p>
-                        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f97316"></span><span
-                                    class="text-sm font-medium text-slate-700">Location tracking and enquiring survey and task statusInstinctive dashboards and reports (XML, SPSS)</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f97316"></span><span
-                                    class="text-sm font-medium text-slate-700">Measure efficiency</span>
-                            </div>
-                            <div data-workwith-reveal
-                                class="flex gap-4 rounded-2xl border border-slate-200/50 bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white">
-                                <span class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                                    style="background:#f97316"></span><span
-                                    class="text-sm font-medium text-slate-700">Incorporates with your current programming platforms like (google forms, confirmit, Surveyto go Etc..)</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <!-- MOBILE -->
-                <div id="workwith-mobile" class="mt-12 grid gap-6 md:hidden">
-                    <article data-workwith-mobile-card
-                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
-                        <div class="mb-5 h-1.5 rounded-full w-24"
-                            style="background: linear-gradient(90deg, #f59e0b, #f97316);"></div>
-                        <h3 class="text-2xl font-black text-slate-900">Operations</h3>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">Operations can be optimized
-                            by utilizing the available
-                            resource, improving productivity, and lowering the cost. Easily track job status,
-                            quotations, inventory, and feedback in a cost-efficient manner.</p>
-                    </article>
-                    <article data-workwith-mobile-card
-                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
-                        <div class="mb-5 h-1.5 rounded-full w-24"
-                            style="background: linear-gradient(90deg, #2563eb, #f97316);"></div>
-                        <h3 class="text-2xl font-black text-slate-900">Sales & Marketing</h3>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">For organizations with remote
-                            labor force groups, evaluate and expand worker productivity with continuous information for
-                            strategic decisions.</p>
-                    </article>
-                    <article data-workwith-mobile-card
-                        class="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-sm">
-                        <div class="mb-5 h-1.5 rounded-full w-24"
-                            style="background: linear-gradient(90deg, #f97316, #2563eb);"></div>
-                        <h3 class="text-2xl font-black text-slate-900">Market Research</h3>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-700 font-medium">Live tracking, streaming, and
-                            reporting help researchers make decisions for smart field planning and stronger client
-                            service.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about-section"
-            class="relative isolate overflow-hidden px-6 py-20 text-[#17324d] sm:px-10 lg:px-16 flex items-center min-h-screen">
-            <!-- Background Orbs - Adjusted for mobile -->
-            <div
-                class="about-orb pointer-events-none absolute left-[5%] top-[15%] -z-10 h-24 w-24 rounded-full bg-[#f59e0b]/20 blur-2xl sm:h-28 sm:w-28">
-            </div>
-            <div
-                class="about-orb pointer-events-none absolute right-[5%] top-[10%] -z-10 h-28 w-28 rounded-full bg-[#38bdf8]/18 blur-3xl sm:h-36 sm:w-36">
-            </div>
-
-            <div
-                class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,0.18),transparent_54%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(248,113,113,0.12),transparent_28%),linear-gradient(180deg,#fffdf7_0%,#f5fbff_100%)]">
-            </div>
-
-            <!-- Responsive Dashboard Props -->
-            <div
-                class="about-prop pointer-events-none absolute -right-16 top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[2px] sm:w-[500px] lg:right-[-5%] lg:opacity-[0.4]">
-                <img src="assests/dashboard/streakeye slideshow1.png" alt="" class="rounded-[2.5rem] shadow-2xl">
-            </div>
-            <div
-                class="about-prop pointer-events-none absolute -left-16 top-1/4 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[2px] sm:w-[500px] lg:left-10 lg:top-1/3 lg:opacity-[0.6]">
-                <img src="assests/dashboard/streakeye slideshow5.png" alt="" class="rounded-[2.5rem] shadow-2xl">
-            </div>
-
-            <div class="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center w-full">
-                <div class="max-w-3xl">
-                    <p
-                        class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/65 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.28em] text-[#7c5b00] shadow-sm backdrop-blur sm:text-xs">
-                        Built for calm, fast workflows
+                        interactions while keeping the workflow cost-efficient and data driven.
                     </p>
-                    <h2 id="about-title"
-                        class="text-4xl font-black tracking-tight text-[#12324d] sm:text-6xl lg:text-7xl">
-                        About our app</h2>
-                    <p id="about-lead"
-                        class="mt-6 max-w-2xl text-sm leading-relaxed text-[#172554] font-medium sm:text-lg">
-                        A clean surface for field teams and operations leaders, designed to keep the important signal
-                        visible while motion stays in the background.
-                    </p>
-                    <div id="about-facts-top" class="mt-8 flex flex-wrap gap-2 sm:gap-3">
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Accessible
-                            on all devices</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Limitless
-                            reviews & surveys</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Offline
-                            survey app</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Real-time
-                            feedback tracking</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Remotely
-                            tracking feedback devices
-                            feedback tracking</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Operates
-                            without Wi-Fi</span>
-                        <span
-                            class="rounded-full border border-white/75 bg-white/80 px-4 py-2 text-[10px] font-bold text-slate-700 shadow-md backdrop-blur sm:text-xs">Be
-                            acquainted with accurate status of report and statistics.</span>
+                </div>
+
+                <!-- Splitscreen Interactive Area -->
+                <div class="grid lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-start">
+                    
+                    <!-- Left: Sticky Device Mockup Viewport with floating dashboard widgets -->
+                    <div class="sticky top-28 hidden lg:flex items-center justify-center py-12 px-6">
+                        <div class="relative w-full max-w-xs flex justify-center">
+                            
+                            <!-- Widget 1: Top-Left (Sync Efficiency) -->
+                            <div class="absolute -top-10 -left-16 bg-white/95 border border-slate-200/80 p-4 rounded-2xl shadow-xl w-44 z-30 flex flex-col gap-1.5 hover:-translate-y-1 transition-transform duration-300">
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Sync Efficiency</p>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-lg font-extrabold text-slate-800">99.8%</span>
+                                    <span class="text-[7px] text-green-600 font-bold flex items-center gap-0.5">▲ 2.4%</span>
+                                </div>
+                                <!-- Micro graph bars -->
+                                <div class="flex gap-1 items-end h-5 pt-1">
+                                    <div class="w-full bg-blue-100 rounded-sm h-[30%]"></div>
+                                    <div class="w-full bg-blue-100 rounded-sm h-[50%]"></div>
+                                    <div class="w-full bg-blue-200 rounded-sm h-[65%]"></div>
+                                    <div class="w-full bg-blue-500 rounded-sm h-[90%] animate-pulse"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Widget 2: Bottom-Right (Active Workers) -->
+                            <div class="absolute -bottom-10 -right-16 bg-white/95 border border-slate-200/80 p-4 rounded-2xl shadow-xl w-44 z-30 flex flex-col gap-1.5 hover:-translate-y-1 transition-transform duration-300">
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Active Workers</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-lg font-extrabold text-slate-800">1,204</span>
+                                    <span class="text-[7px] bg-blue-50 text-blue-600 font-extrabold px-1.5 py-0.5 rounded-full">ACTIVE</span>
+                                </div>
+                                <div class="flex -space-x-1.5 overflow-hidden py-1">
+                                    <span class="inline-flex h-4.5 w-4.5 rounded-full ring-2 ring-white bg-blue-600 text-[7px] font-bold text-white items-center justify-center">MV</span>
+                                    <span class="inline-flex h-4.5 w-4.5 rounded-full ring-2 ring-white bg-sky-500 text-[7px] font-bold text-white items-center justify-center">TL</span>
+                                    <span class="inline-flex h-4.5 w-4.5 rounded-full ring-2 ring-white bg-slate-800 text-[7px] font-bold text-white items-center justify-center">AN</span>
+                                    <span class="inline-flex h-4.5 w-4.5 rounded-full ring-2 ring-white bg-slate-100 text-[7px] font-bold text-slate-500 items-center justify-center">+4</span>
+                                </div>
+                            </div>
+
+                            <!-- Widget 3: Middle-Left (Geo-Fence Lock) -->
+                            <div class="absolute top-1/2 -translate-y-1/2 -left-20 bg-blue-600 border border-blue-500 text-white py-2 px-3 rounded-2xl shadow-xl flex items-center gap-2 max-w-[125px] z-30 hover:-translate-y-1 transition-transform duration-300">
+                                <span class="flex h-1.5 w-1.5 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-200 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+                                </span>
+                                <span class="text-[7px] font-extrabold tracking-wider uppercase leading-none">Geo-Lock OK</span>
+                            </div>
+
+                            <!-- Central Phone Mockup -->
+                            <div class="phone-frame w-[270px] aspect-[9/19] rounded-[3.2rem] bg-slate-900 p-3 relative shadow-2xl border-4 border-slate-800 z-20">
+                                <!-- Speaker / Camera Notch -->
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-b-xl z-30"></div>
+                                
+                                <!-- Internal Device Screens -->
+                                <div class="w-full h-full rounded-[2.5rem] bg-slate-50 overflow-hidden relative">
+                                    
+                                    <!-- Screen Content 1: Operations Mapping -->
+                                    <div id="phone-screen-1" class="absolute inset-0 bg-white transition-opacity duration-500 flex flex-col">
+                                        <!-- Mobile Status bar -->
+                                        <div class="flex justify-between items-center px-6 pt-3 pb-1 text-[8px] font-bold text-slate-400 bg-white z-20">
+                                            <span>09:41</span>
+                                            <div class="flex items-center gap-1">
+                                                <span>5G</span>
+                                                <span class="w-3.5 h-1.5 border border-slate-300 rounded-sm flex items-center p-0.5"><span class="h-full w-2 bg-slate-400 rounded-2xs"></span></span>
+                                            </div>
+                                        </div>
+                                        <!-- App Header -->
+                                        <div class="px-4 py-2 border-b border-slate-100 bg-white flex items-center justify-between z-20">
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                                                <span class="text-[9px] font-bold text-slate-800 uppercase tracking-wider">Field Operations</span>
+                                            </div>
+                                            <span class="text-[7px] bg-blue-50 text-blue-600 font-extrabold px-1.5 py-0.5 rounded-full font-bold">LIVE</span>
+                                        </div>
+                                        <!-- Interactive Center -->
+                                        <div class="flex-1 relative overflow-hidden bg-slate-50 flex flex-col justify-between p-3">
+                                            <!-- Map Background -->
+                                            <div class="absolute inset-0 z-0">
+                                                <img src="assests/images/tracking.jpg" alt="Map tracking" class="w-full h-full object-cover opacity-80 animate-pulse">
+                                                <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                                            </div>
+                                            
+                                            <!-- Pulsing Pin Marker Overlays -->
+                                            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                                                <span class="flex h-6 w-6 relative">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-6 w-6 bg-blue-600 items-center justify-center border-2 border-white shadow-md">
+                                                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <!-- Floating Task card at bottom -->
+                                            <div class="bg-white/95 border border-slate-200/50 rounded-2xl p-3 shadow-lg backdrop-blur-md z-10 mt-auto space-y-1.5">
+                                                <div class="flex justify-between items-center">
+                                                    <span class="text-[7px] font-extrabold text-blue-600 uppercase tracking-widest">Active Audit</span>
+                                                    <span class="text-[6px] text-slate-400">ID: 88402</span>
+                                                </div>
+                                                <div>
+                                                    <p class="text-[9px] font-bold text-slate-800 leading-none">CAPI Agent Sync</p>
+                                                    <p class="text-[7px] text-slate-500 mt-1">Task: Location Survey & Sync</p>
+                                                </div>
+                                                <div class="flex items-center justify-between text-[7px] border-t border-slate-100 pt-1.5 text-slate-400 font-bold">
+                                                    <span>Status: ONLINE</span>
+                                                    <span>1.2km away</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Screen Content 2: Attendance checklist -->
+                                    <div id="phone-screen-2" class="absolute inset-0 bg-white transition-opacity duration-500 opacity-0 flex flex-col">
+                                        <!-- Mobile Status bar -->
+                                        <div class="flex justify-between items-center px-6 pt-3 pb-1 text-[8px] font-bold text-slate-400 bg-white z-20">
+                                            <span>09:41</span>
+                                            <div class="flex items-center gap-1">
+                                                <span>5G</span>
+                                                <span class="w-3.5 h-1.5 border border-slate-300 rounded-sm flex items-center p-0.5"><span class="h-full w-2 bg-slate-400 rounded-2xs"></span></span>
+                                            </div>
+                                        </div>
+                                        <!-- App Header -->
+                                        <div class="px-4 py-2 border-b border-slate-100 bg-white flex items-center justify-between z-20">
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                                                <span class="text-[9px] font-bold text-slate-800 uppercase tracking-wider">FSMS Scheduler</span>
+                                            </div>
+                                            <span class="text-[7px] bg-sky-50 text-sky-600 font-extrabold px-1.5 py-0.5 rounded-full font-bold">VISITS</span>
+                                        </div>
+                                        <!-- Interactive Center -->
+                                        <div class="flex-1 bg-white p-3 flex flex-col justify-between overflow-hidden">
+                                            <div class="space-y-2.5">
+                                                <div class="flex justify-between items-center border-b border-slate-100 pb-1.5 text-[8px] text-slate-400 uppercase font-bold tracking-wider">
+                                                    <span>Today's Targets</span>
+                                                    <span class="text-sky-600">2/3 Done</span>
+                                                </div>
+                                                <!-- Checklist items -->
+                                                <div class="space-y-1.5">
+                                                    <div class="flex items-center justify-between bg-slate-50 rounded-lg p-2 border border-slate-100">
+                                                        <div class="flex items-center gap-2">
+                                                            <span class="w-4.5 h-4.5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[7px] font-bold">✓</span>
+                                                            <span class="text-[9px] font-bold text-slate-700">Kantar Sync Vis</span>
+                                                        </div>
+                                                        <span class="text-[7px] text-slate-400 font-bold">10:00 AM</span>
+                                                    </div>
+                                                    <div class="flex items-center justify-between bg-slate-50 rounded-lg p-2 border border-slate-100">
+                                                        <div class="flex items-center gap-2">
+                                                            <span class="w-4.5 h-4.5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[7px] font-bold">✓</span>
+                                                            <span class="text-[9px] font-bold text-slate-700">Nielsen Hub Check</span>
+                                                        </div>
+                                                        <span class="text-[7px] text-slate-400 font-bold">01:30 PM</span>
+                                                    </div>
+                                                    <div class="flex items-center justify-between bg-blue-50/50 rounded-lg p-2 border border-blue-100">
+                                                        <div class="flex items-center gap-2">
+                                                            <span class="w-4.5 h-4.5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[8px] font-bold animate-pulse">●</span>
+                                                            <span class="text-[9px] font-bold text-blue-700">Ipsos Survey Sync</span>
+                                                        </div>
+                                                        <span class="text-[7px] text-blue-600 font-extrabold">04:00 PM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Verified Attendance thumbnail -->
+                                            <div class="relative rounded-xl border border-slate-150 p-2 bg-slate-50 flex items-center gap-2">
+                                                <img src="assests/images/fsms-attendance5.jpg" alt="Verify signature" class="w-8 h-8 rounded object-cover border border-slate-200">
+                                                <div class="text-left text-[7px]">
+                                                    <p class="font-bold text-slate-700 leading-tight">Attendance Photo</p>
+                                                    <p class="text-[6px] text-slate-400 mt-0.5">Signed: Active Location</p>
+                                                </div>
+                                                <span class="ml-auto text-[7px] bg-green-100 text-green-700 font-extrabold px-1 py-0.5 rounded">PASSED</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Screen Content 3: Survey Charts -->
+                                    <div id="phone-screen-3" class="absolute inset-0 bg-white transition-opacity duration-500 opacity-0 flex flex-col">
+                                        <!-- Mobile Status bar -->
+                                        <div class="flex justify-between items-center px-6 pt-3 pb-1 text-[8px] font-bold text-slate-400 bg-white z-20">
+                                            <span>09:41</span>
+                                            <div class="flex items-center gap-1">
+                                                <span>5G</span>
+                                                <span class="w-3.5 h-1.5 border border-slate-300 rounded-sm flex items-center p-0.5"><span class="h-full w-2 bg-slate-450 rounded-2xs"></span></span>
+                                            </div>
+                                        </div>
+                                        <!-- App Header -->
+                                        <div class="px-4 py-2 border-b border-slate-100 bg-white flex items-center justify-between z-20">
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-slate-900"></span>
+                                                <span class="text-[9px] font-bold text-slate-800 uppercase tracking-wider">Research Analytics</span>
+                                            </div>
+                                            <span class="text-[7px] bg-slate-100 text-slate-600 font-extrabold px-1.5 py-0.5 rounded-full">XML</span>
+                                        </div>
+                                        <!-- Interactive Center -->
+                                        <div class="flex-1 bg-slate-50 p-3 flex flex-col justify-between overflow-hidden">
+                                            <div class="space-y-2.5">
+                                                <!-- Dial Graph -->
+                                                <div class="bg-white border border-slate-200/50 rounded-xl p-2.5 flex items-center justify-between">
+                                                    <div class="text-left">
+                                                        <p class="text-[7px] text-slate-400 font-bold uppercase">Sync Completion</p>
+                                                        <p class="text-base font-black text-slate-800">72.4%</p>
+                                                    </div>
+                                                    <!-- Simulated Circle loader -->
+                                                    <div class="relative w-8 h-8 flex items-center justify-center">
+                                                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                                            <path class="text-slate-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                                            <path class="text-blue-500" stroke-dasharray="72, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                                    </svg>
+                                                    <span class="absolute text-[7px] font-bold text-slate-600">72%</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Image of dataset graph -->
+                                            <div class="relative rounded-xl border border-slate-200/60 overflow-hidden bg-white p-1">
+                                                <img src="assests/images/fsms-projectData3.jpg" alt="Data streams details" class="w-full h-14 object-cover rounded-lg">
+                                            </div>
+                                        </div>
+
+                                        <!-- Sync Logs at the bottom -->
+                                        <div class="bg-slate-900 rounded-lg p-2 font-mono text-[6px] text-blue-400 leading-tight space-y-0.5 text-left">
+                                            <p class="text-[5px] text-slate-500 font-bold uppercase">STREAM LOGS</p>
+                                            <p>> XML schema verified</p>
+                                            <p>> SPSS data points ... OK</p>
+                                            <p>> Syncing node #44 ... OK</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="about-kpis" class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                    <article data-about-card
-                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
-                        <div class="mb-4 flex items-center justify-between"><span
-                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">01</span><span
-                                class="h-2 w-2 rounded-full bg-amber-400"></span>
-                        </div>
-                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="125"
-                            data-suffix="K+">0K+</p>
-                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Downloads</p>
-                    </article>
-                    <article data-about-card
-                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
-                        <div class="mb-4 flex items-center justify-between"><span
-                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">02</span><span
-                                class="h-2 w-2 rounded-full bg-sky-400"></span>
-                        </div>
-                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="8"
-                            data-suffix="K+">0K+</p>
-                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Active Users</p>
-                    </article>
-                    <article data-about-card
-                        class="group rounded-3xl border border-white/80 bg-white/85 p-6 shadow-xl backdrop-blur-sm transition-all hover:-translate-y-1 hover:shadow-2xl">
-                        <div class="mb-4 flex items-center justify-between"><span
-                                class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">03</span><span
-                                class="h-2 w-2 rounded-full bg-rose-400"></span>
-                        </div>
-                        <p class="stat-number text-4xl font-black tracking-tight text-[#10324b]" data-target="4.8"
-                            data-suffix="+">0+</p>
-                        <p class="mt-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Rating</p>
-                    </article>
+                    <!-- Right: Scrolling Detail Cards -->
+                    <div id="workwith-cards-list" class="space-y-16 lg:space-y-24">
+                        
+                        <!-- Operations Card -->
+                        <article data-workwith-card-ref="1" class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 sm:p-10 shadow-sm transition-all duration-300 pl-12 sm:pl-16 hover:border-blue-200">
+                            <!-- Left dynamic timeline progress bar -->
+                            <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-100 rounded-l-[2rem] overflow-hidden">
+                                <div class="h-0 bg-blue-600 w-full card-progress-bar"></div>
+                            </div>
+                            
+                            <!-- Large Background Card Number Indicator -->
+                            <div class="absolute right-8 top-6 text-7xl font-black text-slate-100 select-none pointer-events-none">01</div>
+                            
+                            <span class="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Operations</span>
+                            <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Operations</h3>
+                            <p class="mt-6 text-sm leading-relaxed text-slate-500 font-medium">
+                                Operations can be optimized by utilizing the available resource, improving productivity, and lowering the cost. One can easily track and schedule the job status, Quotations, Parts, Inventory, AMCs, Service Reports, Invoices, and Feedback in a cost-efficient manner in coordination with a proven enterprise-scale CRM.
+                            </p>
+                            
+                            <!-- Redesigned Checklist Grid items with custom icons -->
+                            <div class="mt-10 grid gap-4 sm:grid-cols-2">
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Location tracking and task status</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Appoint or reject survey tasks</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Geo verification for task completion</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Report aggregation</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Data visualization</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Data on demand</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50 col-span-full">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Adjudge decision-making via real time tools and data.</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Sales & Marketing Card -->
+                        <article data-workwith-card-ref="2" class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 sm:p-10 shadow-sm transition-all duration-300 pl-12 sm:pl-16 hover:border-blue-200">
+                            <!-- Left dynamic timeline progress bar -->
+                            <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-100 rounded-l-[2rem] overflow-hidden">
+                                <div class="h-0 bg-blue-600 w-full card-progress-bar"></div>
+                            </div>
+                            
+                            <!-- Large Background Card Number Indicator -->
+                            <div class="absolute right-8 top-6 text-7xl font-black text-slate-100 select-none pointer-events-none">02</div>
+                            
+                            <span class="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Sales & Marketing</span>
+                            <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Sales & Marketing</h3>
+                            <p class="mt-6 text-sm leading-relaxed text-slate-500 font-medium">
+                                For organizations with remote labor force groups like sales, support, and others, FSMS is the most appropriate item to evaluate and expand workers and generally speaking association's efficiency with the continuous information for strategic and key decisions.
+                            </p>
+                            
+                            <!-- Redesigned Checklist Grid items with custom icons -->
+                            <div class="mt-10 grid gap-4 sm:grid-cols-2">
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Monitor productivity</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Track meetings & real-time location</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50 col-span-full">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Geo-confirmed verification of visits</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Market Research Card -->
+                        <article data-workwith-card-ref="3" class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 sm:p-10 shadow-sm transition-all duration-300 pl-12 sm:pl-16 hover:border-blue-200">
+                            <!-- Left dynamic timeline progress bar -->
+                            <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-100 rounded-l-[2rem] overflow-hidden">
+                                <div class="h-0 bg-blue-600 w-full card-progress-bar"></div>
+                            </div>
+                            
+                            <!-- Large Background Card Number Indicator -->
+                            <div class="absolute right-8 top-6 text-7xl font-black text-slate-100 select-none pointer-events-none">03</div>
+                            
+                            <span class="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Market Research</span>
+                            <h3 class="mt-4 text-3xl font-extrabold text-slate-900">Market Research</h3>
+                            <p class="mt-6 text-sm leading-relaxed text-slate-500 font-medium">
+                                Our live tracking, live streaming, notice board, total productive hours and reports, location-based attendance, and alert management features have been altered from their outmoded methods in handling the interviewer workforce. Data captured and spawned out from these features have assisted our Researchers in taking key decisions regarding smart field planning and efficiently serving their end customers.
+                            </p>
+                            
+                            <!-- Redesigned Checklist Grid items with custom icons -->
+                            <div class="mt-10 grid gap-4 sm:grid-cols-2">
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50 col-span-full">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Location tracking and enquiring survey and task statusInstinctive dashboards and reports (XML, SPSS)</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Measure efficiency</span>
+                                </div>
+                                <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:bg-slate-50 col-span-full">
+                                    <svg class="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-slate-700 leading-tight">Incorporates with your current programming platforms like (google forms, confirmit, Surveyto go Etc..)</span>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
                 </div>
             </div>
         </section>
-        <div id="about-facts-bottom" class="relative mx-auto mt-12 grid max-w-7xl gap-4 md:grid-cols-3">
-            <article data-about-card
-                class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
-                <div class="mb-4 flex items-center gap-3"><span
-                        class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">1</span>
-                    <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
+
+        <!-- About Section (Connected Network Layout) -->
+        <section id="about-section" class="relative overflow-hidden px-6 py-28 text-slate-600 sm:px-10 lg:px-16 flex items-center min-h-screen">
+            
+            <div class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.03),transparent_50%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.03),transparent_50%)]"></div>
+
+            <div class="relative mx-auto w-full max-w-7xl">
+                <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+                    
+                    <!-- Left: Details & Fact cloud -->
+                    <div class="space-y-8 text-left">
+                        <span class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.28em] text-blue-600 shadow-sm sm:text-xs">
+                            Built for calm, fast workflows
+                        </span>
+                        
+                        <h2 id="about-title" class="text-4xl font-black tracking-tight text-slate-900 sm:text-6xl">
+                            About our app
+                        </h2>
+                        
+                        <p id="about-lead" class="text-slate-500 font-medium sm:text-lg leading-relaxed">
+                            A clean surface for field teams and operations leaders, designed to keep the important signal
+                            visible while motion stays in the background.
+                        </p>
+                        
+                        <!-- Pills Cloud -->
+                        <div id="about-facts-top" class="flex flex-wrap gap-2.5 pt-4">
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Accessible on all devices</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Limitless reviews & surveys</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Offline survey app</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Real-time feedback tracking</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Remotely tracking feedback devices feedback tracking</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Operates without Wi-Fi</span>
+                            <span class="rounded-full border border-slate-200 bg-white px-4 py-2 text-[10px] font-bold text-slate-600 shadow-sm transition-all hover:border-blue-500/25 hover:text-blue-600 sm:text-xs">Be acquainted with accurate status of report and statistics.</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Connected Network Hub -->
+                    <div class="relative w-full aspect-square flex items-center justify-center border border-slate-200 bg-white rounded-3xl p-4 shadow-xl overflow-hidden">
+                        
+                        <!-- Connecting lasers vectors -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 400" fill="none">
+                            <defs>
+                                <linearGradient id="laser-blue-flow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#2563eb" stop-opacity="0" />
+                                    <stop offset="50%" stop-color="#2563eb" stop-opacity="0.8" />
+                                    <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
+                                </linearGradient>
+                                <linearGradient id="laser-sky-flow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0" />
+                                    <stop offset="50%" stop-color="#0ea5e9" stop-opacity="0.8" />
+                                    <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            
+                            <line x1="200" y1="200" x2="80" y2="100" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="4 4" />
+                            <line x1="200" y1="200" x2="320" y2="110" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="4 4" />
+                            <line x1="200" y1="200" x2="200" y2="300" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="4 4" />
+                            
+                            <line id="laser-1" x1="200" y1="200" x2="80" y2="100" stroke="url(#laser-blue-flow)" stroke-width="3" />
+                            <line id="laser-2" x1="200" y1="200" x2="320" y2="110" stroke="url(#laser-sky-flow)" stroke-width="3" />
+                            <line id="laser-3" x1="200" y1="200" x2="200" y2="300" stroke="url(#laser-blue-flow)" stroke-width="3" />
+                        </svg>
+
+                        <!-- Central Node -->
+                        <div class="absolute w-24 h-24 rounded-full bg-white border border-blue-500/20 flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-20">
+                            <img src="assests/logo1.png" alt="StreakEye central node" class="w-14 object-contain">
+                        </div>
+
+                        <!-- KPI Node cards -->
+                        <div id="about-kpis">
+                            <article data-about-card class="absolute top-[60px] left-[30px] w-28 bg-white border border-slate-200 rounded-2xl p-3 text-center shadow-md hover:border-blue-500/30 transition-all z-20">
+                                <p class="stat-number text-xl font-black text-blue-600" data-target="125" data-suffix="K+">0K+</p>
+                                <p class="text-[8px] uppercase font-bold text-slate-400 tracking-wider">Downloads</p>
+                            </article>
+
+                            <article data-about-card class="absolute top-[70px] right-[30px] w-28 bg-white border border-slate-200 rounded-2xl p-3 text-center shadow-md hover:border-blue-500/30 transition-all z-20">
+                                <p class="stat-number text-xl font-black text-sky-600" data-target="8" data-suffix="K+">0K+</p>
+                                <p class="text-[8px] uppercase font-bold text-slate-400 tracking-wider">Active Users</p>
+                            </article>
+
+                            <article data-about-card class="absolute bottom-[40px] left-1/2 -translate-x-1/2 w-28 bg-white border border-slate-200 rounded-2xl p-3 text-center shadow-md hover:border-blue-500/30 transition-all z-20">
+                                <p class="stat-number text-xl font-black text-blue-600" data-target="4.8" data-suffix="+">0+</p>
+                                <p class="text-[8px] uppercase font-bold text-slate-400 tracking-wider">Rating</p>
+                            </article>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-sm leading-6 text-slate-600">Remotely tracking feedback devices</p>
-            </article>
-            <article data-about-card
-                class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
-                <div class="mb-4 flex items-center gap-3"><span
-                        class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">2</span>
-                    <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
-                </div>
-                <p class="text-sm leading-6 text-slate-600">Operates without Wi-Fi</p>
-            </article>
-            <article data-about-card
-                class="rounded-[1.5rem] border border-white/70 bg-white/65 p-5 shadow-lg backdrop-blur">
-                <div class="mb-4 flex items-center gap-3"><span
-                        class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f59e0b]/20 via-white to-[#38bdf8]/20 text-sm font-bold text-[#0f3b5d]">3</span>
-                    <div class="h-px flex-1 bg-gradient-to-r from-[#cbd5e1] to-transparent"></div>
-                </div>
-                <p class="text-sm leading-6 text-slate-600">Be acquainted with accurate status of report and
-                    statistics.</p>
-            </article>
-        </div>
+            </div>
+
+            <!-- Bottom fact panels -->
+            <div id="about-facts-bottom" class="relative mx-auto mt-20 grid max-w-7xl gap-6 md:grid-cols-3 w-full">
+                <article data-about-card
+                    class="rounded-3xl border border-slate-250 bg-white p-6 shadow-sm hover:border-blue-500/20 transition-all hover:scale-[1.01]">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-xs font-bold text-blue-600 border border-blue-100">1</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-700 font-semibold">Remotely tracking feedback devices</p>
+                </article>
+                
+                <article data-about-card
+                    class="rounded-3xl border border-slate-250 bg-white p-6 shadow-sm hover:border-blue-500/20 transition-all hover:scale-[1.01]">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-xs font-bold text-blue-600 border border-blue-100">2</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-700 font-semibold">Operates without Wi-Fi</p>
+                </article>
+                
+                <article data-about-card
+                    class="rounded-3xl border border-slate-250 bg-white p-6 shadow-sm hover:border-blue-500/20 transition-all hover:scale-[1.01]">
+                    <div class="mb-4 flex items-center gap-3">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-xs font-bold text-blue-600 border border-blue-100">3</span>
+                        <div class="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent"></div>
+                    </div>
+                    <p class="text-sm leading-6 text-slate-700 font-semibold">Be acquainted with accurate status of report and statistics.</p>
+                </article>
+            </div>
         </section>
     </main>
 
     <!-- Footer Section -->
-    <footer id="footer-section"
-        class="border-t border-slate-200/80 relative px-6 py-16 text-[#17324d] sm:px-10 lg:px-16 overflow-hidden">
+    <footer id="footer-section" class="border-t border-slate-100 relative px-6 py-20 text-slate-650 sm:px-10 lg:px-16 bg-slate-50/50">
 
-        <!-- Responsive Footer Props -->
-        <div
-            class="about-prop pointer-events-none absolute left-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[-12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:left-10 lg:opacity-[0.4]">
-            <img src="assests/dashboard/bg.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
-        </div>
-        <div
-            class="about-prop pointer-events-none absolute right-[-10%] top-1/2 -z-10 w-[300px] -translate-y-1/2 rotate-[12deg] opacity-[0.05] blur-[0.8px] sm:w-[500px] lg:right-10 lg:opacity-[0.4]">
-            <img src="assests/dashboard/bg1.jpg" alt="" class="rounded-[2.5rem] shadow-2xl">
-        </div>
-
-        <div class="mx-auto max-w-7xl space-y-12">
-            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-                <div
-                    class="max-w-2xl bg-white/80 rounded-[2.5rem] border border-white/80 p-8 sm:p-10 shadow-xl backdrop-blur-md">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 sm:text-xs">StreakEye</p>
+        <div class="mx-auto max-w-7xl space-y-16 relative z-10">
+            <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                
+                <!-- Newsletter Block -->
+                <div class="max-w-2xl bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-600">StreakEye</p>
                     <h2 id="footer-subscribe-title"
-                        class="mt-4 text-3xl font-black tracking-tight text-[#12324d] sm:text-4xl">Subscribe to our
-                        newsletter</h2>
+                        class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900">Subscribe to our newsletter</h2>
                     <p id="footer-subscribe-description"
-                        class="mt-4 max-w-xl text-sm leading-relaxed text-[#172554] font-medium sm:text-base">Get the
-                        latest
-                        updates and insights from StreakEye delivered straight to your inbox.</p>
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-slate-500 font-medium">Get the
+                        latest updates and insights from StreakEye delivered straight to your inbox.</p>
+                    
                     <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
                         <label class="sr-only" for="footer-email">Email address</label>
-                        <input id="footer-email" type="email" placeholder="Enter your email address"
-                            class="min-h-12 flex-1 rounded-full border border-slate-200 bg-white px-6 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-50" />
+                        <input id="footer-email" type="email" required placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-slate-200 bg-slate-50 px-6 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" />
                         <button type="submit" id="footer-subscribe-button"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-[#12324d] px-8 text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">Subscribe</button>
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-sky-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95">Subscribe</button>
                     </form>
                 </div>
-                <div
-                    class="grid gap-6 rounded-[2.5rem] border border-white/80 bg-white/90 p-8 shadow-xl backdrop-blur-md sm:grid-cols-2">
+                
+                <!-- Contact & Social Block -->
+                <div class="grid gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:grid-cols-2">
                     <div class="space-y-3">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Contact</p>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600">Contact</p>
                         <a id="footer-email-link" href="mailto:info@biinfotech.com"
-                            class="block text-sm font-bold text-slate-700 hover:text-sky-600 transition-colors">info@biinfotech.com</a>
+                            class="block text-base font-bold text-slate-800 hover:text-blue-600 transition-colors">info@biinfotech.com</a>
                     </div>
+                    
                     <div class="space-y-4">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Social</p>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600">Social</p>
                         <div id="footer-social-links" class="flex flex-wrap gap-2">
                             <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
-                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
-                                <img src="assests/icons/linkedin.png" alt="LinkedIn"
-                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/20 hover:bg-blue-50">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-4.5 w-4.5 opacity-60 hover:opacity-100">
                             </a>
                             <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
-                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
-                                <img src="assests/icons/twitter.png" alt="Twitter"
-                                    class="h-4 w-4 opacity-70 group-hover:opacity-100">
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/20 hover:bg-blue-50">
+                                <img src="assests/icons/twitter.png" alt="Twitter" class="h-3.5 w-3.5 opacity-60 hover:opacity-100">
                             </a>
                             <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
-                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
-                                <img src="assests/icons/facebook.png" alt="Facebook"
-                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/20 hover:bg-blue-50">
+                                <img src="assests/icons/facebook.png" alt="Facebook" class="h-4.5 w-4.5 opacity-60 hover:opacity-100">
                             </a>
                             <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
-                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200 hover:bg-sky-50">
-                                <img src="assests/icons/instagram.png" alt="Instagram"
-                                    class="h-5 w-5 opacity-70 group-hover:opacity-100">
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/20 hover:bg-blue-50">
+                                <img src="assests/icons/instagram.png" alt="Instagram" class="h-4.5 w-4.5 opacity-60 hover:opacity-100">
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="footer-address-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Ontario, Canada</p>
-                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300,
+            
+            <!-- Address Grid -->
+            <div id="footer-address-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-blue-500/10 transition-all">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600">Ontario, Canada</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-slate-600 font-medium">325 Front ST. W | Suite 300,
                         Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
                 </article>
-                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">New Delhi, India</p>
-                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri,
+                
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-blue-500/10 transition-all">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600">New Delhi, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-slate-600 font-medium">12/4, Prem Nagar, Janakpuri,
                         110058<br />+91 8766248464</p>
                 </article>
-                <article class="rounded-3xl border border-white bg-white/50 p-6 shadow-sm backdrop-blur-sm">
-                    <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400">Hyderabad, India</p>
-                    <p class="mt-3 text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road,
+                
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-blue-500/10 transition-all">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600">Hyderabad, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-slate-600 font-medium">Miyapur, Bollaram Road,
                         500049<br />+91 8766248464</p>
                 </article>
             </div>
-            <div
-                class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-xs font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+            
+            <!-- Copyright -->
+            <div class="flex flex-col gap-4 border-t border-slate-200 pt-8 text-[10px] font-bold text-slate-400 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
                 <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
-                <p id="footer-subscribe-note" class="text-[10px]">Your daily field operations partner.</p>
+                <p id="footer-subscribe-note" class="text-blue-600/80">Your daily field operations partner.</p>
             </div>
         </div>
     </footer>
 
     <!-- Request a Demo Modal -->
     <div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div id="modal-backdrop" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0"></div>
+        <div id="modal-backdrop" class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm opacity-0"></div>
         <div id="modal-content"
-            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white/50 backdrop-blur-md">
+            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2rem] shadow-2xl border border-slate-200">
+            
             <!-- Close Button -->
             <button id="close-modal"
-                class="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-600 active:scale-95">
+                class="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-700 border border-slate-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                    stroke="currentColor" class="w-5 h-5">
+                    stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
             <div class="mb-8">
-                <h3 class="text-2xl font-black text-[#12324d]">Request a Demo</h3>
-                <p class="mt-2 text-sm font-medium text-slate-500">Launch Your Pilot Project Today!</p>
+                <h3 class="text-2xl font-black text-slate-900 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-transparent">Request a Demo</h3>
+                <p class="mt-2 text-sm font-semibold text-slate-400">Launch Your Pilot Project Today!</p>
             </div>
 
             <form id="demo-form" class="space-y-4">
                 <div>
-                    <label for="name" class="sr-only">Full Name</label>
+                    <label class="sr-only" for="name">Full Name</label>
                     <input type="text" id="name" name="name" required placeholder="Full Name"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 text-sm text-slate-800 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10" />
                 </div>
                 <div>
-                    <label for="email" class="sr-only">Email Address</label>
+                    <label class="sr-only" for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Email Address"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 text-sm text-slate-800 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10" />
                 </div>
                 <div>
-                    <label for="phone" class="sr-only">Phone Number</label>
+                    <label class="sr-only" for="phone">Phone Number</label>
                     <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
-                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50" />
+                        class="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 text-sm text-slate-800 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10" />
                 </div>
                 <div>
-                    <label for="message" class="sr-only">Message</label>
+                    <label class="sr-only" for="message">Message</label>
                     <textarea id="message" name="message" rows="3" required placeholder="How can we help you?"
-                        class="w-full rounded-2xl border border-slate-200 bg-slate-50/50 p-5 text-sm outline-none transition-all focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-50"></textarea>
+                        class="w-full rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-800 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"></textarea>
                 </div>
 
                 <!-- Simulated Captcha -->
-                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
                     <div class="flex items-center gap-3">
                         <button type="button" id="captcha-box"
-                            class="flex h-6 w-6 items-center justify-center rounded border-2 border-slate-300 bg-white transition-all hover:border-sky-400">
+                            class="flex h-6 w-6 items-center justify-center rounded border border-slate-350 bg-white transition-all hover:border-blue-500">
                             <svg id="captcha-check" class="hidden h-4 w-4 text-green-500"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -954,16 +1252,17 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <span class="text-sm font-medium text-slate-600">I'm not a robot</span>
+                        <span class="text-xs font-semibold text-slate-500">I'm not a robot</span>
                     </div>
+                    
                     <div class="flex flex-col items-center opacity-40">
-                        <img src="assests/logo1.png" alt="captcha" class="h-6 object-contain grayscale">
-                        <span class="text-[8px] font-bold uppercase tracking-tighter">reCAPTCHA</span>
+                        <img src="assests/logo1.png" alt="captcha" class="h-5 object-contain grayscale">
+                        <span class="text-[8px] font-bold uppercase tracking-tighter text-slate-500">reCAPTCHA</span>
                     </div>
                 </div>
 
                 <button type="submit"
-                    class="mt-2 h-12 w-full rounded-full bg-[#12324d] text-sm font-bold text-white shadow-lg transition-all hover:bg-slate-800 active:scale-95">
+                    class="mt-2 h-12 w-full rounded-full bg-gradient-to-r from-blue-600 to-sky-500 text-xs font-extrabold text-white shadow-lg transition-all active:scale-95">
                     Launch Your Pilot
                 </button>
             </form>
@@ -972,9 +1271,9 @@
 
     <!-- Back to Top Button -->
     <button id="back-to-top"
-        class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-[#172554] text-white shadow-2xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-110 active:scale-95">
-        <svg class="mx-auto h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        class="fixed bottom-6 right-6 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-blue-600 text-white shadow-xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-105 active:scale-95 flex items-center justify-center border border-blue-500/20">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
         </svg>
     </button>
 
@@ -982,15 +1281,19 @@
     <script src="js/app.js" defer></script>
     <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
     <script>
-        // Initialize Lenis if not already handled by app.js or to ensure immediate availability
-        const lenis = new Lenis();
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            lerp: 0.1,
+            smoothWheel: true
+        });
+        window.lenis = lenis;
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
 
-        // Back to Top Logic
+        // Back to Top Button toggler
         const backToTopBtn = document.getElementById('back-to-top');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
