@@ -29,7 +29,7 @@ function initSpotlightFollower() {
 
 // 2. 3D Bento Card Tilt hover effect and border coordinates tracking
 function initCardTiltGlows() {
-    const cards = document.querySelectorAll(".glass-bento");
+    const cards = document.querySelectorAll(".bento-card, .glass-bento");
     cards.forEach(card => {
         card.addEventListener("mousemove", (e) => {
             const rect = card.getBoundingClientRect();
@@ -41,13 +41,12 @@ function initCardTiltGlows() {
 
             const xc = rect.width / 2;
             const yc = rect.height / 2;
-            const tiltX = (yc - y) / 10; // tilt angle
-            const tiltY = (x - xc) / 10;
+            const tiltX = (yc - y) / 15; // subtle tilt angle
+            const tiltY = (x - xc) / 15;
 
             gsap.to(card, {
                 rotateX: tiltX,
                 rotateY: tiltY,
-                scale: 1.02,
                 duration: 0.35,
                 ease: "power2.out",
                 overwrite: "auto"
@@ -58,7 +57,6 @@ function initCardTiltGlows() {
             gsap.to(card, {
                 rotateX: 0,
                 rotateY: 0,
-                scale: 1,
                 duration: 0.65,
                 ease: "power3.out",
                 overwrite: "auto"
@@ -161,7 +159,7 @@ function initHeroAnimation() {
     const tagline = document.getElementById("hero-tagline");
     const desc = document.getElementById("hero-description");
     const btns = document.querySelectorAll(".magnetic-btn");
-    const mockup = document.querySelector(".browser-mockup");
+    const mockup = document.querySelector(".browser-container");
 
     if (!title || !tagline) return;
 
@@ -197,13 +195,13 @@ function initHeroAnimation() {
     }
 
     if (mockup) {
-        gsap.set(mockup, { opacity: 0, scale: 0.96, rotateY: -15 });
+        gsap.set(mockup, { opacity: 0, scale: 0.95, y: 30 });
         tl.to(mockup, {
             opacity: 1,
             scale: 1,
-            rotateY: -12,
+            y: 0,
             duration: 1.2,
-            ease: "back.out(1.1)"
+            ease: "power3.out"
         }, "-=0.9");
     }
 }
@@ -221,19 +219,23 @@ function initDashboardAnimation() {
 
     let currentIndex = 0;
     let isInteracting = false;
+    let autoScrollTimer = null;
 
     const updateVisuals = () => {
         const trackCenter = track.scrollLeft + (track.offsetWidth / 2);
         const maxDistance = track.offsetWidth / 1.5;
         
         slides.forEach((slide) => {
+            const slideInner = slide.firstElementChild;
+            if (!slideInner) return;
+            
             const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
             const distanceFromCenter = Math.abs(trackCenter - slideCenter);
             
             const scale = Math.max(0.92, 1 - (distanceFromCenter / maxDistance) * 0.08);
             const opacity = Math.max(0.5, 1 - (distanceFromCenter / maxDistance) * 0.5);
             
-            gsap.set(slide.firstElementChild, {
+            gsap.set(slideInner, {
                 scale: scale,
                 opacity: opacity,
                 force3D: true
@@ -258,10 +260,27 @@ function initDashboardAnimation() {
         });
     };
 
+    const startAutoScroll = () => {
+        stopAutoScroll();
+        autoScrollTimer = setInterval(() => {
+            if (!isInteracting) {
+                goToSlide(currentIndex + 1);
+            }
+        }, 3000);
+    };
+
+    const stopAutoScroll = () => {
+        if (autoScrollTimer) {
+            clearInterval(autoScrollTimer);
+            autoScrollTimer = null;
+        }
+    };
+
     const handleNav = (dir) => {
         isInteracting = true;
         goToSlide(currentIndex + dir);
-        setTimeout(() => { isInteracting = false; }, 2500);
+        startAutoScroll();
+        setTimeout(() => { isInteracting = false; }, 3000);
     };
 
     if (prevBtn) prevBtn.addEventListener('click', () => handleNav(-1));
@@ -271,73 +290,156 @@ function initDashboardAnimation() {
         updateVisuals();
         if (!isInteracting) {
             const scrollLeft = track.scrollLeft;
-            const slideWidth = slides[0].offsetWidth + 24;
+            const slideWidth = slides[0].offsetWidth + 32; // adjusted gap spacing
             currentIndex = Math.round((scrollLeft + (track.offsetWidth / 2) - (slides[0].offsetWidth / 2)) / slideWidth);
         }
     }, { passive: true });
 
+    track.addEventListener("mouseenter", stopAutoScroll);
+    track.addEventListener("mouseleave", startAutoScroll);
+    track.addEventListener("touchstart", stopAutoScroll, { passive: true });
+    track.addEventListener("touchend", startAutoScroll, { passive: true });
+
     updateVisuals();
+    startAutoScroll();
 }
 
-// 8. Interactive Split-screen device mockup scrolling triggers (Work With Section)
+// 8. Interactive Tab Panel Switcher (Work With Section)
 function initWorkWithAnimation() {
-    const cards = gsap.utils.toArray("[data-workwith-card-ref]");
+    const tabs = document.querySelectorAll("[data-workwith-card-ref]");
     const screens = [
         document.getElementById("phone-screen-1"),
         document.getElementById("phone-screen-2"),
         document.getElementById("phone-screen-3")
     ];
 
-    if (!cards.length || !screens[0]) return;
+    if (!tabs.length || !screens[0]) return;
 
-    if (window.innerWidth < 1024) {
-        // Safe fallback for mobile: make progress borders filled statically
-        cards.forEach(card => {
-            const bar = card.querySelector(".card-progress-bar");
-            if (bar) gsap.set(bar, { height: "100%" });
-        });
-        return;
-    }
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+            const isCurrentlyActive = tab.classList.contains("active-split-nav");
+            const checklistGrid = tab.querySelector(".checklist-grid");
+            const chevron = tab.querySelector(".active-chevron");
+            const hint = tab.querySelector(".toggle-hint");
+            
+            // Check if the clicked tab's checklist is currently expanded
+            let isChecklistOpen = false;
+            if (checklistGrid) {
+                const heightVal = checklistGrid.style.height;
+                isChecklistOpen = (heightVal !== "0px" && checklistGrid.getBoundingClientRect().height > 0);
+            }
 
-    cards.forEach((card, index) => {
-        const ref = parseInt(card.dataset.workwithCardRef);
-        const progressBar = card.querySelector(".card-progress-bar");
-        
-        ScrollTrigger.create({
-            trigger: card,
-            start: "top 60%",
-            end: "bottom 40%",
-            scrub: true,
-            onUpdate: (self) => {
-                if (progressBar) {
-                    gsap.set(progressBar, { height: `${self.progress * 100}%` });
-                }
-            },
-            onToggle: (self) => {
-                if (self.isActive) {
-                    activateScreen(ref - 1);
-                    card.classList.add("active-split-nav", "shadow-md", "border-blue-200");
-                    card.classList.remove("border-slate-200");
+            if (isCurrentlyActive) {
+                // If clicked the already active tab, toggle its collapsed state
+                if (isChecklistOpen) {
+                    // Collapse checklist
+                    gsap.to(checklistGrid, {
+                        height: 0,
+                        opacity: 0,
+                        marginTop: 0,
+                        paddingTop: 0,
+                        borderTopWidth: 0,
+                        duration: 0.4,
+                        ease: "power2.inOut"
+                    });
+                    if (chevron) {
+                        gsap.to(chevron, { rotation: 0, duration: 0.3 });
+                    }
+                    if (hint) {
+                        hint.textContent = "Expand";
+                        hint.classList.remove("text-emerald-600");
+                        hint.classList.add("text-zinc-400");
+                    }
                 } else {
-                    card.classList.remove("active-split-nav", "shadow-md", "border-blue-200");
-                    card.classList.add("border-slate-200");
-                    if (progressBar) {
-                        gsap.set(progressBar, { height: "0%" });
+                    // Expand checklist
+                    gsap.to(checklistGrid, {
+                        height: "auto",
+                        opacity: 1,
+                        marginTop: 24,
+                        paddingTop: 24,
+                        borderTopWidth: 1,
+                        duration: 0.4,
+                        ease: "power2.inOut"
+                    });
+                    if (chevron) {
+                        gsap.to(chevron, { rotation: 180, duration: 0.3 });
+                    }
+                    if (hint) {
+                        hint.textContent = "Collapse";
+                        hint.classList.remove("text-zinc-400");
+                        hint.classList.add("text-emerald-600");
                     }
                 }
+            } else {
+                // Clicking a different tab:
+                // 1. Deactivate all other tabs and collapse their checklists
+                tabs.forEach((t) => {
+                    if (t !== tab) {
+                        t.classList.remove("active-split-nav", "border-emerald-500");
+                        t.classList.add("border-transparent");
+                        
+                        const otherGrid = t.querySelector(".checklist-grid");
+                        const otherChevron = t.querySelector(".active-chevron");
+                        const otherHint = t.querySelector(".toggle-hint");
+                        
+                        if (otherGrid) {
+                            gsap.to(otherGrid, {
+                                height: 0,
+                                opacity: 0,
+                                marginTop: 0,
+                                paddingTop: 0,
+                                borderTopWidth: 0,
+                                duration: 0.4,
+                                ease: "power2.inOut"
+                            });
+                        }
+                        if (otherChevron) {
+                            gsap.to(otherChevron, { rotation: 0, duration: 0.3 });
+                        }
+                        if (otherHint) {
+                            otherHint.textContent = "Expand";
+                            otherHint.classList.remove("text-emerald-600");
+                            otherHint.classList.add("text-zinc-400");
+                        }
+                    }
+                });
+
+                // 2. Activate the clicked tab
+                tab.classList.add("active-split-nav", "border-emerald-500");
+                tab.classList.remove("border-transparent");
+
+                // 3. Expand the clicked tab's checklist
+                if (checklistGrid) {
+                    gsap.to(checklistGrid, {
+                        height: "auto",
+                        opacity: 1,
+                        marginTop: 24,
+                        paddingTop: 24,
+                        borderTopWidth: 1,
+                        duration: 0.4,
+                        ease: "power2.inOut"
+                    });
+                }
+                if (chevron) {
+                    gsap.to(chevron, { rotation: 180, duration: 0.3 });
+                }
+                if (hint) {
+                    hint.textContent = "Collapse";
+                    hint.classList.remove("text-zinc-400");
+                    hint.classList.add("text-emerald-600");
+                }
+
+                // 4. Swap dynamic screen mockups on the left
+                screens.forEach((screen, i) => {
+                    if (i === index) {
+                        gsap.to(screen, { opacity: 1, duration: 0.45, ease: "power2.out" });
+                    } else {
+                        gsap.to(screen, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                    }
+                });
             }
         });
     });
-
-    function activateScreen(index) {
-        screens.forEach((screen, i) => {
-            if (i === index) {
-                gsap.to(screen, { opacity: 1, duration: 0.45, ease: "power2.out" });
-            } else {
-                gsap.to(screen, { opacity: 0, duration: 0.45, ease: "power2.out" });
-            }
-        });
-    }
 }
 
 // 9. Viewport enter counting stats animation
@@ -372,13 +474,12 @@ function initCounterAnimation() {
     });
 }
 
-// 10. Shapes float effects loop float triggers
+// 10. About Section animations
 function initAboutAnimations() {
     const section = document.getElementById("about-section");
     const title = document.getElementById("about-title");
     const lead = document.getElementById("about-lead");
     const cards = gsap.utils.toArray("[data-about-card]");
-    const shapes = gsap.utils.toArray(".about-shape");
 
     if (!section) return;
 
@@ -396,17 +497,6 @@ function initAboutAnimations() {
         tl.to(lead, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4");
         tl.to(cards, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }, "-=0.3");
     }
-
-    shapes.forEach((shape, index) => {
-        gsap.to(shape, {
-            rotate: index % 2 ? -12 : 12,
-            y: "+=8",
-            duration: 5 + index,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-    });
 }
 
 // 11. Mobile hamburger menu drawer navigation toggles
@@ -443,8 +533,8 @@ function initNav() {
             event.preventDefault();
             if (subscribeButton) {
                 subscribeButton.textContent = "Subscribed";
-                subscribeButton.classList.remove("from-blue-600", "to-sky-500");
-                subscribeButton.classList.add("bg-green-600");
+                subscribeButton.classList.remove("from-emerald-600", "to-teal-500");
+                subscribeButton.classList.add("bg-emerald-600");
             }
         });
     }
@@ -505,10 +595,10 @@ function initDemoModal() {
             isCaptchaVerified = !isCaptchaVerified;
             if (isCaptchaVerified) {
                 captchaCheck.classList.remove("hidden");
-                captchaBox.classList.add("border-green-500", "bg-green-50");
+                captchaBox.classList.add("border-emerald-500", "bg-emerald-50");
             } else {
                 captchaCheck.classList.add("hidden");
-                captchaBox.classList.remove("border-green-500", "bg-green-50");
+                captchaBox.classList.remove("border-emerald-500", "bg-emerald-50");
             }
         });
     }
@@ -531,7 +621,7 @@ function initDemoModal() {
 
             setTimeout(() => {
                 submitBtn.textContent = "Success!";
-                submitBtn.classList.add("bg-green-600");
+                submitBtn.classList.add("bg-emerald-600");
 
                 setTimeout(() => {
                     closeModal();
@@ -539,13 +629,79 @@ function initDemoModal() {
                         form.reset();
                         isCaptchaVerified = false;
                         captchaCheck.classList.add("hidden");
-                        captchaBox.classList.remove("border-green-500", "bg-green-50");
+                        captchaBox.classList.remove("border-emerald-500", "bg-emerald-50");
                         submitBtn.disabled = false;
                         submitBtn.textContent = originalText;
-                        submitBtn.classList.remove("bg-green-600", "opacity-70");
+                        submitBtn.classList.remove("bg-emerald-600", "opacity-70");
                     }, 500);
                 }, 1500);
             }, 1500);
+        });
+    }
+}
+
+// 13. Parallax scroll animations for sections and cards
+function initParallaxAnimations() {
+    if (typeof ScrollTrigger === "undefined") return;
+
+    // Hero background parallax
+    const heroBg = document.querySelector(".hero-bg-parallax");
+    const heroSection = document.getElementById("hero-section");
+    if (heroBg && heroSection) {
+        gsap.to(heroBg, {
+            yPercent: -20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: heroSection,
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    }
+
+    // Showcase section background parallax
+    const showBg = document.querySelector(".dashboard-bg-parallax");
+    const showSection = document.getElementById("dashboard-preview");
+    if (showBg && showSection) {
+        gsap.to(showBg, {
+            yPercent: -20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: showSection,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    }
+
+    // Bento card image parallax sliding windows
+    const bentoImg1 = document.querySelector(".bento-img-parallax-1");
+    if (bentoImg1) {
+        gsap.to(bentoImg1, {
+            yPercent: -18,
+            ease: "none",
+            scrollTrigger: {
+                trigger: bentoImg1.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    }
+
+    const bentoImg2 = document.querySelector(".bento-img-parallax-2");
+    if (bentoImg2) {
+        gsap.to(bentoImg2, {
+            yPercent: -18,
+            ease: "none",
+            scrollTrigger: {
+                trigger: bentoImg2.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
         });
     }
 }
@@ -578,28 +734,11 @@ function init() {
     initMagneticButtons();
     initGpsRouteAnimation();
     initAboutLaserPulses();
-
-    if (typeof gsap !== "undefined") {
-        const mm = gsap.matchMedia();
-
-        mm.add("(min-width: 1024px)", () => {
-            initHeroAnimation();
-            initDashboardAnimation();
-            initWorkWithAnimation();
-            initAboutAnimations();
-        });
-
-        mm.add("(max-width: 1023px)", () => {
-            gsap.set(["#hero-title", "#hero-tagline", "#hero-description", "[data-about-card]"], { 
-                opacity: 1, 
-                y: 0, 
-                autoAlpha: 1, 
-                scale: 1,
-                visibility: "visible"
-            });
-            gsap.set(".card-progress-bar", { height: "100%" });
-        });
-    }
+    initHeroAnimation();
+    initDashboardAnimation();
+    initWorkWithAnimation();
+    initAboutAnimations();
+    initParallaxAnimations();
 }
 
 if (document.readyState === "loading") {
@@ -607,3 +746,10 @@ if (document.readyState === "loading") {
 } else {
     init();
 }
+
+// Recalculate ScrollTrigger positions in production once all images and styles are fully loaded
+window.addEventListener("load", () => {
+    if (typeof ScrollTrigger !== "undefined") {
+        ScrollTrigger.refresh();
+    }
+});
