@@ -137,17 +137,25 @@
 
         /* Header state morphing */
         header {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        header.header-scrolled > div {
-            background-color: rgba(255, 255, 255, 0.9) !important;
-            border-color: rgba(16, 185, 129, 0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-            box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.05);
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        /* Scroll milestones tracking widget */
+        .active-milestone {
+            border-color: #10b981 !important;
+            color: #10b981 !important;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+        }
+        .active-milestone span {
+            background-color: #10b981 !important;
         }
 
         /* Infinite horizontal scroll */
@@ -187,18 +195,66 @@
     <!-- Spotlight cursor follower -->
     <div class="spotlight-follower" id="spotlight"></div>
 
+    <!-- Vertical Scroll-Tracking Path (Desktop only) -->
+    <div class="hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 z-40 flex-col items-center h-96 justify-between py-6 select-none pointer-events-none">
+        <!-- The vertical tracking track -->
+        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-300/40 rounded-full overflow-hidden">
+            <!-- The active progress line filled on scroll -->
+            <div id="scroll-progress-line" class="w-full bg-emerald-500 origin-top scale-y-0 h-full transition-transform duration-75"></div>
+        </div>
+        
+        <!-- Progress tracker glowing node -->
+        <div id="scroll-progress-node" class="absolute w-4 h-4 rounded-full bg-white border-2 border-emerald-500 shadow-[0_0_12px_#10b981] -translate-y-1/2" style="top: 0%;">
+            <span class="absolute -inset-1 rounded-full bg-emerald-400/35 animate-ping"></span>
+        </div>
+
+        <!-- Section Milestones -->
+        <div class="flex flex-col justify-between h-full relative z-10 pointer-events-auto">
+            <!-- Section 1: Hero -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="hero-section" aria-label="Scroll to Home">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">Home</span>
+            </button>
+            <!-- Section 2: Features -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="features-grid" aria-label="Scroll to Solutions">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">Solutions</span>
+            </button>
+            <!-- Section 3: Showcase -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="dashboard-preview" aria-label="Scroll to Showcase">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">Showcase</span>
+            </button>
+            <!-- Section 4: Operations Control -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="work-with-section" aria-label="Scroll to Operations">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">Operations</span>
+            </button>
+            <!-- Section 5: About -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="about-section" aria-label="Scroll to About">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">About</span>
+            </button>
+            <!-- Section 6: Footer -->
+            <button class="scroll-milestone group relative flex items-center justify-center w-6 h-6 rounded-full bg-white border border-zinc-200 text-zinc-400 transition-all duration-300 hover:border-emerald-500 hover:text-emerald-600" data-section="footer-section" aria-label="Scroll to Footer">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 transition-colors duration-300"></span>
+                <span class="absolute left-8 bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg pointer-events-none whitespace-nowrap">Contact</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Ambient glows -->
     <div class="absolute top-[10%] left-[10%] w-[45vw] h-[45vw] rounded-full bg-emerald-100/30 ambient-glow -z-50"></div>
     <div class="absolute top-[40%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-emerald-50/40 ambient-glow -z-50"></div>
     <div class="absolute top-[75%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-teal-50/30 ambient-glow -z-50"></div>
 
     <!-- Header Section -->
-    <header class="fixed left-0 top-0 z-50 w-full px-4 py-6 lg:px-16">
-        <div class="container mx-auto max-w-7xl flex items-center justify-between rounded-full border border-zinc-200/80 bg-white/70 px-6 py-3 shadow-sm backdrop-blur-md">
+    <header class="fixed left-0 top-0 z-50 w-full px-6 py-4 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
+        <div class="container mx-auto max-w-7xl flex items-center justify-between">
             <div class="flex items-center">
                 <a href="index.html">
-                    <img id="header-logo" src="assests/logo2.jpeg" alt="header logo"
-                        class="h-10 md:h-12 w-auto object-contain rounded-md shadow-sm">
+                    <img id="header-logo" src="assests/logo.png" alt="header logo"
+                        class="h-10 md:h-16 w-auto object-contain rounded-md ">
                 </a>
             </div>
             
@@ -234,8 +290,8 @@
         </div>
         
         <!-- Mobile Navigation Menu -->
-        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden px-2">
-            <div class="container mx-auto mt-3 rounded-3xl border border-zinc-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden mt-4">
+            <div class="rounded-3xl border border-zinc-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
                 <ul id="mobile-nav" class="grid gap-2 text-zinc-700">
                     <li><a href="features.html"
                             class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Features</span><span
@@ -310,45 +366,7 @@
                     </div>
                 </div>
 
-                <!-- Full-Width Browser Mockup Under Text inside Hero Card -->
-                <div class="browser-container w-full max-w-5xl mx-auto mt-20 z-30 relative px-4 sm:px-0">
-                    <div class="browser-frame w-full aspect-[16/9] rounded-3xl p-2 shadow-2xl relative overflow-hidden bg-zinc-900 border border-emerald-800/30">
-                        
-                        <!-- Top browser bar -->
-                        <div class="flex items-center gap-2 px-3 py-2 border-b border-zinc-800 bg-[#04281f]">
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
-                            <div class="h-4 w-40 bg-[#032018] rounded mx-auto flex items-center justify-center text-[7px] text-zinc-400 font-semibold">streakeye.app/dashboard</div>
-                        </div>
-
-                        <!-- Mock content space with image and floating elements -->
-                        <div class="w-full h-[calc(100%-33px)] relative overflow-hidden bg-zinc-800">
-                            <img src="assests/images/hero1.jpg" alt="Dashboard Hub Preview" class="w-full h-full object-cover object-top opacity-85">
-                            
-                            <!-- Semi-transparent overlay mask to blend it with dark theme -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60"></div>
-                            
-                            <!-- Floating Glass KPI Widget 1 (Top Left) -->
-                            <div class="absolute top-4 left-4 bg-zinc-900/80 border border-white/10 rounded-xl p-3 shadow-xl backdrop-blur-md flex items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                                <div class="text-left">
-                                    <p class="text-[7px] uppercase font-extrabold text-zinc-400 tracking-wider">Operational Status</p>
-                                    <p class="text-[10px] font-bold text-white">All Agents Active (42/42)</p>
-                                </div>
-                            </div>
-
-                            <!-- Floating Glass KPI Widget 2 (Bottom Right) -->
-                            <div class="absolute bottom-4 right-4 bg-zinc-900/80 border border-white/10 rounded-xl p-3 shadow-xl backdrop-blur-md flex items-center gap-3 hover:-translate-y-1 transition-transform duration-300">
-                                <img src="assests/images/fsms-attendance5.jpg" alt="Active Agent Photo" class="w-7 h-7 rounded-md object-cover border border-emerald-500/30">
-                                <div class="text-left">
-                                    <p class="text-[7px] uppercase font-extrabold text-zinc-400 tracking-wider">Latest Log</p>
-                                    <p class="text-[9px] font-semibold text-zinc-200">Visits Verified via Geofence</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Mockup removed per design requirements -->
             </section>
         </div>
 
@@ -409,7 +427,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-zinc-900 text-3xl tracking-tight">Data Collection</h3>
-                                <p class="text-sm text-zinc-500 leading-relaxed font-medium mt-3">Execute surveys for all modes (CAPI, CATI) seamlessly.</p>
+                                <p class="text-sm text-zinc-500 leading-relaxed font-medium mt-3">Proactive alerts provide timely warnings, enabling swift action to address issues and ensure data collection accuracy.</p>
                             </div>
                         </div>
                         
@@ -441,7 +459,7 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-zinc-900 text-2xl tracking-tight">Resource Management</h3>
-                            <p class="text-sm text-zinc-500 leading-relaxed font-medium mt-3">The best solution to manage your field resources quality.</p>
+                            <p class="text-sm text-zinc-500 leading-relaxed font-medium mt-3">Develop A Single Survey Script And Execute It For All Modes Of Data Collection (CAPI, CATI, And CAPI).</p>
                         </div>
                     </div>
                     
@@ -464,7 +482,7 @@
                                 <img src="assests/icons/icon3.png" alt="icon3" class="h-6 w-6 object-contain">
                             </div>
                             <h3 class="font-bold text-zinc-900 text-2xl tracking-tight leading-none">Quality Control</h3>
-                            <p class="text-sm text-zinc-500 leading-relaxed font-medium">Proactive alerts to ensure data collection accuracy.</p>
+                            <p class="text-sm text-zinc-500 leading-relaxed font-medium">Concerned About Quality Of Data Collected, How To Manage Field Resources? We Have Best Solution For You.</p>
                         </div>
                         
                         <!-- Visual Alerts Stream with image side panel -->

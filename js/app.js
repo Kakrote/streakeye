@@ -704,6 +704,23 @@ function initParallaxAnimations() {
             }
         });
     }
+
+    // Ambient glow parallax movement
+    const glows = document.querySelectorAll(".ambient-glow");
+    glows.forEach((glow, index) => {
+        const direction = index % 2 === 0 ? 1 : -1;
+        gsap.to(glow, {
+            y: 120 * direction,
+            x: 60 * -direction,
+            ease: "none",
+            scrollTrigger: {
+                trigger: document.body,
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1
+            }
+        });
+    });
 }
 
 // Scrolled trigger style for header scroll effect
@@ -723,6 +740,123 @@ function initHeaderScroll() {
     handleScroll();
 }
 
+// 14. Scroll-progress line tracking and milestone updates
+function initScrollTrackingWidget() {
+    const progressLine = document.getElementById("scroll-progress-line");
+    const progressNode = document.getElementById("scroll-progress-node");
+    const milestones = document.querySelectorAll(".scroll-milestone");
+
+    if (!progressLine || !progressNode) return;
+
+    // Update progress elements based on scroll
+    const updateProgress = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(Math.max(scrollTop / docHeight, 0), 1) : 0;
+
+        // Scale vertical line
+        gsap.set(progressLine, { scaleY: progress });
+        
+        // Move glowing node dot
+        gsap.set(progressNode, { top: `${progress * 100}%` });
+
+        // Highlight milestones based on current visible section
+        milestones.forEach(milestone => {
+            const sectionId = milestone.getAttribute("data-section");
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+
+            const rect = section.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+
+            // Highlight section if it's currently taking up a substantial portion of the screen
+            const isInView = (rect.top <= viewHeight * 0.45 && rect.bottom >= viewHeight * 0.45) ||
+                             (rect.top >= 0 && rect.top <= viewHeight * 0.3);
+
+            if (isInView) {
+                milestones.forEach(m => m.classList.remove("active-milestone"));
+                milestone.classList.add("active-milestone");
+            }
+        });
+    };
+
+    // Add click listeners to milestones for smooth scroll
+    milestones.forEach(milestone => {
+        milestone.addEventListener("click", () => {
+            const sectionId = milestone.getAttribute("data-section");
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection && window.lenis) {
+                window.lenis.scrollTo(targetSection, { offset: -80 });
+            }
+        });
+    });
+
+    window.addEventListener("scroll", updateProgress);
+    updateProgress();
+}
+
+// 15. Bento card reveals on scroll
+function initBentoScrollReveal() {
+    const bentoGrid = document.getElementById("features-grid");
+    const bentoCards = document.querySelectorAll(".bento-card");
+    if (!bentoGrid || !bentoCards.length || typeof ScrollTrigger === "undefined") return;
+
+    gsap.set(bentoCards, { opacity: 0, y: 35 });
+
+    ScrollTrigger.batch(bentoCards, {
+        start: "top 85%",
+        onEnter: batch => gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            overwrite: "auto"
+        }),
+        once: true
+    });
+}
+
+// 16. General scroll reveals for showcase section
+function initShowcaseScrollReveal() {
+    const section = document.getElementById("dashboard-preview");
+    if (!section || typeof ScrollTrigger === "undefined") return;
+
+    const titleBlock = section.querySelector(".container");
+    const carouselTrack = section.querySelector(".group");
+
+    if (titleBlock) {
+        gsap.set(titleBlock, { opacity: 0, y: 25 });
+        gsap.to(titleBlock, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: titleBlock,
+                start: "top 85%",
+                once: true
+            }
+        });
+    }
+
+    if (carouselTrack) {
+        gsap.set(carouselTrack, { opacity: 0, scale: 0.98, y: 30 });
+        gsap.to(carouselTrack, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.0,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: carouselTrack,
+                start: "top 85%",
+                once: true
+            }
+        });
+    }
+}
+
 // Master init loader
 function init() {
     initNav();
@@ -739,6 +873,9 @@ function init() {
     initWorkWithAnimation();
     initAboutAnimations();
     initParallaxAnimations();
+    initScrollTrackingWidget();
+    initBentoScrollReveal();
+    initShowcaseScrollReveal();
 }
 
 if (document.readyState === "loading") {
