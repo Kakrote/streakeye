@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en" class="overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StreakEye | Advanced Solutions & Critical Features</title>
+    <meta name="description" content="Explore StreakEye's advanced features for field operations management, including geo attendance, live tracker systems, data visualizing, chat systems, and customized forms." />
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            emerald: '#10b981',
+                            emeraldDark: '#064e3b',
+                            emeraldLight: '#f0fdf4',
+                            charcoal: '#090d16',
+                            zincDark: '#18181b',
+                            zincLight: '#f4f4f5',
+                            border: '#e4e4e7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background-color: #f2f4f3;
+            color: #27272a;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Architectural mesh grid */
+        .bg-editorial-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+        }
+
+        /* Ambient glowing spotlights */
+        .ambient-glow {
+            filter: blur(140px);
+            opacity: 0.1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Bento cards styles */
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Header state morphing */
+        header {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-zinc-800 antialiased overflow-x-hidden bg-editorial-grid">
+
+    <!-- Ambient glows -->
+    <div class="absolute top-[10%] left-[10%] w-[45vw] h-[45vw] rounded-full bg-emerald-100/30 ambient-glow -z-50"></div>
+    <div class="absolute top-[40%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-emerald-50/40 ambient-glow -z-50"></div>
+    <div class="absolute top-[75%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-teal-50/30 ambient-glow -z-50"></div>
+
+    <!-- Header Section -->
+    <header class="fixed left-0 top-0 z-50 w-full px-6 py-4 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
+        <div class="container mx-auto max-w-7xl flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img id="header-logo" src="assests/logo.png" alt="header logo"
+                        class="h-10 md:h-16 w-auto object-contain rounded-md ">
+                </a>
+            </div>
+            
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="contact.html"
+                    class="rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-600 shadow-sm transition-all hover:bg-emerald-100 sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-8 text-xs uppercase tracking-[0.15em] text-zinc-600">
+                    <li><a href="features.html" class="transition-colors text-emerald-600 hover:text-emerald-700">Features</a></li>
+                    <li><a href="pricing.html" class="transition-colors hover:text-emerald-650">Pricing</a></li>
+                    <li><a href="gdpr.html" class="transition-colors hover:text-emerald-650">GDPR</a></li>
+                    <li><a href="blog.html" class="transition-colors hover:text-emerald-650">Blog</a></li>
+                    <li><a href="academy.html" class="transition-colors hover:text-emerald-650">Academy</a></li>
+                    <li><a href="contact.html" class="transition-colors hover:text-emerald-650">Contact</a></li>
+                    <li><a href="login.html" class="transition-colors hover:text-emerald-650">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden mt-4">
+            <div class="rounded-3xl border border-zinc-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
+                <ul id="mobile-nav" class="grid gap-2 text-zinc-700">
+                    <li><a href="features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 text-emerald-600"><span>Features</span><span
+                                class="text-emerald-600 font-bold">01</span></a></li>
+                    <li><a href="pricing.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Pricing</span><span
+                                class="text-zinc-400">02</span></a></li>
+                    <li><a href="gdpr.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>GDPR</span><span
+                                class="text-zinc-400">03</span></a></li>
+                    <li><a href="blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Blog</span><span
+                                class="text-zinc-400">04</span></a></li>
+                    <li><a href="academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Academy</span><span
+                                class="text-zinc-400">05</span></a></li>
+                    <li><a href="contact.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Contact</span><span
+                                class="text-zinc-400">06</span></a></li>
+                    <li><a href="login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Log
+                                in</span><span class="text-zinc-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative">
+        <!-- New Unique Light Hero Section -->
+        <div class="mx-auto pt-36 pb-12 px-6 max-w-7xl">
+            <div id="features-hero-container" class="relative bg-white border border-zinc-200 rounded-[2rem] p-10 md:p-16 lg:p-20 overflow-hidden shadow-sm flex flex-col md:flex-row items-center gap-12">
+                <!-- Background Mesh and glows specifically for hero -->
+                <div class="absolute inset-0 bg-editorial-grid opacity-[0.4] pointer-events-none"></div>
+                <div class="absolute -right-20 -top-20 w-[30vw] h-[30vw] rounded-full bg-emerald-100/40 blur-3xl pointer-events-none"></div>
+                
+                <!-- Hero text details -->
+                <div id="features-hero-content" class="flex-1 space-y-6 text-left relative z-10">
+                    <span id="features-hero-badge" class="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600">
+                        System Capabilities
+                    </span>
+                    
+                    <h1 id="features-hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 leading-[1.1] tracking-tight font-display">
+                        StreakEye Features <br><span class="text-emerald-500 font-extrabold">&amp; Solutions</span>
+                    </h1>
+                    
+                    <p id="features-hero-desc" class="text-base lg:text-lg text-zinc-500 leading-relaxed max-w-xl font-medium">
+                        Advanced tools tailored specifically for high-fidelity field research, data capturing, and resource management. We ensure accuracy, efficiency, and real-time control.
+                    </p>
+                    
+                    <div id="features-hero-btn" class="flex flex-wrap gap-4 pt-2">
+                        <button id="request-demo-btn"
+                            class="magnetic-btn inline-flex min-h-12 items-center justify-center rounded-full bg-emerald-600 hover:bg-emerald-700 px-8 text-xs md:text-sm font-extrabold text-white transition-all active:scale-95 shadow-md">
+                            Request a Demo &amp; Pilot Launch
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic Side (Unique, minimal visual layout block) -->
+                <div id="features-hero-graphic" class="flex-1 w-full relative z-10 hidden md:block">
+                    <div class="relative max-w-md mx-auto aspect-[4/3] rounded-3xl border border-zinc-200 bg-[#f8faf9] p-6 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between border-b border-zinc-200/80 pb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-display">Feature Dashboard</span>
+                        </div>
+                        
+                        <!-- Simple visual grid representation of active tools -->
+                        <div class="grid grid-cols-2 gap-4 my-6">
+                            <div class="bg-white border border-zinc-200/60 rounded-2xl p-4 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
+                                <span class="text-[9px] font-extrabold uppercase tracking-wider text-zinc-400">Sync status</span>
+                                <span class="text-xs font-black text-emerald-600 mt-1">99.8% Active</span>
+                            </div>
+                            <div class="bg-white border border-zinc-200/60 rounded-2xl p-4 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
+                                <span class="text-[9px] font-extrabold uppercase tracking-wider text-zinc-400">Geo accuracy</span>
+                                <span class="text-xs font-black text-emerald-600 mt-1">&lt; 3 Meters</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-zinc-400 text-[9px] font-extrabold uppercase tracking-widest pt-2 border-t border-zinc-200/80">
+                            <span>Ready to scale</span>
+                            <span class="text-emerald-500">Online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: Left Timeline (Core Operations Management) -->
+        <section id="core-operations-section" class="py-16 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative">
+            <div class="text-left mb-16 max-w-3xl border-l-4 border-emerald-500 pl-6">
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+                    Phase 01
+                </span>
+                <h2 class="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl leading-tight mt-4 font-display">
+                    Core Operations
+                </h2>
+                <p class="text-zinc-500 mt-2 font-medium">Verify field operations authenticity, manage workforce dynamically, and gain instant live feedback loops.</p>
+            </div>
+
+            <!-- Features 1-4 Stack -->
+            <div class="space-y-16 lg:space-y-0 relative">
+                
+                <!-- Feature 1: Geo Attendance -->
+                <div class="timeline-row flex flex-col lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <!-- Timeline Track Column (Left Side) -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 space-y-6 text-left">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">01</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon1.png" alt="Geo Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Geo Attendance</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    The system is designed in such a manner that you can track and evaluate the accurate time your employee spends on the job. The selfie feature allows you in this process with date, time, and location regarding information of the employee's attendance to avoid manipulation.
+                                </p>
+                            </div>
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/geo.jpg" alt="Geo Attendance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Live Tracker System -->
+                <div class="timeline-row flex flex-col lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <!-- Timeline Track Column -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 space-y-6 text-left">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">02</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon2.png" alt="Tracker Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Live Tracker System</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    Keep tabs on your team and field force. Know the specifics like workforce attendance, productive hours, total distance traveled, and location etcetera anytime anywhere. Allocate geofences at the entry/exit points at get alerted whenever your executives pass through there.
+                                </p>
+                            </div>
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/tracking.jpg" alt="Live Tracker System" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Data Visualizing -->
+                <div class="timeline-row flex flex-col lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <!-- Timeline Track Column -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 space-y-6 text-left">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">03</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon3.png" alt="Data Visualizing Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Data Visualizing</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    Visualizing data through dashboards is a very modern approach to analyzing and organizing your marketing data. Dashboards simplify the analysis process by gathering all data and displaying it in one location. We have also learned a great deal from these tools and applied those learnings in the development our own products.
+                                </p>
+                            </div>
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/maketing.jpg" alt="Data Visualizing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Chat System -->
+                <div class="timeline-row flex flex-col lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <!-- Timeline Track Column -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 h-[calc(50px)] w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 h-[calc(50px)] w-[2px] bg-emerald-500 origin-top scale-y-0 timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- No bottom checkbox for the last item -->
+                    </div>
+                    
+                    <div class="flex-grow">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 space-y-6 text-left">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">04</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon1.png" alt="Chat Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Chat System</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    A chat system offers several benefits, including real-time interaction with participants, quicker data collection, increased respondent engagement, and the ability to gather qualitative insights efficiently. Additionally, it provides support from administrators for location-specific guidance and instructions.
+                                </p>
+                            </div>
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/chat.jpg" alt="Chat System" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 2: Right Timeline (Data Collection & Field Insights) -->
+        <section id="insights-collection-section" class="py-16 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative">
+            <div class="text-right mb-16 max-w-3xl ml-auto border-r-4 border-emerald-500 pr-6">
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+                    Phase 02
+                </span>
+                <h2 class="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl leading-tight mt-4 font-display">
+                    Data & Insights
+                </h2>
+                <p class="text-zinc-500 mt-2 font-medium">Capture high-fidelity media, organize structural team protocols, respond to alert triggers, and administer flexible forms.</p>
+            </div>
+
+            <!-- Features 5-8 Stack (Mirrored Layout) -->
+            <div class="space-y-16 lg:space-y-0 relative">
+                
+                <!-- Feature 5: Live Streaming -->
+                <div class="timeline-row flex flex-col-reverse lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/live.jpg" alt="Live Streaming" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                            <div class="flex-1 space-y-6 text-left md:pl-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">05</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon2.png" alt="Live Stream Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Live Streaming</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    Live streaming in market research provides real-time data collection, instant feedback, and a global reach, enabling businesses to capture authentic insights efficiently. This approach enhances research accuracy and enables quick decision-making based on actionable data.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Track Column (Right Side) -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 6: Notice Board -->
+                <div class="timeline-row flex flex-col-reverse lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/fsms-projectDetails2.jpg" alt="Notice Board" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                            <div class="flex-1 space-y-6 text-left md:pl-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">06</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon3.png" alt="Notice Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Notice Board</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    It offers several advantages. It helps in communicating important updates and instructions to field workers efficiently, ensuring everyone is well-informed. Additionally, it facilitates real-time collaboration and coordination, enhancing productivity and data quality in offline data collection processes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Track Column (Right Side) -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 7: Alerts and Notifications -->
+                <div class="timeline-row flex flex-col-reverse lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <div class="flex-grow pb-12 lg:pb-24">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/alert.jpg" alt="Alerts and Notifications" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                            <div class="flex-1 space-y-6 text-left md:pl-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">07</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon1.png" alt="Alert Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Alerts and Notifications</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    By alerting teams to critical events or deviations in real-time, they enable quick response and decision-making, leading to enhanced project efficiency and quality. These alerts also help in preventing potential issues, ensuring smoother operations and better outcomes for the project overall.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Track Column (Right Side) -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 bottom-0 w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 w-[2px] bg-emerald-500 origin-top scale-y-0 h-full timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- Checkbox in bottom gap -->
+                        <div class="absolute bottom-[-16px] w-8 h-8 rounded-lg border-2 border-zinc-200 bg-white z-10 flex items-center justify-center timeline-check transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 scale-0 timeline-check-icon transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 8: Forms / Surveys / Tasks -->
+                <div class="timeline-row flex flex-col-reverse lg:flex-row gap-8 items-stretch relative min-h-[350px]">
+                    <div class="flex-grow">
+                        <div class="bento-card rounded-3xl p-8 lg:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="flex-1 w-full h-64 md:h-72 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative group">
+                                <img src="assests/images/market.jpg" alt="Forms / Surveys / Tasks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent pointer-events-none"></div>
+                            </div>
+                            <div class="flex-1 space-y-6 text-left md:pl-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-4xl font-extrabold text-emerald-500/20 font-display">08</span>
+                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 shadow-sm">
+                                        <img src="assests/icons/icon2.png" alt="Forms Icon" class="h-5 w-5 object-contain">
+                                    </div>
+                                    <h3 class="font-bold text-zinc-900 text-2xl lg:text-3xl tracking-tight">Forms / Surveys / Tasks</h3>
+                                </div>
+                                <p class="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                                    Our open survey/form allows for unlimited responses from any location, without any restrictions and Tasks involve pre-assigned survey/form for specific locations and are limited to a set number of respondents.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Track Column (Right Side) -->
+                    <div class="hidden lg:flex flex-col items-center w-16 relative flex-shrink-0">
+                        <div class="absolute top-0 h-[calc(50px)] w-[2px] bg-zinc-200/80"></div>
+                        <div class="absolute top-0 h-[calc(50px)] w-[2px] bg-emerald-500 origin-top scale-y-0 timeline-progress-line"></div>
+                        
+                        <div class="w-6 h-6 rounded-full border-4 border-zinc-200 bg-white z-10 flex items-center justify-center mt-12 timeline-node transition-all duration-300">
+                            <div class="w-2 h-2 rounded-full bg-zinc-300 timeline-node-inner transition-all duration-300"></div>
+                        </div>
+                        
+                        <!-- No bottom checkbox for the last item -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section" class="border-t border-emerald-950/40 relative px-6 py-20 text-zinc-350 sm:px-10 lg:px-16 bg-gradient-to-br from-[#021f18] to-[#01140f] overflow-hidden">
+        
+        <div class="absolute inset-0 bg-editorial-grid opacity-5 pointer-events-none"></div>
+
+        <div class="mx-auto max-w-7xl space-y-16 relative z-10">
+            <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                
+                <!-- Newsletter Block (Dark Glassmorphic Card) -->
+                <div class="max-w-2xl bg-zinc-900/40 rounded-3xl border border-white/10 p-8 shadow-2xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-emerald-400">StreakEye</p>
+                    <h2 id="footer-subscribe-title"
+                        class="mt-4 text-3xl font-extrabold tracking-tight text-white font-display">Subscribe to our newsletter</h2>
+                    <p id="footer-subscribe-description"
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-300 font-medium">Get the
+                        latest updates and insights from StreakEye delivered straight to your inbox.</p>
+                    
+                    <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <label class="sr-only" for="footer-email">Email address</label>
+                        <input id="footer-email" type="email" required placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-white/10 bg-zinc-950/40 px-6 text-sm text-white outline-none transition-all placeholder:text-zinc-550 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-zinc-950/80" />
+                        <button type="submit" id="footer-subscribe-button"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95 hover:from-emerald-400 hover:to-teal-400">Subscribe</button>
+                    </form>
+                </div>
+                
+                <!-- Contact & Social Block (Dark Glassmorphic Card) -->
+                <div class="grid gap-8 rounded-3xl border border-white/10 bg-zinc-900/40 p-8 shadow-2xl backdrop-blur-md sm:grid-cols-2">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Contact</p>
+                        <a id="footer-email-link" href="mailto:info@biinfotech.com"
+                            class="block text-base font-bold text-white hover:text-emerald-400 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Social</p>
+                        <div id="footer-social-links" class="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/twitter.png" alt="Twitter" class="h-3.5 w-3.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/facebook.png" alt="Facebook" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/instagram.png" alt="Instagram" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Address Grid -->
+            <div id="footer-address-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Ontario, Canada</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">325 Front ST. W | Suite 300,
+                        Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">New Delhi, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">12/4, Prem Nagar, Janakpuri,
+                        110058<br />+91 8766248464</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Hyderabad, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">Miyapur, Bollaram Road,
+                        500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-8 text-[10px] font-bold text-zinc-500 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
+                <p id="footer-subscribe-note" class="text-emerald-400/80">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Request a Demo Modal -->
+    <div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="modal-backdrop" class="absolute inset-0 bg-zinc-950/30 backdrop-blur-sm opacity-0"></div>
+        <div id="modal-content"
+            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2rem] shadow-2xl border border-zinc-200">
+            
+            <!-- Close Button -->
+            <button id="close-modal"
+                class="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-50 text-zinc-400 transition-all hover:bg-zinc-100 hover:text-zinc-700 border border-zinc-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-black text-zinc-950 bg-gradient-to-r from-emerald-700 to-teal-500 bg-clip-text text-transparent font-display">Request a Demo</h3>
+                <p class="mt-2 text-sm font-semibold text-zinc-450">Launch Your Pilot Project Today!</p>
+            </div>
+
+            <form id="demo-form" class="space-y-4">
+                <div>
+                    <label class="sr-only" for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Full Name"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Email Address"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="message">Message</label>
+                    <textarea id="message" name="message" rows="3" required placeholder="How can we help you?"
+                        class="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"></textarea>
+                </div>
+
+                <!-- Simulated Captcha -->
+                <div class="flex items-center justify-between rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="captcha-box"
+                            class="flex h-6 w-6 items-center justify-center rounded border border-zinc-350 bg-white transition-all hover:border-emerald-500">
+                            <svg id="captcha-check" class="hidden h-4 w-4 text-green-500"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <span class="text-xs font-semibold text-zinc-550">I'm not a robot</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center opacity-40">
+                        <img src="assests/logo2.jpeg" alt="captcha" class="h-5 object-contain grayscale rounded">
+                        <span class="text-[8px] font-bold uppercase tracking-tighter text-zinc-550 font-display">reCAPTCHA</span>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="mt-2 h-12 w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-xs font-extrabold text-white shadow-lg transition-all active:scale-95">
+                    Launch Your Pilot
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-emerald-600 text-white shadow-xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-105 active:scale-95 flex items-center justify-center border border-emerald-500/20">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            lerp: 0.1,
+            smoothWheel: true
+        });
+        window.lenis = lenis;
+        
+        // Sync Lenis scroll events with GSAP ScrollTrigger
+        lenis.on('scroll', () => {
+            if (typeof ScrollTrigger !== "undefined") {
+                ScrollTrigger.update();
+            }
+        });
+        
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Back to Top Button toggler
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            lenis.scrollTo(0);
+        });
+
+        // Timeline Scroll triggers (GSAP ScrollTrigger)
+        document.addEventListener("DOMContentLoaded", () => {
+            // Give a short delay to make sure libraries are fully initialized
+            setTimeout(() => {
+                if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+                    
+                    // 1. Local simple reveal for the new Hero Section
+                    const heroTl = gsap.timeline();
+                    heroTl.from("#features-hero-badge", { opacity: 0, y: -15, duration: 0.6, ease: "power2.out" })
+                          .from("#features-hero-title", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.4")
+                          .from("#features-hero-desc", { opacity: 0, y: 15, duration: 0.7, ease: "power2.out" }, "-=0.5")
+                          .from("#features-hero-btn", { opacity: 0, y: 15, duration: 0.6, ease: "power2.out" }, "-=0.5")
+                          .from("#features-hero-graphic", { opacity: 0, scale: 0.95, duration: 0.9, ease: "back.out(1.2)" }, "-=0.6");
+
+                    // 2. Local timeline animations for features
+                    const rows = document.querySelectorAll(".timeline-row");
+                    rows.forEach((row) => {
+                        const progressLine = row.querySelector(".timeline-progress-line");
+                        const node = row.querySelector(".timeline-node");
+                        const nodeInner = row.querySelector(".timeline-node-inner");
+                        const check = row.querySelector(".timeline-check");
+                        const checkIcon = row.querySelector(".timeline-check-icon");
+                        const card = row.querySelector(".bento-card");
+
+                        // Timeline progress draw scrub
+                        if (progressLine) {
+                            gsap.to(progressLine, {
+                                scaleY: 1,
+                                ease: "none",
+                                scrollTrigger: {
+                                    trigger: row,
+                                    start: "top 70%",
+                                    end: "bottom 60%",
+                                    scrub: 0.5
+                                }
+                            });
+                        }
+
+                        // Dot lighting toggle
+                        ScrollTrigger.create({
+                            trigger: card || row,
+                            start: "top 75%",
+                            onEnter: () => {
+                                if (node) {
+                                    node.classList.add("border-emerald-500", "shadow-[0_0_12px_rgba(16,185,129,0.35)]");
+                                }
+                                if (nodeInner) {
+                                    nodeInner.classList.add("bg-emerald-500");
+                                    nodeInner.classList.remove("bg-zinc-300");
+                                }
+                            },
+                            onLeaveBack: () => {
+                                if (node) {
+                                    node.classList.remove("border-emerald-500", "shadow-[0_0_12px_rgba(16,185,129,0.35)]");
+                                }
+                                if (nodeInner) {
+                                    nodeInner.classList.remove("bg-emerald-500");
+                                    nodeInner.classList.add("bg-zinc-300");
+                                }
+                            }
+                        });
+
+                        // Checkbox checking toggle
+                        if (check) {
+                            ScrollTrigger.create({
+                                trigger: check,
+                                start: "top 70%",
+                                onEnter: () => {
+                                    check.classList.add("border-emerald-500", "bg-emerald-50", "shadow-[0_0_8px_rgba(16,185,129,0.15)]");
+                                    if (checkIcon) {
+                                        checkIcon.classList.remove("scale-0");
+                                        checkIcon.classList.add("scale-100", "text-emerald-600");
+                                    }
+                                },
+                                onLeaveBack: () => {
+                                    check.classList.remove("border-emerald-500", "bg-emerald-50", "shadow-[0_0_8px_rgba(16,185,129,0.15)]");
+                                    if (checkIcon) {
+                                        checkIcon.classList.add("scale-0");
+                                        checkIcon.classList.remove("scale-100", "text-emerald-600");
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    // Stagger reveal cards
+                    const cards = document.querySelectorAll(".bento-card");
+                    gsap.set(cards, { opacity: 0, y: 40 });
+                    ScrollTrigger.batch(cards, {
+                        start: "top 85%",
+                        onEnter: batch => gsap.to(batch, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            stagger: 0.15,
+                            ease: "power2.out",
+                            overwrite: "auto"
+                        }),
+                        once: true
+                    });
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
