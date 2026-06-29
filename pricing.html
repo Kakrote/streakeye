@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="en" class="overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StreakEye | Flexible Plans & Premium Pricing</title>
+    <meta name="description" content="Choose the perfect plan for StreakEye's field operations platform. Check out our free pilot study, basic plans, and full-featured advanced plans." />
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            emerald: '#10b981',
+                            emeraldDark: '#064e3b',
+                            emeraldLight: '#f0fdf4',
+                            charcoal: '#090d16',
+                            zincDark: '#18181b',
+                            zincLight: '#f4f4f5',
+                            border: '#e4e4e7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background-color: #f2f4f3;
+            color: #27272a;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Architectural mesh grid */
+        .bg-editorial-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+        }
+
+        /* Ambient glowing spotlights */
+        .ambient-glow {
+            filter: blur(140px);
+            opacity: 0.1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Bento cards styles */
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Header state morphing */
+        header {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        /* Mouse tracking glow */
+        .spotlight-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(20, 184, 166, 0.02) 60%, transparent 100%);
+            filter: blur(30px);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-zinc-800 antialiased overflow-x-hidden bg-editorial-grid">
+
+    <!-- Spotlight cursor follower -->
+    <div class="spotlight-follower" id="spotlight"></div>
+
+    <!-- Ambient glows -->
+    <div class="absolute top-[10%] left-[10%] w-[45vw] h-[45vw] rounded-full bg-emerald-100/30 ambient-glow -z-50"></div>
+    <div class="absolute top-[40%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-emerald-50/40 ambient-glow -z-50"></div>
+    <div class="absolute top-[75%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-teal-50/30 ambient-glow -z-50"></div>
+
+    <!-- Header Section -->
+    <header class="fixed left-0 top-0 z-50 w-full px-6 py-4 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
+        <div class="container mx-auto max-w-7xl flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img id="header-logo" src="assests/logo.png" alt="header logo"
+                        class="h-10 md:h-16 w-auto object-contain rounded-md ">
+                </a>
+            </div>
+            
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="contact.html"
+                    class="rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-600 shadow-sm transition-all hover:bg-emerald-100 sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-8 text-xs uppercase tracking-[0.15em] text-zinc-600">
+                    <li><a href="features.html" class="transition-colors hover:text-emerald-600">Features</a></li>
+                    <li><a href="pricing.html" class="transition-colors text-emerald-600 hover:text-emerald-700 font-extrabold">Pricing</a></li>
+                    <li><a href="gdpr.html" class="transition-colors hover:text-emerald-600">GDPR</a></li>
+                    <li><a href="blog.html" class="transition-colors hover:text-emerald-600">Blog</a></li>
+                    <li><a href="academy.html" class="transition-colors hover:text-emerald-600">Academy</a></li>
+                    <li><a href="contact.html" class="transition-colors hover:text-emerald-600">Contact</a></li>
+                    <li><a href="login.html" class="transition-colors hover:text-emerald-600">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden mt-4">
+            <div class="rounded-3xl border border-zinc-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
+                <ul id="mobile-nav" class="grid gap-2 text-zinc-700">
+                    <li><a href="features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Features</span><span
+                                class="text-zinc-400">01</span></a></li>
+                    <li><a href="pricing.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase bg-emerald-50 text-emerald-600 font-bold"><span>Pricing</span><span
+                                class="text-emerald-600 font-bold">02</span></a></li>
+                    <li><a href="gdpr.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>GDPR</span><span
+                                class="text-zinc-400">03</span></a></li>
+                    <li><a href="blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Blog</span><span
+                                class="text-zinc-400">04</span></a></li>
+                    <li><a href="academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Academy</span><span
+                                class="text-zinc-400">05</span></a></li>
+                    <li><a href="contact.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Contact</span><span
+                                class="text-zinc-400">06</span></a></li>
+                    <li><a href="login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Log
+                                in</span><span class="text-zinc-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-36 pb-24">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <!-- Hero Title Block -->
+            <div id="pricing-hero" class="flex flex-col items-center text-center mb-12">
+                <span id="pricing-hero-badge" class="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 mb-6">
+                    PLANS &amp; PRICING
+                </span>
+                <h1 id="pricing-hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 leading-[1.1] tracking-tight font-display max-w-3xl mb-6">
+                    Select the Perfect Plan for <br><span class="text-emerald-500 font-extrabold">Your Growth Journey</span>
+                </h1>
+                <p id="pricing-hero-desc" class="text-base lg:text-lg text-zinc-500 leading-relaxed max-w-xl font-medium mb-10">
+                    Transparent, flexible plans tailored to suit field operations, small groups, and enterprise-scale deployments.
+                </p>
+                
+                <!-- Monthly/Annual Billing Toggle -->
+                <div class="flex items-center justify-center gap-4" id="billing-toggle-container">
+                    <span class="text-sm font-extrabold text-emerald-600 transition-colors duration-200" id="monthly-label">Billed Monthly</span>
+                    <button id="billing-toggle" class="relative inline-flex h-7 w-14 items-center rounded-full bg-zinc-200 p-1 transition-colors duration-300 focus:outline-none" aria-label="Toggle Billing Frequency">
+                        <span id="billing-toggle-dot" class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-300 translate-x-0"></span>
+                    </button>
+                    <span class="text-sm font-bold text-zinc-450 transition-colors duration-200 flex items-center gap-2" id="annual-label">
+                        Billed Annually
+                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-800 animate-pulse">Save 20%</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Request Demo Main Button (Needed for JS trigger) -->
+            <div id="pricing-hero-btn" class="hidden">
+                <button id="request-demo-btn">Demo Trigger</button>
+            </div>
+
+            <!-- Mobile View (Stacked Cards) -->
+            <div id="mobile-pricing-cards" class="lg:hidden space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-6 mt-12 mb-16">
+                <!-- Free Plan Card -->
+                <div class="bento-card rounded-3xl p-8 border border-zinc-200 bg-white flex flex-col justify-between h-full shadow-sm hover:border-emerald-500/30">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Pilot Study</span>
+                                <h3 class="text-2xl font-black text-zinc-900 font-display mt-1">Free</h3>
+                            </div>
+                        </div>
+                        <p class="text-xs text-zinc-500 mt-4 font-medium leading-relaxed">Test-drive our system capabilities for your field operations needs.</p>
+                        
+                        <div class="mt-6 flex items-baseline text-zinc-900">
+                            <span class="text-4xl font-black font-display">$0</span>
+                            <span class="text-xs text-zinc-450 ml-1 font-medium">/ user / mo</span>
+                        </div>
+                        
+                        <!-- Separator -->
+                        <div class="my-6 border-t border-zinc-100"></div>
+                        
+                        <!-- Key Features -->
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">28 system features included</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Geo attendance tracking</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Forms / Surveys with data sync</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Location Tracking &amp; Streaming</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button class="request-demo-trigger magnetic-btn mt-8 w-full py-3 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full font-extrabold text-xs uppercase tracking-wider transition-all active:scale-95 shadow-md">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Basic Plan Card -->
+                <div class="bento-card rounded-3xl p-8 border border-zinc-200 bg-white flex flex-col justify-between h-full shadow-sm hover:border-emerald-500/30">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Grow Plan</span>
+                                <h3 class="text-2xl font-black text-zinc-900 font-display mt-1">Basic</h3>
+                            </div>
+                        </div>
+                        <p class="text-xs text-zinc-500 mt-4 font-medium leading-relaxed">Core operations management tools for small-to-medium teams.</p>
+                        
+                        <div class="mt-6 flex flex-col">
+                            <div class="flex items-baseline text-zinc-900">
+                                <span class="text-4xl font-black font-display pricing-val-basic">$15</span>
+                                <span class="text-xs text-zinc-450 ml-1 font-medium">/ user / mo</span>
+                            </div>
+                            <span class="pricing-subtext-basic text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-1">billed monthly</span>
+                        </div>
+                        
+                        <!-- Separator -->
+                        <div class="my-6 border-t border-zinc-100"></div>
+                        
+                        <!-- Key Features -->
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">23 system features included</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Attendance &amp; team chat</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">3 Dynamic Alerts per project</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <span class="text-zinc-450 font-bold text-base leading-none -mt-0.5 w-4 text-center select-none">-</span>
+                                <span class="text-xs text-zinc-400 font-medium line-through">No GPS Location Tracking</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button class="request-demo-trigger magnetic-btn mt-8 w-full py-3 border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-800 rounded-full font-extrabold text-xs uppercase tracking-wider transition-all active:scale-95">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Advanced Plan Card -->
+                <div class="bento-card rounded-3xl p-8 border border-emerald-500 bg-white flex flex-col justify-between h-full shadow-lg relative hover:border-emerald-600">
+                    <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-emerald-600 to-teal-500 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                        Most Popular
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Enterprise Scale</span>
+                                <h3 class="text-2xl font-black text-zinc-900 font-display mt-1">Advanced</h3>
+                            </div>
+                        </div>
+                        <p class="text-xs text-zinc-500 mt-4 font-medium leading-relaxed">Full operations suite with live tracking, video streaming and priority SLAs.</p>
+                        
+                        <div class="mt-6 flex flex-col">
+                            <div class="flex items-baseline text-zinc-900">
+                                <span class="text-4xl font-black font-display pricing-val-adv">$20</span>
+                                <span class="text-xs text-zinc-450 ml-1 font-medium">/ user / mo</span>
+                            </div>
+                            <span class="pricing-subtext-adv text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-1">billed monthly</span>
+                        </div>
+                        
+                        <!-- Separator -->
+                        <div class="my-6 border-t border-zinc-100"></div>
+                        
+                        <!-- Key Features -->
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">28 system features included (All)</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Unlimited Dynamic Alerts</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Live Map GPS Tracker &amp; Streaming</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                <span class="text-xs text-zinc-650 font-medium">Dedicated Priority Support</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button class="request-demo-trigger magnetic-btn mt-8 w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white rounded-full font-extrabold text-xs uppercase tracking-wider transition-all active:scale-95 shadow-lg">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table View (Desktop Only) -->
+            <div id="desktop-pricing-table" class="hidden lg:block mt-12 mb-24 relative">
+                <div class="bg-white rounded-[2rem] border border-zinc-200/80 shadow-xl overflow-visible">
+                    <table class="w-full text-left border-collapse">
+                        <!-- Sticky header inside table -->
+                        <thead class="sticky top-[80px] z-30 bg-white/95 backdrop-blur-md shadow-[0_4px_20px_-5px_rgba(9,9,11,0.05)] border-b border-zinc-200">
+                            <tr>
+                                <th class="p-8 w-[34%] align-middle">
+                                    <span class="text-xs font-black uppercase tracking-widest text-zinc-400 font-display">System Capabilities</span>
+                                </th>
+                                <th class="p-8 w-[22%] text-center border-l border-zinc-100">
+                                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-zinc-400">Pilot Study</span>
+                                    <h3 class="text-xl font-black text-zinc-900 font-display mt-0.5">Free</h3>
+                                    <div class="mt-2 text-2xl font-black text-zinc-900 font-display flex items-baseline justify-center">
+                                        <span>$0</span>
+                                    </div>
+                                    <button class="request-demo-trigger magnetic-btn mt-4 px-5 py-2 w-full border border-zinc-200 rounded-full font-extrabold text-[10px] uppercase tracking-wider text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all active:scale-95">Get Started</button>
+                                </th>
+                                <th class="p-8 w-[22%] text-center border-l border-zinc-100">
+                                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-zinc-400">Grow Plan</span>
+                                    <h3 class="text-xl font-black text-zinc-900 font-display mt-0.5">Basic Plan</h3>
+                                    <div class="mt-2 text-2xl font-black text-zinc-900 font-display flex items-baseline justify-center">
+                                        <span class="pricing-val-basic">$15</span>
+                                        <span class="text-[10px] text-zinc-400 ml-1 font-sans font-medium">/ mo</span>
+                                    </div>
+                                    <div class="pricing-subtext-basic text-[8px] font-bold text-zinc-400 uppercase tracking-widest mt-0.5">billed monthly</div>
+                                    <button class="request-demo-trigger magnetic-btn mt-4 px-5 py-2 w-full border border-zinc-200 rounded-full font-extrabold text-[10px] uppercase tracking-wider text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-all active:scale-95">Get Started</button>
+                                </th>
+                                <th class="p-8 w-[22%] text-center border-l border-zinc-100 bg-emerald-500/[0.01] relative">
+                                    <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+                                    <span class="text-[9px] font-black uppercase tracking-widest text-emerald-600 flex items-center justify-center gap-1">
+                                        <span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+                                        Most Popular
+                                    </span>
+                                    <h3 class="text-xl font-black text-zinc-900 font-display mt-0.5">Advanced Plan</h3>
+                                    <div class="mt-2 text-2xl font-black text-zinc-900 font-display flex items-baseline justify-center">
+                                        <span class="pricing-val-adv">$20</span>
+                                        <span class="text-[10px] text-zinc-400 ml-1 font-sans font-medium">/ mo</span>
+                                    </div>
+                                    <div class="pricing-subtext-adv text-[8px] font-bold text-zinc-400 uppercase tracking-widest mt-0.5">billed monthly</div>
+                                    <button class="request-demo-trigger magnetic-btn mt-4 px-5 py-2 w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white rounded-full font-extrabold text-[10px] uppercase tracking-wider hover:from-emerald-500 hover:to-teal-400 transition-all shadow-md active:scale-95">Get Started</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-zinc-650">
+                            <!-- Section Heading: Operations & Tracking -->
+                            <tr class="bg-zinc-50/60">
+                                <td colspan="4" class="px-8 py-4 font-black uppercase text-[10px] tracking-widest text-zinc-450 font-display border-t border-zinc-150">Operations &amp; Tracking</td>
+                            </tr>
+                            
+                            <!-- Geo Attendance -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Geo Attendance</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Verify employee attendance at assigned operation coordinates.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Tasks -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Tasks</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Pre-assign specific tasks and survey flows to site locations.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Attendance & History -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Attendance &amp; History</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Log historical staff attendance logs, work timings and output history.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Location GPS Tracking -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Location (GPS) Tracking</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Full real-time GPS coordinate tracking and geo-fencing (Restricted Zones).</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="text-zinc-350 font-bold text-base select-none">-</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Live Streaming -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Live Streaming</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">High-fidelity real-time video streaming directly from field devices.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="text-zinc-355 font-bold text-base select-none">-</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Project/Attendance Gallery -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Project/Attendance Gallery</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">A visual library of operations progress, captured photos and geotagged snaps.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Full Access</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-[10px] font-bold text-zinc-650 border border-zinc-200">Attendance Only</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Full Access</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- Live Tracking -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Live Tracking</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Real-time status tracking updates and monitoring of agent routes.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Right hand rule -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Right hand rule</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Compliance workflow checklists and standard verification enforcement.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+
+                            <!-- Section Heading: Surveys & Forms -->
+                            <tr class="bg-zinc-50/60">
+                                <td colspan="4" class="px-8 py-4 font-black uppercase text-[10px] tracking-widest text-zinc-450 font-display border-t border-zinc-150">Surveys &amp; Forms</td>
+                            </tr>
+                            
+                            <!-- Forms / Surveys -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Forms / Surveys</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Flexible survey creator supporting custom form fields and variables.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Survey Maker Dashboard -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Survey Maker Dashboard</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Comprehensive web-based admin portal for managing, exporting and compiling surveys.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="text-zinc-350 font-bold text-base select-none">-</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Google Form -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Google Form</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Seamless synchronization and data bridging from active Google Forms.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Online Survey -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Online Survey</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Publish public/private web surveys accessible to non-registered external clients.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="text-zinc-350 font-bold text-base select-none">-</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Unique Survey Code -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Unique Survey Code</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Encrypt and validate submission sources using one-time token codes.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="text-zinc-350 font-bold text-base select-none">-</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+
+                            <!-- Section Heading: Team Communication -->
+                            <tr class="bg-zinc-50/60">
+                                <td colspan="4" class="px-8 py-4 font-black uppercase text-[10px] tracking-widest text-zinc-450 font-display border-t border-zinc-150">Team Communication</td>
+                            </tr>
+                            
+                            <!-- Notifications -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Notifications</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Push warnings and instructions to field devices instantly.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- One to One Chat -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">One to One Chat</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Secure direct messages between coordinators and active site agents.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Group Chatting -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Group Chatting</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Project-specific channels for operational team alignment.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Forum / Notice Board -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Forum / Notice Board</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Central board for pinned broadcasts and organization-wide operations updates.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- SOS -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">SOS</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Instant emergency distress beacon linking active user coordinates to admin console.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+
+                            <!-- Section Heading: Analytics & Settings -->
+                            <tr class="bg-zinc-50/60">
+                                <td colspan="4" class="px-8 py-4 font-black uppercase text-[10px] tracking-widest text-zinc-450 font-display border-t border-zinc-150">Analytics &amp; Settings</td>
+                            </tr>
+                            
+                            <!-- Custom Report -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Custom Report</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Generate customized performance reports based on collected coordinates &amp; responses.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Alert and Dynamic Alerts -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Alert and Dynamic Alerts</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Automated geo-fence triggers and critical notification triggers.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Unlimited</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-[10px] font-bold text-zinc-650 border border-zinc-200">3 Alerts</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Unlimited</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- Crosstab Reports -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Crosstab Reports</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Cross-compare collected survey answers and check variables directly.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Unlimited</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-[10px] font-bold text-zinc-650 border border-zinc-200 font-sans">2 / Project</span>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 border border-emerald-500/10">Unlimited</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- Google Maps -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Google Maps</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">High-accuracy Google Maps coordinate and map view integrations.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Charts -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Charts</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Visualize operational progress &amp; answers in interactive bar/pie graphs.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Permission Access -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Permission Access</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Configure role-based access permissions for system forms, map tracking and tools.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Unlimited User Types -->
+                            <tr class="border-b border-zinc-100 hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Unlimited User Types</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Define custom permissions roles (e.g. Inspector, Surveyor, Admin, Client).</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                            
+                            <!-- Project Assignment -->
+                            <tr class="hover:bg-emerald-50/[0.02] transition-colors">
+                                <td class="px-8 py-5">
+                                    <h4 class="font-extrabold text-zinc-800 text-sm font-display">Project Assignment</h4>
+                                    <p class="text-[11px] text-zinc-450 font-sans mt-0.5">Assign surveyor tasks and map locations dynamically to active field teams.</p>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                                <td class="px-8 py-5 border-l border-zinc-100 bg-emerald-50/[0.01] text-center align-middle">
+                                    <svg class="w-5 h-5 mx-auto text-emerald-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section" class="border-t border-emerald-950/40 relative px-6 py-20 text-zinc-350 sm:px-10 lg:px-16 bg-gradient-to-br from-[#021f18] to-[#01140f] overflow-hidden">
+        
+        <div class="absolute inset-0 bg-editorial-grid opacity-5 pointer-events-none"></div>
+
+        <div class="mx-auto max-w-7xl space-y-16 relative z-10">
+            <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                
+                <!-- Newsletter Block (Dark Glassmorphic Card) -->
+                <div class="max-w-2xl bg-zinc-900/40 rounded-3xl border border-white/10 p-8 shadow-2xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-emerald-400">StreakEye</p>
+                    <h2 id="footer-subscribe-title"
+                        class="mt-4 text-3xl font-extrabold tracking-tight text-white font-display">Subscribe to our newsletter</h2>
+                    <p id="footer-subscribe-description"
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-300 font-medium">Get the
+                        latest updates and insights from StreakEye delivered straight to your inbox.</p>
+                    
+                    <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <label class="sr-only" for="footer-email">Email address</label>
+                        <input id="footer-email" type="email" required placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-white/10 bg-zinc-950/40 px-6 text-sm text-white outline-none transition-all placeholder:text-zinc-550 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-zinc-950/80" />
+                        <button type="submit" id="footer-subscribe-button"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95 hover:from-emerald-400 hover:to-teal-400">Subscribe</button>
+                    </form>
+                </div>
+                
+                <!-- Contact & Social Block (Dark Glassmorphic Card) -->
+                <div class="grid gap-8 rounded-3xl border border-white/10 bg-zinc-900/40 p-8 shadow-2xl backdrop-blur-md sm:grid-cols-2">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Contact</p>
+                        <a id="footer-email-link" href="mailto:info@biinfotech.com"
+                            class="block text-base font-bold text-white hover:text-emerald-400 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Social</p>
+                        <div id="footer-social-links" class="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/twitter.png" alt="Twitter" class="h-3.5 w-3.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/facebook.png" alt="Facebook" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/instagram.png" alt="Instagram" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Address Grid -->
+            <div id="footer-address-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Ontario, Canada</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">325 Front ST. W | Suite 300,
+                        Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">New Delhi, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">12/4, Prem Nagar, Janakpuri,
+                        110058<br />+91 8766248464</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Hyderabad, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">Miyapur, Bollaram Road,
+                        500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-8 text-[10px] font-bold text-zinc-500 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
+                <p id="footer-subscribe-note" class="text-emerald-400/80">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Request a Demo Modal -->
+    <div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="modal-backdrop" class="absolute inset-0 bg-zinc-950/30 backdrop-blur-sm opacity-0"></div>
+        <div id="modal-content"
+            class="relative w-full max-w-md scale-95 opacity-0 bg-white p-8 rounded-[2rem] shadow-2xl border border-zinc-200">
+            
+            <!-- Close Button -->
+            <button id="close-modal"
+                class="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-50 text-zinc-400 transition-all hover:bg-zinc-100 hover:text-zinc-700 border border-zinc-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-black text-zinc-950 bg-gradient-to-r from-emerald-700 to-teal-500 bg-clip-text text-transparent font-display">Request a Demo</h3>
+                <p class="mt-2 text-sm font-semibold text-zinc-450">Launch Your Pilot Project Today!</p>
+            </div>
+
+            <form id="demo-form" class="space-y-4">
+                <div>
+                    <label class="sr-only" for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Full Name"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Email Address"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
+                        class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                </div>
+                <div>
+                    <label class="sr-only" for="message">Message</label>
+                    <textarea id="message" name="message" rows="3" required placeholder="How can we help you?"
+                        class="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"></textarea>
+                </div>
+
+                <!-- Simulated Captcha -->
+                <div class="flex items-center justify-between rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="captcha-box"
+                            class="flex h-6 w-6 items-center justify-center rounded border border-zinc-350 bg-white transition-all hover:border-emerald-500">
+                            <svg id="captcha-check" class="hidden h-4 w-4 text-green-500"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <span class="text-xs font-semibold text-zinc-550">I'm not a robot</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center opacity-40">
+                        <img src="assests/logo2.jpeg" alt="captcha" class="h-5 object-contain grayscale rounded">
+                        <span class="text-[8px] font-bold uppercase tracking-tighter text-zinc-550 font-display">reCAPTCHA</span>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="mt-2 h-12 w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-xs font-extrabold text-white shadow-lg transition-all active:scale-95">
+                    Launch Your Pilot
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-emerald-600 text-white shadow-xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-105 active:scale-95 flex items-center justify-center border border-emerald-500/20">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            lerp: 0.1,
+            smoothWheel: true
+        });
+        window.lenis = lenis;
+        
+        // Sync Lenis scroll events with GSAP ScrollTrigger
+        lenis.on('scroll', () => {
+            if (typeof ScrollTrigger !== "undefined") {
+                ScrollTrigger.update();
+            }
+        });
+        
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Back to Top Button toggler
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            lenis.scrollTo(0);
+        });
+
+        // GSAP ScrollTrigger Animations
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                if (typeof gsap !== "undefined") {
+                    // Register ScrollTrigger explicitly to prevent race conditions
+                    if (typeof ScrollTrigger !== "undefined") {
+                        gsap.registerPlugin(ScrollTrigger);
+                    }
+
+                    // 1. Hero Reveal Timeline
+                    const heroTl = gsap.timeline();
+                    heroTl.from("#pricing-hero-badge", { opacity: 0, y: -15, duration: 0.6, ease: "power2.out" })
+                          .from("#pricing-hero-title", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.4")
+                          .from("#pricing-hero-desc", { opacity: 0, y: 15, duration: 0.7, ease: "power2.out" }, "-=0.5")
+                          .from("#billing-toggle-container", { opacity: 0, y: 15, duration: 0.6, ease: "power2.out" }, "-=0.5");
+
+                    // 2. Mobile Cards reveal on load
+                    const cards = document.querySelectorAll("#mobile-pricing-cards > div");
+                    if (cards.length > 0) {
+                        heroTl.from(cards, {
+                            opacity: 0,
+                            y: 40,
+                            duration: 0.8,
+                            stagger: 0.12,
+                            ease: "power2.out"
+                        }, "-=0.4");
+                    }
+
+                    // 3. Desktop Table reveal on load
+                    const table = document.getElementById("desktop-pricing-table");
+                    if (table) {
+                        heroTl.from(table, {
+                            opacity: 0,
+                            y: 50,
+                            duration: 0.8,
+                            ease: "power3.out"
+                        }, "-=0.6");
+                    }
+                }
+            }, 100);
+        });
+
+        // Billing Toggle logic
+        const billingToggle = document.getElementById("billing-toggle");
+        const toggleDot = document.getElementById("billing-toggle-dot");
+        const monthlyLabel = document.getElementById("monthly-label");
+        const annualLabel = document.getElementById("annual-label");
+
+        // Price elements
+        const basicPrices = document.querySelectorAll(".pricing-val-basic");
+        const advPrices = document.querySelectorAll(".pricing-val-adv");
+
+        let isAnnual = false;
+
+        if (billingToggle) {
+            billingToggle.addEventListener("click", () => {
+                isAnnual = !isAnnual;
+                
+                // Toggle Dot position & styles
+                if (isAnnual) {
+                    gsap.to(toggleDot, { x: 28, duration: 0.3, ease: "power2.out" });
+                    billingToggle.classList.remove("bg-zinc-200");
+                    billingToggle.classList.add("bg-emerald-600");
+                    monthlyLabel.classList.remove("text-emerald-600", "font-extrabold");
+                    monthlyLabel.classList.add("text-zinc-455", "font-bold");
+                    annualLabel.classList.remove("text-zinc-455", "font-bold");
+                    annualLabel.classList.add("text-emerald-600", "font-extrabold");
+                } else {
+                    gsap.to(toggleDot, { x: 0, duration: 0.3, ease: "power2.out" });
+                    billingToggle.classList.remove("bg-emerald-600");
+                    billingToggle.classList.add("bg-zinc-200");
+                    annualLabel.classList.remove("text-emerald-600", "font-extrabold");
+                    annualLabel.classList.add("text-zinc-455", "font-bold");
+                    monthlyLabel.classList.remove("text-zinc-455", "font-bold");
+                    monthlyLabel.classList.add("text-emerald-600", "font-extrabold");
+                }
+
+                // Price texts mapping
+                const newBasicPrice = isAnnual ? "$12" : "$15";
+                const newAdvPrice = isAnnual ? "$16" : "$20";
+                const newSubText = isAnnual ? "billed annually" : "billed monthly";
+
+                // Smooth fade and update
+                gsap.to([basicPrices, advPrices], {
+                    opacity: 0,
+                    y: -5,
+                    duration: 0.15,
+                    onComplete: () => {
+                        basicPrices.forEach(el => el.textContent = newBasicPrice);
+                        advPrices.forEach(el => el.textContent = newAdvPrice);
+                        
+                        document.querySelectorAll(".pricing-subtext-basic").forEach(el => el.textContent = newSubText);
+                        document.querySelectorAll(".pricing-subtext-adv").forEach(el => el.textContent = newSubText);
+
+                        gsap.to([basicPrices, advPrices], {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.25,
+                            ease: "back.out(1.1)"
+                        });
+                    }
+                });
+            });
+        }
+
+        // Modal Trigger Delegation for Pricing CTAs
+        document.querySelectorAll(".request-demo-trigger").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const mainBtn = document.getElementById("request-demo-btn");
+                if (mainBtn) {
+                    mainBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

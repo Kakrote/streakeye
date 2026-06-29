@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en" class="overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us | StreakEye</title>
+    <meta name="description" content="Get in touch with StreakEye. Send us a message, request information, or reach out to our team about field operations optimization." />
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            emerald: '#10b981',
+                            emeraldDark: '#064e3b',
+                            emeraldLight: '#f0fdf4',
+                            charcoal: '#090d16',
+                            zincDark: '#18181b',
+                            zincLight: '#f4f4f5',
+                            border: '#e4e4e7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background-color: #f2f4f3;
+            color: #27272a;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Architectural mesh grid */
+        .bg-editorial-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+        }
+
+        /* Ambient glowing spotlights */
+        .ambient-glow {
+            filter: blur(140px);
+            opacity: 0.1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Bento cards styles */
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Header state morphing */
+        header {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        /* Mouse tracking glow */
+        .spotlight-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(20, 184, 166, 0.02) 60%, transparent 100%);
+            filter: blur(30px);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-zinc-800 antialiased overflow-x-hidden bg-editorial-grid">
+
+    <!-- Spotlight cursor follower -->
+    <div class="spotlight-follower" id="spotlight"></div>
+
+    <!-- Ambient glows -->
+    <div class="absolute top-[10%] left-[10%] w-[45vw] h-[45vw] rounded-full bg-emerald-100/30 ambient-glow -z-50"></div>
+    <div class="absolute top-[40%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-emerald-50/40 ambient-glow -z-50"></div>
+    <div class="absolute top-[75%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-teal-50/30 ambient-glow -z-50"></div>
+
+    <!-- Header Section -->
+    <header class="fixed left-0 top-0 z-50 w-full px-6 py-4 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
+        <div class="container mx-auto max-w-7xl flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img id="header-logo" src="assests/logo.png" alt="header logo"
+                        class="h-10 md:h-16 w-auto object-contain rounded-md ">
+                </a>
+            </div>
+            
+            <div class="flex items-center gap-2 lg:hidden">
+                <a id="mobile-contact-btn" href="contact.html"
+                    class="rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-600 shadow-sm transition-all hover:bg-emerald-100 sm:text-xs">
+                    Contact
+                </a>
+                <button id="menu-toggle"
+                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm transition-all active:scale-95 sm:h-11 sm:w-11">
+                    <span class="relative block h-4 w-5">
+                        <span id="menu-bar-1"
+                            class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-2"
+                            class="absolute left-0 top-1.5 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                        <span id="menu-bar-3"
+                            class="absolute left-0 top-3 h-0.5 w-5 rounded-full bg-zinc-800 transition-all duration-300"></span>
+                    </span>
+                </button>
+            </div>
+            
+            <nav class="hidden font-bold lg:block">
+                <ul id="desktop-nav" class="flex gap-8 text-xs uppercase tracking-[0.15em] text-zinc-600">
+                    <li><a href="features.html" class="transition-colors hover:text-emerald-600">Features</a></li>
+                    <li><a href="pricing.html" class="transition-colors hover:text-emerald-600">Pricing</a></li>
+                    <li><a href="gdpr.html" class="transition-colors hover:text-emerald-600">GDPR</a></li>
+                    <li><a href="blog.html" class="transition-colors hover:text-emerald-600">Blog</a></li>
+                    <li><a href="academy.html" class="transition-colors hover:text-emerald-600">Academy</a></li>
+                    <li><a href="contact.html" class="transition-colors text-emerald-600 hover:text-emerald-700 font-extrabold">Contact</a></li>
+                    <li><a href="login.html" class="transition-colors hover:text-emerald-600">Log in</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-navigation" class="hidden overflow-hidden transition-all duration-300 lg:hidden mt-4">
+            <div class="rounded-3xl border border-zinc-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl">
+                <ul id="mobile-nav" class="grid gap-2 text-zinc-700">
+                    <li><a href="features.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Features</span><span
+                                class="text-zinc-400">01</span></a></li>
+                    <li><a href="pricing.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Pricing</span><span
+                                class="text-zinc-400">02</span></a></li>
+                    <li><a href="gdpr.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>GDPR</span><span
+                                class="text-zinc-400">03</span></a></li>
+                    <li><a href="blog.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Blog</span><span
+                                class="text-zinc-400">04</span></a></li>
+                    <li><a href="academy.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Academy</span><span
+                                class="text-zinc-400">05</span></a></li>
+                    <li><a href="contact.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase bg-emerald-50 text-emerald-600 font-bold"><span>Contact</span><span
+                                class="text-emerald-600 font-bold">06</span></a></li>
+                    <li><a href="login.html"
+                            class="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold uppercase hover:bg-zinc-50 hover:text-emerald-600"><span>Log
+                                in</span><span class="text-zinc-400">07</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-36 pb-24">
+        <!-- Contact Section -->
+        <section class="relative px-6 pb-12 sm:px-10 lg:px-16 overflow-hidden">
+            <div class="container mx-auto max-w-7xl relative z-10">
+                <!-- Hero Header -->
+                <div id="contact-hero" class="flex flex-col items-center text-center mb-16">
+                    <span id="contact-hero-badge" class="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600 mb-6">
+                        GET IN TOUCH
+                    </span>
+                    <h1 id="contact-hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 leading-[1.1] tracking-tight font-display max-w-3xl mb-6">
+                        Ready to Optimize <br><span class="text-emerald-500 font-extrabold">Your Operations?</span>
+                    </h1>
+                    <p id="contact-hero-desc" class="text-sm font-medium text-zinc-500 leading-relaxed max-w-xl">
+                        Have questions about setups, pricing, or custom features? Send us a message and our support team will respond shortly.
+                    </p>
+                </div>
+
+                <div id="contact-grid" class="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 items-center max-w-6xl mx-auto">
+                    <!-- Illustration Side (Left) -->
+                    <div id="contact-illustration" class="hidden lg:block relative">
+                        <!-- Background glow -->
+                        <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-br from-emerald-100/40 to-teal-100/40 rounded-full blur-3xl opacity-60"></div>
+                        
+                        <!-- Contact Illustration Image -->
+                        <div class="relative w-full aspect-square flex items-center justify-center">
+                            <img src="assests/icons/contact.svg" alt="Contact StreakEye" class="w-full h-auto max-w-md drop-shadow-xl object-contain transition-transform duration-500 hover:scale-102" />
+                        </div>
+                    </div>
+
+                    <!-- Form Side (Right) -->
+                    <div id="contact-card" class="bg-white rounded-[2.5rem] border border-zinc-200/80 p-8 sm:p-12 shadow-2xl backdrop-blur-xl">
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="sr-only">Your name</label>
+                                <input type="text" id="name" name="name" required placeholder="Your name"
+                                    class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                            </div>
+                            <div>
+                                <label for="email" class="sr-only">Your email address</label>
+                                <input type="email" id="email" name="email" required placeholder="Your email address"
+                                    class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                            </div>
+                            <div>
+                                <label for="phone" class="sr-only">Your phone number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Your phone number"
+                                    class="h-12 w-full rounded-2xl border border-zinc-200 bg-zinc-50 px-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10" />
+                            </div>
+                            <div>
+                                <label for="message" class="sr-only">Write your message...</label>
+                                <textarea id="message" name="message" rows="4" required placeholder="Write your message..."
+                                    class="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10"></textarea>
+                            </div>
+
+                            <!-- Simulated Captcha -->
+                            <div class="flex items-center justify-between rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                                <div class="flex items-center gap-3">
+                                    <button type="button" id="captcha-box-contact"
+                                        class="flex h-6 w-6 items-center justify-center rounded border border-zinc-350 bg-white transition-all hover:border-emerald-500">
+                                        <svg id="captcha-check-contact" class="hidden h-4 w-4 text-emerald-600"
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <span class="text-xs font-semibold text-zinc-550">I'm not a robot</span>
+                                </div>
+                                
+                                <div class="flex flex-col items-center opacity-40">
+                                    <img src="assests/logo2.jpeg" alt="captcha" class="h-5 object-contain grayscale rounded">
+                                    <span class="text-[8px] font-bold uppercase tracking-tighter text-zinc-550 font-display">reCAPTCHA</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submit-contact"
+                                class="magnetic-btn h-12 w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-xs font-extrabold text-white shadow-lg transition-all active:scale-95 hover:from-emerald-500 hover:to-teal-400 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section id="map-section" class="py-12 px-6 sm:px-10 lg:px-16">
+            <div class="container mx-auto max-w-7xl">
+                <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-zinc-200/80 bg-white p-4">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2887.2411586516137!2d-79.39028549999999!3d43.6431507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34d77342081d%3A0x5e776e36eb870ccb!2s325%20Front%20St%20W%20%7C%20Suite%20300%2C%20Toronto%2C%20ON%20M5V%202Y1%2C%20Canada!5e0!3m2!1sen!2sin!4v1712653413256!5m2!1sen!2sin" 
+                        width="100%" 
+                        height="500" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        class="rounded-3xl"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="footer-section" class="border-t border-emerald-950/40 relative px-6 py-20 text-zinc-350 sm:px-10 lg:px-16 bg-gradient-to-br from-[#021f18] to-[#01140f] overflow-hidden">
+        
+        <div class="absolute inset-0 bg-editorial-grid opacity-5 pointer-events-none"></div>
+
+        <div class="mx-auto max-w-7xl space-y-16 relative z-10">
+            <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                
+                <!-- Newsletter Block (Dark Glassmorphic Card) -->
+                <div class="max-w-2xl bg-zinc-900/40 rounded-3xl border border-white/10 p-8 shadow-2xl backdrop-blur-md">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-emerald-400">StreakEye</p>
+                    <h2 id="footer-subscribe-title"
+                        class="mt-4 text-3xl font-extrabold tracking-tight text-white font-display">Subscribe to our newsletter</h2>
+                    <p id="footer-subscribe-description"
+                        class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-300 font-medium">Get the
+                        latest updates and insights from StreakEye delivered straight to your inbox.</p>
+                    
+                    <form id="footer-subscribe-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <label class="sr-only" for="footer-email">Email address</label>
+                        <input id="footer-email" type="email" required placeholder="Enter your email address"
+                            class="min-h-12 flex-1 rounded-full border border-white/10 bg-zinc-950/40 px-6 text-sm text-white outline-none transition-all placeholder:text-zinc-550 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-zinc-950/80" />
+                        <button type="submit" id="footer-subscribe-button"
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95 hover:from-emerald-400 hover:to-teal-400">Subscribe</button>
+                    </form>
+                </div>
+                
+                <!-- Contact & Social Block (Dark Glassmorphic Card) -->
+                <div class="grid gap-8 rounded-3xl border border-white/10 bg-zinc-900/40 p-8 shadow-2xl backdrop-blur-md sm:grid-cols-2">
+                    <div class="space-y-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Contact</p>
+                        <a id="footer-email-link" href="mailto:info@biinfotech.com"
+                            class="block text-base font-bold text-white hover:text-emerald-400 transition-colors">info@biinfotech.com</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Social</p>
+                        <div id="footer-social-links" class="flex flex-wrap gap-2">
+                            <a href="https://www.linkedin.com/company/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/linkedin.png" alt="LinkedIn" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://twitter.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/twitter.png" alt="Twitter" class="h-3.5 w-3.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.facebook.com/biinfotech" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/facebook.png" alt="Facebook" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                            <a href="https://www.instagram.com/biinfotech/" target="_blank" rel="noreferrer"
+                                class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-500/30 hover:bg-emerald-950/40">
+                                <img src="assests/icons/instagram.png" alt="Instagram" class="h-4.5 w-4.5 opacity-70 hover:opacity-100 invert">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Address Grid -->
+            <div id="footer-address-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Ontario, Canada</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">325 Front ST. W | Suite 300,
+                        Toronto, ON, M5V 2Y1<br />+1 437 484 0120</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">New Delhi, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">12/4, Prem Nagar, Janakpuri,
+                        110058<br />+91 8766248464</p>
+                </article>
+                
+                <article class="rounded-3xl border border-white/10 bg-zinc-900/40 p-6 shadow-2xl backdrop-blur-md hover:border-emerald-500/30 transition-all duration-300">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Hyderabad, India</p>
+                    <p class="mt-3 text-xs md:text-sm leading-relaxed text-zinc-300 font-medium">Miyapur, Bollaram Road,
+                        500049<br />+91 8766248464</p>
+                </article>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col gap-4 border-t border-white/10 pt-8 text-[10px] font-bold text-zinc-500 sm:flex-row sm:items-center sm:justify-between uppercase tracking-widest">
+                <p id="footer-copyright">© 2024 StreakEye. All rights reserved.</p>
+                <p id="footer-subscribe-note" class="text-emerald-400/80">Your daily field operations partner.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-emerald-600 text-white shadow-xl transition-all duration-300 translate-y-20 opacity-0 hover:scale-105 active:scale-95 flex items-center justify-center border border-emerald-500/20">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/app.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            lerp: 0.1,
+            smoothWheel: true
+        });
+        window.lenis = lenis;
+        
+        // Sync Lenis scroll events with GSAP ScrollTrigger
+        lenis.on('scroll', () => {
+            if (typeof ScrollTrigger !== "undefined") {
+                ScrollTrigger.update();
+            }
+        });
+        
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Back to Top Button toggler
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            lenis.scrollTo(0);
+        });
+
+        // GSAP ScrollTrigger Animations
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                if (typeof gsap !== "undefined") {
+                    // Register ScrollTrigger explicitly to prevent race conditions
+                    if (typeof ScrollTrigger !== "undefined") {
+                        gsap.registerPlugin(ScrollTrigger);
+                    }
+
+                    // 1. Hero Reveal Timeline
+                    const heroTl = gsap.timeline();
+                    heroTl.from("#contact-hero-badge", { opacity: 0, y: -15, duration: 0.6, ease: "power2.out" })
+                          .from("#contact-hero-title", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.4")
+                          .from("#contact-hero-desc", { opacity: 0, y: 15, duration: 0.7, ease: "power2.out" }, "-=0.5");
+
+                    // 2. Grid items entry on page load
+                    heroTl.from("#contact-illustration", {
+                        opacity: 0,
+                        x: -30,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }, "-=0.5")
+                    .from("#contact-card", {
+                        opacity: 0,
+                        x: 30,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }, "-=0.8");
+
+                    // 3. Form elements stagger
+                    const formElements = document.querySelectorAll("#contact-form > div, #submit-contact");
+                    if (formElements.length > 0) {
+                        heroTl.from(formElements, {
+                            opacity: 0,
+                            y: 15,
+                            duration: 0.6,
+                            stagger: 0.08,
+                            ease: "power2.out"
+                        }, "-=0.4");
+                    }
+
+                    // 4. Map Section reveal
+                    gsap.from("#map-section", {
+                        opacity: 0,
+                        y: 40,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: "#map-section",
+                            start: "top 85%",
+                            once: true
+                        }
+                    });
+                }
+            }, 100);
+        });
+
+        // Contact Form verification & simulation
+        document.addEventListener('DOMContentLoaded', () => {
+            const captchaBox = document.getElementById("captcha-box-contact");
+            const captchaCheck = document.getElementById("captcha-check-contact");
+            const contactForm = document.getElementById("contact-form");
+            const submitBtn = document.getElementById("submit-contact");
+
+            let isVerified = false;
+
+            if (captchaBox) {
+                captchaBox.addEventListener("click", () => {
+                    isVerified = !isVerified;
+                    if (isVerified) {
+                        captchaCheck.classList.remove("hidden");
+                        captchaBox.classList.add("border-emerald-500", "bg-emerald-50");
+                    } else {
+                        captchaCheck.classList.add("hidden");
+                        captchaBox.classList.remove("border-emerald-500", "bg-emerald-50");
+                    }
+                });
+            }
+
+            if (contactForm) {
+                contactForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    if (!isVerified) {
+                        alert("Please verify that you are not a robot.");
+                        return;
+                    }
+
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = "Sending...";
+
+                    setTimeout(() => {
+                        submitBtn.innerHTML = "Message Sent!";
+                        submitBtn.classList.remove("from-emerald-600", "to-teal-500");
+                        submitBtn.classList.add("bg-emerald-600");
+
+                        setTimeout(() => {
+                            contactForm.reset();
+                            isVerified = false;
+                            captchaCheck.classList.add("hidden");
+                            captchaBox.classList.remove("border-emerald-500", "bg-emerald-50");
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.classList.remove("bg-emerald-600");
+                            submitBtn.classList.add("from-emerald-600", "to-teal-500");
+                        }, 2500);
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
