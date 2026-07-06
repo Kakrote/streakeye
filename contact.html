@@ -295,7 +295,7 @@
                             </div>
 
                             <button type="submit" id="submit-contact"
-                                class="magnetic-btn h-12 w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-xs font-extrabold text-white shadow-lg transition-all active:scale-95 hover:from-emerald-500 hover:to-teal-400 flex items-center justify-center gap-2">
+                                class="magnetic-btn h-12 w-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-xs font-extrabold text-white shadow-lg transition-colors duration-200 hover:from-emerald-500 hover:to-teal-400 flex items-center justify-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                                 </svg>
@@ -488,7 +488,7 @@
                     }, "-=0.8");
 
                     // 3. Form elements stagger
-                    const formElements = document.querySelectorAll("#contact-form > div, #submit-contact");
+                    const formElements = document.querySelectorAll("#contact-form > div");
                     if (formElements.length > 0) {
                         heroTl.from(formElements, {
                             opacity: 0,
@@ -498,6 +498,14 @@
                             ease: "power2.out"
                         }, "-=0.4");
                     }
+
+                    // 3b. Submit button reveal animated separately to avoid transition conflicts
+                    heroTl.from("#submit-contact", {
+                        opacity: 0,
+                        y: 15,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    }, "-=0.2");
 
                     // 4. Map Section reveal
                     gsap.from("#map-section", {
