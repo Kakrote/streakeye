@@ -27,14 +27,40 @@
                         display: ['"Outfit"', 'sans-serif'],
                     },
                     colors: {
+                        emerald: {
+                            50: '#f6fdf0',    // pale limey-white
+                            100: '#eefbdf',   // light yellow-green tint
+                            200: '#d9f7b9',   // pale yellow-green
+                            300: '#bef08c',   // soft green-yellow
+                            400: '#a2e85a',   // vibrant lime-green
+                            500: '#10b981',   // primary emerald green
+                            600: '#0ca370',   // deep emerald
+                            700: '#098259',   // forest green
+                            800: '#052014',   // dark forest green
+                            900: '#041c12',   // very dark forest green
+                            950: '#02100a',
+                        },
+                        teal: {
+                            50: '#fefce8',    // softest yellow
+                            100: '#fef9c3',   // light cream-yellow
+                            200: '#fef08a',   // pale golden-yellow
+                            300: '#fde047',   // vibrant golden-yellow
+                            400: '#fbbf24',   // warm yellow
+                            500: '#eab308',   // amber-yellow
+                            600: '#ca8a04',   // dark gold
+                            700: '#a16207',
+                            800: '#854d0e',
+                            900: '#713f12',
+                            950: '#422006',
+                        },
                         brand: {
                             emerald: '#10b981',
-                            emeraldDark: '#064e3b',
-                            emeraldLight: '#f0fdf4',
-                            charcoal: '#090d16',
-                            zincDark: '#18181b',
-                            zincLight: '#f4f4f5',
-                            border: '#e4e4e7',
+                            emeraldDark: '#041c12',
+                            emeraldLight: '#f6fdf0',
+                            charcoal: '#020c08',
+                            zincDark: '#0c1410',
+                            zincLight: '#f4f8f2',
+                            border: '#dce5d9',
                         }
                     }
                 }
@@ -70,8 +96,8 @@
         }
 
         body {
-            background-color: #f2f4f3;
-            color: #27272a;
+            background-color: #f4f8f2;
+            color: #1d2a22;
             font-family: "Plus Jakarta Sans", sans-serif;
             overflow-x: hidden;
         }
@@ -80,8 +106,8 @@
         .bg-editorial-grid {
             background-size: 50px 50px;
             background-image: 
-                linear-gradient(to right, rgba(16, 185, 129, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+                linear-gradient(to right, rgba(132, 204, 22, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(132, 204, 22, 0.025) 1px, transparent 1px);
         }
 
         /* Ambient glowing spotlights */
@@ -95,14 +121,14 @@
         /* Bento cards styles */
         .bento-card {
             background: #ffffff;
-            border: 1px solid #e4e4e7;
+            border: 1px solid #dce5d9;
             box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.02);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .bento-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.06);
+            border-color: rgba(162, 232, 90, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(132, 204, 22, 0.08);
             transform: translateY(-2px);
         }
 
@@ -113,10 +139,28 @@
 
         header.header-scrolled {
             background-color: rgba(255, 255, 255, 0.95) !important;
-            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            border-bottom-color: rgba(132, 204, 22, 0.2) !important;
             box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
             padding-top: 0.75rem !important;
             padding-bottom: 0.75rem !important;
+        }
+
+        /* Mouse tracking glow */
+        .spotlight-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(162, 232, 90, 0.06) 0%, rgba(250, 204, 21, 0.03) 60%, transparent 100%);
+            filter: blur(30px);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>

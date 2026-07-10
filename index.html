@@ -26,14 +26,40 @@
                         display: ['"Outfit"', 'sans-serif'],
                     },
                     colors: {
+                        emerald: {
+                            50: '#f0fdf4',    // pale minty-white
+                            100: '#dcfce7',   // light grass green tint
+                            200: '#bbf7d0',   // pale emerald green
+                            300: '#86efac',   // soft grass green
+                            400: '#4ade80',   // vibrant light green
+                            500: '#10b981',   // primary emerald green
+                            600: '#0ca370',   // deep emerald
+                            700: '#098259',   // forest green
+                            800: '#065f46',   // dark forest green
+                            900: '#064e3b',   // very dark forest green
+                            950: '#022c22',
+                        },
+                        teal: {
+                            50: '#f0fdfa',    // softest minty white
+                            100: '#ccfbf1',   // light mint-green
+                            200: '#99f6e4',   // pale green-teal
+                            300: '#5eead4',   // vibrant light green-teal
+                            400: '#2dd4bf',   // vibrant green-teal
+                            500: '#14b8a6',   // emerald-teal green
+                            600: '#0d9488',   // rich teal green
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
                         brand: {
                             emerald: '#10b981',
                             emeraldDark: '#064e3b',
                             emeraldLight: '#f0fdf4',
-                            charcoal: '#090d16',
-                            zincDark: '#18181b',
-                            zincLight: '#f4f4f5',
-                            border: '#e4e4e7',
+                            charcoal: '#030d0a',
+                            zincDark: '#0d1411',
+                            zincLight: '#f2f9f6',
+                            border: '#cbdcd2',
                         }
                     }
                 }
@@ -69,8 +95,8 @@
         }
 
         body {
-            background-color: #f2f4f3;
-            color: #27272a;
+            background-color: #f2faf5;
+            color: #162a20;
             font-family: "Plus Jakarta Sans", sans-serif;
             overflow-x: hidden;
         }
@@ -84,15 +110,15 @@
         }
 
         #hero-section {
-            background-color: #032e24;
+            background-color: #064e3b;
             border: 1px solid rgba(16, 185, 129, 0.15);
         }
         
         .hero-mesh {
             background-size: 40px 40px;
             background-image: 
-                linear-gradient(to right, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+                linear-gradient(to right, rgba(16, 185, 129, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.025) 1px, transparent 1px);
         }
 
         /* Subtle glowing spotlights */
@@ -111,7 +137,7 @@
             width: 400px;
             height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(20, 184, 166, 0.02) 60%, transparent 100%);
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.07) 0%, rgba(20, 184, 166, 0.03) 60%, transparent 100%);
             filter: blur(30px);
             pointer-events: none;
             z-index: 1;
@@ -124,14 +150,14 @@
         /* Bento cards styles */
         .bento-card {
             background: #ffffff;
-            border: 1px solid #e4e4e7;
+            border: 1px solid #cbdcd2;
             box-shadow: 0 4px 20px -2px rgba(9, 9, 11, 0.02);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .bento-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.35);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.07);
             transform: translateY(-2px);
         }
 
@@ -142,7 +168,7 @@
 
         header.header-scrolled {
             background-color: rgba(255, 255, 255, 0.95) !important;
-            border-bottom-color: rgba(16, 185, 129, 0.15) !important;
+            border-bottom-color: rgba(16, 185, 129, 0.18) !important;
             box-shadow: 0 10px 30px -10px rgba(9, 9, 11, 0.05);
             padding-top: 0.75rem !important;
             padding-bottom: 0.75rem !important;
@@ -322,11 +348,11 @@
     <main class="relative">
         <!-- Hero Section: Floating Bento dark container -->
         <div class="mx-auto  pt-32 pb-12">
-            <section id="hero-section" class="relative rounded-[2.5rem] py-20 md:py-24 overflow-hidden px-6 sm:px-10 lg:px-16 flex flex-col items-center text-center shadow-2xl border border-emerald-950/40">
+            <section id="hero-section" class="relative rounded-[2.5rem] py-20 md:py-24 overflow-hidden px-6 sm:px-10 lg:px-16 flex flex-col items-center text-center shadow-2xl border border-emerald-900/40">
                 <!-- Parallax Background Image Wrapper -->
                 <div class="absolute inset-0 w-full h-[130%] hero-bg-parallax opacity-60 z-0" style="background-image: url('assests/images/hero.jpg'); background-size: cover; background-position: center;"></div>
                 <!-- Dark gradient overlay -->
-                <div class="absolute inset-0 bg-gradient-to-br from-[#032e24]/70 via-[#02231a]/80 to-[#01140f]/90 z-10"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-[#064e3b]/70 via-[#043d2e]/85 to-[#02241b]/95 z-10"></div>
                 <!-- Technical grid overlay -->
                 <div class="absolute inset-0 hero-mesh pointer-events-none z-20"></div>
                 
@@ -334,7 +360,7 @@
                 <div class="absolute top-[10%] left-[20%] w-[35vw] h-[35vw] rounded-full bg-emerald-400/10 ambient-glow z-20"></div>
                 
                 <div class="mx-auto max-w-4xl space-y-8 z-30 relative">
-                    <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/60 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-emerald-400">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-yellow-500/30 bg-yellow-950/20 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-yellow-300">
                         Next-Generation Systems
                     </span>
                     
@@ -343,7 +369,7 @@
                     </h1>
                     
                     <h2 class="text-3xl sm:text-5xl font-bold tracking-tight text-emerald-300 leading-tight">
-                        <span class="text-mask"><span id="hero-tagline" class="text-mask-span bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-400 bg-clip-text text-transparent">Transforming Field Operations</span></span>
+                        <span class="text-mask"><span id="hero-tagline" class="text-mask-span bg-gradient-to-r from-emerald-300 via-yellow-300 to-emerald-400 bg-clip-text text-transparent">Transforming Field Operations</span></span>
                     </h2>
                     
                     <p id="hero-description"
@@ -356,7 +382,7 @@
                     
                     <div class="flex flex-wrap gap-4 justify-center pt-4 items-center">
                         <button id="request-demo-btn"
-                            class="magnetic-btn inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-400 px-8 py-4 text-xs md:text-sm font-extrabold text-[#032e24] shadow-[0_8px_30px_rgba(52,211,153,0.3)] hover:shadow-[0_15px_40px_rgba(52,211,153,0.55)] transition-all active:scale-95">
+                            class="magnetic-btn inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-emerald-300 to-yellow-300 px-8 py-4 text-xs md:text-sm font-extrabold text-[#032417] shadow-[0_8px_30px_rgba(234,179,8,0.25)] hover:shadow-[0_15px_40px_rgba(234,179,8,0.45)] transition-all active:scale-95">
                             Request a Demo & Launch Your Pilot Project Today!
                         </button>
                         <a href="contact.html"
@@ -371,9 +397,9 @@
         </div>
 
         <!-- Brand Logo Ticker -->
-        <section id="marquee-section" class="py-12 bg-[#e6e9e6]/80 border-y border-zinc-200/80 overflow-hidden relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#e6e9e6] to-transparent"></div>
-            <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#e6e9e6] to-transparent"></div>
+        <section id="marquee-section" class="py-12 bg-[#ebf5ef]/80 border-y border-[#c5dcd0]/80 overflow-hidden relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#ebf5ef] to-transparent"></div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#ebf5ef] to-transparent"></div>
             
             <div id="logos-track" class="flex w-max items-center gap-20 px-8 animate-marquee">
                 <div class="flex-shrink-0"><img src="logos/aeon.png" alt="Aeon" class="h-7 md:h-9 w-auto object-contain grayscale opacity-40 hover:opacity-100 hover:grayscale-0 transition-all duration-300" /></div>
@@ -437,7 +463,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent"></div>
                             
                             <!-- Overlay active badge -->
-                            <div class="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-emerald-500/90 text-white text-[8px] font-extrabold uppercase tracking-wider">CAPI Engine Active</div>
+                            <div class="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-yellow-400 text-zinc-950 text-[8px] font-black uppercase tracking-wider shadow-sm">CAPI Engine Active</div>
                             
                             <!-- Info overlay -->
                             <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
@@ -445,7 +471,7 @@
                                     <p class="text-[7.5px] font-extrabold uppercase text-zinc-300 tracking-wider">Sync Status</p>
                                     <p class="text-[10px] font-bold">Verifiable Offline Mode</p>
                                 </div>
-                                <span class="text-xs font-black text-emerald-450">88% OK</span>
+                                <span class="text-xs font-black text-yellow-300">88% OK</span>
                             </div>
                         </div>
                     </div>
@@ -468,7 +494,7 @@
                         <img src="assests/images/tracking.jpg" alt="Resource field tracking map" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/65 to-transparent"></div>
                         <div class="absolute bottom-3 left-3 flex items-center gap-2 text-white">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse shadow-[0_0_8px_#facc15]"></span>
                             <span class="text-[10px] font-bold">8K+ Active Resource Tracker</span>
                         </div>
                     </div>
@@ -516,15 +542,15 @@
         </section>
 
         <!-- Dynamic Product Showcase (Solid Green Zone) -->
-        <section id="dashboard-preview" class="py-28 bg-[#064e3b] border-y border-emerald-800/30 overflow-hidden relative">
+        <section id="dashboard-preview" class="py-28 bg-[#032417] border-y border-emerald-900/30 overflow-hidden relative">
             <!-- Parallax Background Grid -->
             <div class="absolute inset-0 -z-20 w-full h-[130%] dashboard-bg-parallax opacity-20" style="background-image: url('assests/dashboard/bg3.jpg'); background-size: cover; background-position: center;"></div>
             <!-- Dark gradient overlay -->
-            <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#064e3b]/90 to-[#043327]/98"></div>
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.04),transparent_60%)]"></div>
+            <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#032417]/95 to-[#01120b]/98"></div>
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05),transparent_60%)]"></div>
             
             <div class="container mx-auto px-6 sm:px-10 lg:px-16 mb-20 text-center relative z-10">
-                <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-emerald-300">
+                <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-yellow-300">
                     Enterprise Visibility
                 </span>
                 <h2 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl mb-6 font-display">
@@ -533,20 +559,20 @@
                 <p class="text-emerald-100/80 max-w-2xl mx-auto text-sm sm:text-base font-medium leading-relaxed">
                     Get a bird's-eye view of your entire operation with our intuitive and powerful dashboard system designed for maximum clarity.
                 </p>
-            </div>
+            </div>Length:1280
 
             <!-- Carousel track inside a high-end showcase widget -->
             <div class="relative w-full max-w-6xl mx-auto group px-4 sm:px-6 z-10">
                 <!-- Navigation buttons -->
                 <button id="prev-slide"
-                    class="absolute -left-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-800/80 bg-[#043327] text-emerald-350 shadow-2xl transition-all hover:bg-[#03291f] active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-emerald-500/40">
+                    class="absolute -left-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-900/40 bg-[#01120b] text-emerald-400 shadow-2xl transition-all hover:bg-[#032417] active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-emerald-400/40">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                 </button>
                 
                 <button id="next-slide"
-                    class="absolute -right-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-800/80 bg-[#043327] text-emerald-350 shadow-2xl transition-all hover:bg-[#03291f] active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-emerald-500/40">
+                    class="absolute -right-6 top-1/2 z-40 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-900/40 bg-[#01120b] text-emerald-400 shadow-2xl transition-all hover:bg-[#032417] active:scale-95 opacity-0 group-hover:opacity-100 hidden md:flex hover:border-emerald-400/40">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
@@ -558,49 +584,49 @@
                     style="-ms-overflow-style: none; scrollbar-width: none; scroll-snap-type: x mandatory;">
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d1.png" alt="Dashboard Slide 1" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d2.png" alt="Dashboard Slide 2" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d3.png" alt="Dashboard Slide 3" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d4.png" alt="Dashboard Slide 4" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d5.png" alt="Dashboard Slide 5" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d6.png" alt="Dashboard Slide 6" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d7.png" alt="Dashboard Slide 7" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
                     
                     <div class="dashboard-slide w-[80vw] md:w-[65vw] lg:w-[850px] flex-shrink-0 snap-center">
-                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-800/80 bg-[#043327] p-2">
+                        <div class="aspect-[15/7] w-full rounded-2xl overflow-hidden shadow-2xl border border-emerald-900/50 bg-[#01120b] p-2">
                             <img src="assests/dashboard/d8.png" alt="Dashboard Slide 8" class="rounded-xl w-full h-full object-cover">
                         </div>
                     </div>
@@ -685,7 +711,7 @@
                                     </div>
                                     <div class="px-4 py-2 flex items-center justify-between border-b border-zinc-100 bg-zinc-50/50">
                                         <span class="text-[9px] font-extrabold text-zinc-800 uppercase tracking-wider">FSMS Scheduler</span>
-                                        <span class="text-[7px] bg-emerald-55 text-emerald-600 font-extrabold px-1.5 py-0.5 rounded-full">VISITS</span>
+                                        <span class="text-[7px] bg-emerald-100 text-emerald-600 font-extrabold px-1.5 py-0.5 rounded-full">VISITS</span>
                                     </div>
                                     <div class="flex-1 p-3 bg-white flex flex-col justify-between">
                                         <div class="space-y-2">
@@ -715,7 +741,7 @@
                                                 <p class="font-bold text-zinc-800">Attendance Photo</p>
                                                 <p class="text-zinc-400 mt-0.5">Signed: Active Location</p>
                                             </div>
-                                            <span class="ml-auto text-[6px] bg-emerald-150 text-emerald-700 font-bold px-1 py-0.5 rounded">PASSED</span>
+                                            <span class="ml-auto text-[6px] bg-emerald-100 text-emerald-700 font-bold px-1 py-0.5 rounded">PASSED</span>
                                         </div>
                                     </div>
                                 </div>
@@ -778,31 +804,31 @@
                         <!-- Collapsible Checklist Grid (Visible when active) -->
                         <div class="checklist-grid mt-6 grid gap-3 sm:grid-cols-2 text-xs border-t border-zinc-200 pt-6 overflow-hidden">
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Location tracking and task status</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Appoint or reject survey tasks</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Geo verification for task completion</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Report aggregation</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Data visualization</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Data on demand</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700 sm:col-span-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Adjudge decision-making via real time tools and data.</span>
                             </div>
                         </div>
@@ -827,15 +853,15 @@
                         
                         <div class="checklist-grid mt-0 grid gap-3 sm:grid-cols-2 text-xs border-t border-zinc-200 pt-0 overflow-hidden" style="height: 0px; opacity: 0; border-top-width: 0px;">
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Monitor productivity</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Track meetings & real-time location</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700 sm:col-span-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Geo-confirmed verification of visits</span>
                             </div>
                          
@@ -861,15 +887,15 @@
                         
                         <div class="checklist-grid mt-0 grid gap-3 sm:grid-cols-2 text-xs border-t border-zinc-200 pt-0 overflow-hidden" style="height: 0px; opacity: 0; border-top-width: 0px;">
                             <div class="flex items-center gap-2 font-bold text-zinc-700 sm:col-span-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Location tracking and enquiring survey and task statusInstinctive dashboards and reports (XML, SPSS)</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Measure efficiency</span>
                             </div>
                             <div class="flex items-center gap-2 font-bold text-zinc-700 sm:col-span-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                                 <span>Incorporates with your current programming platforms like (google forms, confirmit, Surveyto go Etc..)</span>
                             </div>
                            
@@ -905,18 +931,18 @@
                         
                         <!-- Pills Cloud -->
                         <div id="about-facts-top" class="flex flex-wrap gap-2.5 pt-4">
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Accessible on all devices</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Limitless reviews & surveys</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Offline survey app</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Real-time feedback tracking</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Remotely tracking feedback devices feedback tracking</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Operates without Wi-Fi</span>
-                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Be acquainted with accurate status of report and statistics.</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Accessible on all devices</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Limitless reviews & surveys</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Offline survey app</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Real-time feedback tracking</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Remotely tracking feedback devices feedback tracking</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Operates without Wi-Fi</span>
+                            <span class="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-[10px] font-bold text-zinc-650 shadow-sm transition-all hover:border-emerald-500/30 hover:text-emerald-650 sm:text-xs cursor-default flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>Be acquainted with accurate status of report and statistics.</span>
                         </div>
                     </div>
 
                     <!-- Right Side: Connected Network Hub (Redesigned as Dark Glass Radar) -->
-                    <div class="relative w-full aspect-square flex items-center justify-center border border-emerald-950/45 bg-[#021f18] rounded-[2.5rem] p-4 shadow-2xl overflow-hidden">
+                    <div class="relative w-full aspect-square flex items-center justify-center border border-emerald-950/45 bg-[#01120b] rounded-[2.5rem] p-4 shadow-2xl overflow-hidden">
                         
                         <!-- Radar grid lines background -->
                         <div class="absolute inset-0 bg-editorial-grid opacity-10"></div>
@@ -949,24 +975,24 @@
                         </svg>
 
                         <!-- Central Node -->
-                        <div class="absolute w-24 h-24 rounded-full bg-zinc-950 border border-emerald-500/40 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.2)] hover:scale-105 transition-transform z-20">
+                        <div class="absolute w-24 h-24 rounded-full bg-zinc-950 border border-emerald-500/40 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.25)] hover:scale-105 transition-transform z-20">
                             <img src="assests/logo2.jpeg" alt="StreakEye central node" class="w-16 object-contain rounded-full">
                         </div>
 
                         <!-- KPI Node cards (Dark Glass UI) -->
                         <div id="about-kpis">
                             <article data-about-card class="absolute top-[60px] left-[30px] w-28 bg-zinc-900/90 border border-white/10 rounded-2xl p-3 text-center shadow-2xl hover:border-emerald-500/40 hover:-translate-y-1 transition-all z-20">
-                                <p class="stat-number text-xl font-black text-emerald-400 font-display" data-target="125" data-suffix="K+">0K+</p>
+                                <p class="stat-number text-xl font-black text-yellow-400 font-display" data-target="125" data-suffix="K+">0K+</p>
                                 <p class="text-[8px] uppercase font-bold text-zinc-500 tracking-wider font-display">Downloads</p>
                             </article>
 
                             <article data-about-card class="absolute top-[70px] right-[30px] w-28 bg-zinc-900/90 border border-white/10 rounded-2xl p-3 text-center shadow-2xl hover:border-emerald-500/40 hover:-translate-y-1 transition-all z-20">
-                                <p class="stat-number text-xl font-black text-teal-400 font-display" data-target="8" data-suffix="K+">0K+</p>
+                                <p class="stat-number text-xl font-black text-yellow-400 font-display" data-target="8" data-suffix="K+">0K+</p>
                                 <p class="text-[8px] uppercase font-bold text-zinc-500 tracking-wider font-display">Active Users</p>
                             </article>
 
                             <article data-about-card class="absolute bottom-[40px] left-1/2 -translate-x-1/2 w-28 bg-zinc-900/90 border border-white/10 rounded-2xl p-3 text-center shadow-2xl hover:border-emerald-500/40 hover:-translate-y-1 transition-all z-20">
-                                <p class="stat-number text-xl font-black text-emerald-400 font-display" data-target="4.8" data-suffix="+">0+</p>
+                                <p class="stat-number text-xl font-black text-yellow-400 font-display" data-target="4.8" data-suffix="+">0+</p>
                                 <p class="text-[8px] uppercase font-bold text-zinc-500 tracking-wider font-display">Rating</p>
                             </article>
                         </div>
@@ -1010,7 +1036,7 @@
     </main>
 
     <!-- Footer Section -->
-    <footer id="footer-section" class="border-t border-emerald-950/40 relative px-6 py-20 text-zinc-350 sm:px-10 lg:px-16 bg-gradient-to-br from-[#021f18] to-[#01140f] overflow-hidden">
+    <footer id="footer-section" class="border-t border-emerald-950/40 relative px-6 py-20 text-zinc-350 sm:px-10 lg:px-16 bg-gradient-to-br from-[#02140e] to-[#010a07] overflow-hidden">
         
         <div class="absolute inset-0 bg-editorial-grid opacity-5 pointer-events-none"></div>
 
@@ -1031,7 +1057,7 @@
                         <input id="footer-email" type="email" required placeholder="Enter your email address"
                             class="min-h-12 flex-1 rounded-full border border-white/10 bg-zinc-950/40 px-6 text-sm text-white outline-none transition-all placeholder:text-zinc-550 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-zinc-950/80" />
                         <button type="submit" id="footer-subscribe-button"
-                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95 hover:from-emerald-400 hover:to-teal-400">Subscribe</button>
+                            class="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-8 text-xs font-extrabold text-white shadow-md transition-all active:scale-95 hover:from-emerald-500 hover:to-teal-400">Subscribe</button>
                     </form>
                 </div>
                 
@@ -1110,7 +1136,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-
             <div class="mb-8">
                 <h3 class="text-2xl font-black text-zinc-950 bg-gradient-to-r from-emerald-700 to-teal-500 bg-clip-text text-transparent font-display">Request a Demo</h3>
                 <p class="mt-2 text-sm font-semibold text-zinc-450">Launch Your Pilot Project Today!</p>
