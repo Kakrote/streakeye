@@ -533,8 +533,8 @@ function initNav() {
             event.preventDefault();
             if (subscribeButton) {
                 subscribeButton.textContent = "Subscribed";
-                subscribeButton.classList.remove("from-emerald-600", "to-teal-500");
-                subscribeButton.classList.add("bg-emerald-600");
+                subscribeButton.classList.remove("from-emerald-400", "via-emerald-300", "to-yellow-300", "text-[#032417]");
+                subscribeButton.classList.add("bg-emerald-600", "text-white");
             }
         });
     }
@@ -621,7 +621,8 @@ function initDemoModal() {
 
             setTimeout(() => {
                 submitBtn.textContent = "Success!";
-                submitBtn.classList.add("bg-emerald-600");
+                submitBtn.classList.remove("from-emerald-400", "via-emerald-300", "to-yellow-300", "text-[#032417]");
+                submitBtn.classList.add("bg-emerald-600", "text-white");
 
                 setTimeout(() => {
                     closeModal();
@@ -632,7 +633,8 @@ function initDemoModal() {
                         captchaBox.classList.remove("border-emerald-500", "bg-emerald-50");
                         submitBtn.disabled = false;
                         submitBtn.textContent = originalText;
-                        submitBtn.classList.remove("bg-emerald-600", "opacity-70");
+                        submitBtn.classList.remove("bg-emerald-600", "opacity-70", "text-white");
+                        submitBtn.classList.add("from-emerald-400", "via-emerald-300", "to-yellow-300", "text-[#032417]");
                     }, 500);
                 }, 1500);
             }, 1500);
